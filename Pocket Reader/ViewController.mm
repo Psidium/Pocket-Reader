@@ -113,6 +113,38 @@
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
+ // TODO TODO TODO TODO TODO TODO TODO TODO TODO
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    OSType format = CVPixelBufferGetPixelFormatType(pixelBuffer);
+    CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
+    AVCaptureVideoOrientation videoOrientation = [[[videoOutput connections] objectAtIndex:0] videoOrientation];
+    
+    if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
+        // For grayscale mode, the luminance channel of the YUV data is used
+        CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+        void *baseaddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+        
+        cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC1, baseaddress, 0);
+        
+        //[self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+        
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+    }
+    else if (format == kCVPixelFormatType_32BGRA) {
+        // For color mode a 4-channel cv::Mat is created from the BGRA data
+        CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+        void *baseaddress = CVPixelBufferGetBaseAddress(pixelBuffer);
+        
+        cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC4, baseaddress, 0);
+        
+        //[self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+        
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+    }
+    else {
+        NSLog(@"Unsupported video format");
+    }
+
     
 
 }
