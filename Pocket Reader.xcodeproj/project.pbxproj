@@ -16,7 +16,7 @@
 		3249B3E4172D7FA8009F4D84 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3E3172D7FA8009F4D84 /* Default.png */; };
 		3249B3E6172D7FA8009F4D84 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3E5172D7FA8009F4D84 /* Default@2x.png */; };
 		3249B3E8172D7FA8009F4D84 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3E7172D7FA8009F4D84 /* Default-568h@2x.png */; };
-		3249B3EB172D7FA8009F4D84 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3EA172D7FA8009F4D84 /* ViewController.m */; };
+		3249B3EB172D7FA8009F4D84 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3EA172D7FA8009F4D84 /* ViewController.mm */; };
 		3249B3EE172D7FA8009F4D84 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3EC172D7FA8009F4D84 /* ViewController.xib */; };
 		3253D6E517638AAC0089B5F4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3253D6E417638AAC0089B5F4 /* opencv2.framework */; };
 		3254F4481765098C00573DF3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3254F4471765098C00573DF3 /* Accelerate.framework */; };
@@ -43,7 +43,7 @@
 		3249B3E5172D7FA8009F4D84 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		3249B3E7172D7FA8009F4D84 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3249B3E9172D7FA8009F4D84 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		3249B3EA172D7FA8009F4D84 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		3249B3EA172D7FA8009F4D84 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		3249B3ED172D7FA8009F4D84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		3253D6E417638AAC0089B5F4 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "../../../app TC/opencv2.framework"; sourceTree = "<group>"; };
 		3254F4471765098C00573DF3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -116,7 +116,7 @@
 				3249B3E0172D7FA7009F4D84 /* AppDelegate.h */,
 				3249B3E1172D7FA8009F4D84 /* AppDelegate.m */,
 				3249B3E9172D7FA8009F4D84 /* ViewController.h */,
-				3249B3EA172D7FA8009F4D84 /* ViewController.m */,
+				3249B3EA172D7FA8009F4D84 /* ViewController.mm */,
 				3249B3EC172D7FA8009F4D84 /* ViewController.xib */,
 				3249B3D8172D7FA7009F4D84 /* Supporting Files */,
 			);
@@ -212,7 +212,7 @@
 			files = (
 				3249B3DE172D7FA7009F4D84 /* main.m in Sources */,
 				3249B3E2172D7FA8009F4D84 /* AppDelegate.m in Sources */,
-				3249B3EB172D7FA8009F4D84 /* ViewController.m in Sources */,
+				3249B3EB172D7FA8009F4D84 /* ViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
