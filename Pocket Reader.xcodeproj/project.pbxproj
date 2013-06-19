@@ -18,6 +18,14 @@
 		3249B3E8172D7FA8009F4D84 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3E7172D7FA8009F4D84 /* Default-568h@2x.png */; };
 		3249B3EB172D7FA8009F4D84 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3EA172D7FA8009F4D84 /* ViewController.m */; };
 		3249B3EE172D7FA8009F4D84 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3EC172D7FA8009F4D84 /* ViewController.xib */; };
+		3253D6E517638AAC0089B5F4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3253D6E417638AAC0089B5F4 /* opencv2.framework */; };
+		3254F4481765098C00573DF3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3254F4471765098C00573DF3 /* Accelerate.framework */; };
+		3260A6AF17709B3F0042ED68 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6AE17709B3F0042ED68 /* CoreVideo.framework */; };
+		3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6B017709B580042ED68 /* CoreMedia.framework */; };
+		3273F259175BC4DE00BC273D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F258175BC4DE00BC273D /* AVFoundation.framework */; };
+		3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F25A175BC4E600BC273D /* CoreMotion.framework */; };
+		3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F260175C4DDA00BC273D /* PRicon@2x.png */; };
+		3273F263175C4DE200BC273D /* PRicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F262175C4DE200BC273D /* PRicon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +45,14 @@
 		3249B3E9172D7FA8009F4D84 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		3249B3EA172D7FA8009F4D84 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		3249B3ED172D7FA8009F4D84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		3253D6E417638AAC0089B5F4 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "../../../app TC/opencv2.framework"; sourceTree = "<group>"; };
+		3254F4471765098C00573DF3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		3260A6AE17709B3F0042ED68 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		3260A6B017709B580042ED68 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		3273F258175BC4DE00BC273D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3273F25A175BC4E600BC273D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		3273F260175C4DDA00BC273D /* PRicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PRicon@2x.png"; sourceTree = "<group>"; };
+		3273F262175C4DE200BC273D /* PRicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PRicon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +60,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */,
+				3260A6AF17709B3F0042ED68 /* CoreVideo.framework in Frameworks */,
+				3254F4481765098C00573DF3 /* Accelerate.framework in Frameworks */,
+				3253D6E517638AAC0089B5F4 /* opencv2.framework in Frameworks */,
+				3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */,
+				3273F259175BC4DE00BC273D /* AVFoundation.framework in Frameworks */,
 				3249B3D2172D7FA7009F4D84 /* UIKit.framework in Frameworks */,
 				3249B3D4172D7FA7009F4D84 /* Foundation.framework in Frameworks */,
 				3249B3D6172D7FA7009F4D84 /* CoreGraphics.framework in Frameworks */,
@@ -56,6 +78,12 @@
 		3249B3C5172D7FA7009F4D84 = {
 			isa = PBXGroup;
 			children = (
+				3254F4471765098C00573DF3 /* Accelerate.framework */,
+				3253D6E417638AAC0089B5F4 /* opencv2.framework */,
+				3273F262175C4DE200BC273D /* PRicon.png */,
+				3273F260175C4DDA00BC273D /* PRicon@2x.png */,
+				3273F25A175BC4E600BC273D /* CoreMotion.framework */,
+				3273F258175BC4DE00BC273D /* AVFoundation.framework */,
 				3249B3D7172D7FA7009F4D84 /* Pocket Reader */,
 				3249B3D0172D7FA7009F4D84 /* Frameworks */,
 				3249B3CF172D7FA7009F4D84 /* Products */,
@@ -73,6 +101,8 @@
 		3249B3D0172D7FA7009F4D84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3260A6B017709B580042ED68 /* CoreMedia.framework */,
+				3260A6AE17709B3F0042ED68 /* CoreVideo.framework */,
 				3249B3D1172D7FA7009F4D84 /* UIKit.framework */,
 				3249B3D3172D7FA7009F4D84 /* Foundation.framework */,
 				3249B3D5172D7FA7009F4D84 /* CoreGraphics.framework */,
@@ -135,6 +165,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Gabriel Borges Fernandes";
+				TargetAttributes = {
+					3249B3CD172D7FA7009F4D84 = {
+						DevelopmentTeam = 8384FUCWW9;
+					};
+				};
 			};
 			buildConfigurationList = 3249B3C9172D7FA7009F4D84 /* Build configuration list for PBXProject "Pocket Reader" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -163,6 +198,8 @@
 				3249B3E6172D7FA8009F4D84 /* Default@2x.png in Resources */,
 				3249B3E8172D7FA8009F4D84 /* Default-568h@2x.png in Resources */,
 				3249B3EE172D7FA8009F4D84 /* ViewController.xib in Resources */,
+				3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */,
+				3273F263175C4DE200BC273D /* PRicon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,10 +297,17 @@
 		3249B3F2172D7FA8009F4D84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../app TC\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pocket Reader/Pocket Reader-Prefix.pch";
 				INFOPLIST_FILE = "Pocket Reader/Pocket Reader-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -271,10 +315,17 @@
 		3249B3F3172D7FA8009F4D84 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../app TC\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pocket Reader/Pocket Reader-Prefix.pch";
 				INFOPLIST_FILE = "Pocket Reader/Pocket Reader-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -298,6 +349,7 @@
 				3249B3F3172D7FA8009F4D84 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
