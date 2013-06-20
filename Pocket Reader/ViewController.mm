@@ -126,7 +126,7 @@
         
         cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC1, baseaddress, 0);
         
-        //[self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+        [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
         
         CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
     }
@@ -137,7 +137,7 @@
         
         cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC4, baseaddress, 0);
         
-        //[self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+        [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
         
         CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
     }
@@ -149,7 +149,157 @@
 
 }
 
+- (void)processFrame:(cv::Mat &)mat videoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videOrientation
+{
+    // Shrink video frame to 320X240
+    cv::resize(mat, mat, cv::Size(), 0.5f, 0.5f, CV_INTER_LINEAR);
+    rect.size.width /= 2.0f;
+    rect.size.height /= 2.0f;
+    
+    // Rotate video frame by 90deg to portrait by combining a transpose and a flip
+    // Note that AVCaptureVideoDataOutput connection does NOT support hardware-accelerated
+    // rotation and mirroring via videoOrientation and setVideoMirrored properties so we
+    // need to do the rotation in software here.
+    cv::transpose(mat, mat);
+    CGFloat temp = rect.size.width;
+    rect.size.width = rect.size.height;
+    rect.size.height = temp;
+    
+    if (videOrientation == AVCaptureVideoOrientationLandscapeRight)
+    {
+        // flip around y axis for back camera
+        cv::flip(mat, mat, 1);
+    }
+    else {
+        // Front camera output needs to be mirrored to match preview layer so no flip is required here
+    }
+    
+    videOrientation = AVCaptureVideoOrientationPortrait;
+    
+    // Detect RETÂNGULOS
+    std::vector<cv::Rect> retangulo;
+    
+    //_faceCascade.detectMultiScale(mat, faces, 1.1, 2, kHaarOptions, cv::Size(60, 60));
+    
+    //ACHA O QUADRADO
+    
+    
+    
+    // Dispatch updating of face markers to main queue
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self displaySheet:retangulo
+              forVideoRect:rect
+          videoOrientation:videOrientation];
+    });
+}
 
+- (void)displaySheet:(const std::vector<cv::Rect> &)faces forVideoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videoOrientation
+{
+    NSArray *sublayers = [NSArray arrayWithArray:[_recordPreview.layer sublayers]];
+    int sublayersCount = [sublayers count];
+    int currentSublayer = 0;
+    
+	[CATransaction begin];
+	[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+	
+	// hide all the face layers
+	for (CALayer *layer in sublayers) {
+        NSString *layerName = [layer name];
+		if ([layerName isEqualToString:@"FaceLayer"])
+			[layer setHidden:YES];
+	}
+    
+    // Create transform to convert from vide frame coordinate space to view coordinate space
+    CGAffineTransform t = [self affineTransformForVideoFrame:rect orientation:videoOrientation];
+    
+    for (int i = 0; i < faces.size(); i++) {
+        
+        CGRect faceRect;
+        faceRect.origin.x = faces[i].x;
+        faceRect.origin.y = faces[i].y;
+        faceRect.size.width = faces[i].width;
+        faceRect.size.height = faces[i].height;
+        
+        faceRect = CGRectApplyAffineTransform(faceRect, t);
+        
+        CALayer *featureLayer = nil;
+        
+        while (!featureLayer && (currentSublayer < sublayersCount)) {
+			CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
+			if ([[currentLayer name] isEqualToString:@"FaceLayer"]) {
+				featureLayer = currentLayer;
+				[currentLayer setHidden:NO];
+			}
+		}
+        
+        if (!featureLayer) {
+            // Create a new feature marker layer
+			featureLayer = [[CALayer alloc] init];
+            featureLayer.name = @"FaceLayer";
+            featureLayer.borderColor = [[UIColor redColor] CGColor];
+            featureLayer.borderWidth = 10.0f;
+			[self.view.layer addSublayer:featureLayer];
+		}
+        
+        featureLayer.frame = faceRect;
+    }
+    
+    [CATransaction commit];
+}
+
+- (CGAffineTransform)affineTransformForVideoFrame:(CGRect)videoFrame orientation:(AVCaptureVideoOrientation)videoOrientation
+{
+    CGSize viewSize = self.view.bounds.size;
+    NSString * const videoGravity = captureLayer.videoGravity;
+    CGFloat widthScale = 1.0f;
+    CGFloat heightScale = 1.0f;
+    
+    // Move origin to center so rotation and scale are applied correctly
+    CGAffineTransform t = CGAffineTransformMakeTranslation(-videoFrame.size.width / 2.0f, -videoFrame.size.height / 2.0f);
+    
+    switch (videoOrientation) {
+        case AVCaptureVideoOrientationPortrait:
+            widthScale = viewSize.width / videoFrame.size.width;
+            heightScale = viewSize.height / videoFrame.size.height;
+            break;
+            
+        case AVCaptureVideoOrientationPortraitUpsideDown:
+            t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(M_PI));
+            widthScale = viewSize.width / videoFrame.size.width;
+            heightScale = viewSize.height / videoFrame.size.height;
+            break;
+            
+        case AVCaptureVideoOrientationLandscapeRight:
+            t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(M_PI_2));
+            widthScale = viewSize.width / videoFrame.size.height;
+            heightScale = viewSize.height / videoFrame.size.width;
+            break;
+            
+        case AVCaptureVideoOrientationLandscapeLeft:
+            t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(-M_PI_2));
+            widthScale = viewSize.width / videoFrame.size.height;
+            heightScale = viewSize.height / videoFrame.size.width;
+            break;
+    }
+    
+    // Adjust scaling to match video gravity mode of video preview
+    if (videoGravity == AVLayerVideoGravityResizeAspect) {
+        heightScale = MIN(heightScale, widthScale);
+        widthScale = heightScale;
+    }
+    else if (videoGravity == AVLayerVideoGravityResizeAspectFill) {
+        heightScale = MAX(heightScale, widthScale);
+        widthScale = heightScale;
+    }
+    
+    // Apply the scaling
+    t = CGAffineTransformConcat(t, CGAffineTransformMakeScale(widthScale, heightScale));
+    
+    // Move origin back from center
+    t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(viewSize.width / 2.0f, viewSize.height / 2.0f));
+    
+    return t;
+}
 
 - (BOOL)createCaptureSessionForCamera:(NSInteger)camera qualityPreset:(NSString *)qualityPreset grayscale:(BOOL)grayscale
 {
