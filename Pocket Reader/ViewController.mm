@@ -34,10 +34,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.qualityPreset = AVCaptureSessionPresetMedium;
+    self.qualityPreset = AVCaptureSessionPreset1920x1080;
     captureGrayscale = YES;
     self.camera = -1;
-    
+    recognize=false;
     [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale];
     [captureSession startRunning];
     /*AVCaptureDevice *camera = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo][1];
@@ -103,7 +103,7 @@
 
 - (IBAction)apertouDois:(id)sender
 {
-    
+    recognize=true;
 }
 
 - (IBAction)apertouTres:(id)sender
@@ -114,12 +114,39 @@
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
  // TODO TODO TODO TODO TODO TODO TODO TODO TODO
+    if(recognize){
+        [captureSession stopRunning];
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    OSType format = CVPixelBufferGetPixelFormatType(pixelBuffer);
-    CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
-    AVCaptureVideoOrientation videoOrientation = [[[videoOutput connections] objectAtIndex:0] videoOrientation];
+        NSLog(@"pixelBuffer ok");
+        CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+        NSLog(@"dictionary ok");
+        CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(NSDictionary *)CFBridgingRelease(attachments)];
+        NSLog(@"");
+        //    size_t width = CVPixelBufferGetWidth(pixelBuffer);
+      //  size_t height = CVPixelBufferGetHeight(pixelBuffer);
+        NSLog(@"entra em uimage");
+            UIImage *img = [[UIImage alloc] initWithCIImage:ciImage];
+        NSLog(@"saiu uimage");
+    Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
+    [tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
+    [tesseract setImage:img];
+        NSLog(@"começa a reconhecer");
+        NSLog([tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
+        NSLog(@"terminou");
+        NSLog(@"%@",[tesseract description]);
+        NSLog(@"%@", [tesseract recognizedText]);
+        NSLog(@"deveria ter mostrado");
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:[tesseract recognizedText] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [message show];
     
-    if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
+        
+    [tesseract clear];
+        recognize=false;
+        [captureSession startRunning];
+        NSLog(@"voltou a funcionar");
+    }
+    
+   /* if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
         // For grayscale mode, the luminance channel of the YUV data is used
         CVPixelBufferLockBaseAddress(pixelBuffer, 0);
         void *baseaddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
@@ -146,12 +173,12 @@
     }
 
     
-
+*/
 }
 
 - (void)processFrame:(cv::Mat &)mat videoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videOrientation
 {
-    // Shrink video frame to 320X240
+   /* // Shrink video frame to 320X240
     cv::resize(mat, mat, cv::Size(), 0.5f, 0.5f, CV_INTER_LINEAR);
     rect.size.width /= 2.0f;
     rect.size.height /= 2.0f;
@@ -190,7 +217,7 @@
         [self displaySheet:retangulo
               forVideoRect:rect
           videoOrientation:videOrientation];
-    });
+    });*/
 }
 
 - (void)displaySheet:(const std::vector<cv::Rect> &)faces forVideoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videoOrientation

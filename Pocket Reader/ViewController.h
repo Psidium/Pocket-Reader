@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-
+#import "Tesseract.h"
 
 @interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate> {
     
@@ -20,6 +20,7 @@
     int camera;
     NSString *_qualityPreset;
     BOOL captureGrayscale;
+    BOOL recognize;
    
 }
 
