@@ -108,7 +108,9 @@
 
 - (IBAction)apertouTres:(id)sender
 {
+    [self.recordPreview removeFromSuperview];
     
+    [self.recordPreview.layer addSublayer:captureLayer];
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
@@ -125,7 +127,9 @@
         //    size_t width = CVPixelBufferGetWidth(pixelBuffer);
       //  size_t height = CVPixelBufferGetHeight(pixelBuffer);
         NSLog(@"entra em uimage");
-            UIImage *img = [[UIImage alloc] initWithCIImage:ciImage];
+        UIImage *img = [[UIImage alloc] initWithCIImage:ciImage];
+
+        UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
         NSLog(@"saiu uimage");
     Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
     [tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
@@ -140,7 +144,7 @@
         [message show];
     
         
-    [tesseract clear];
+        [tesseract clear];
         recognize=false;
         [captureSession startRunning];
         NSLog(@"voltou a funcionar");
