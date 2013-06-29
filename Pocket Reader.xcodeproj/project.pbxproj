@@ -24,6 +24,7 @@
 		3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6B017709B580042ED68 /* CoreMedia.framework */; };
 		32678569177C67D80087D677 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32678568177C67D80087D677 /* CoreImage.framework */; };
 		3267856B177C6A1C0087D677 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 3267856A177C6A1C0087D677 /* tessdata */; };
+		3268B303177F7935006921EF /* image_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 3268B302177F7935006921EF /* image_sample.png */; };
 		3273F259175BC4DE00BC273D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F258175BC4DE00BC273D /* AVFoundation.framework */; };
 		3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F25A175BC4E600BC273D /* CoreMotion.framework */; };
 		3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F260175C4DDA00BC273D /* PRicon@2x.png */; };
@@ -57,6 +58,7 @@
 		3260A6B017709B580042ED68 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32678568177C67D80087D677 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		3267856A177C6A1C0087D677 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
+		3268B302177F7935006921EF /* image_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_sample.png; sourceTree = "<group>"; };
 		3273F258175BC4DE00BC273D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3273F25A175BC4E600BC273D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		3273F260175C4DDA00BC273D /* PRicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PRicon@2x.png"; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			children = (
 				329B967F17762D8300846FA9 /* tesseract */,
 				3273F262175C4DE200BC273D /* PRicon.png */,
+				3268B302177F7935006921EF /* image_sample.png */,
 				3273F260175C4DDA00BC273D /* PRicon@2x.png */,
 				3273F25A175BC4E600BC273D /* CoreMotion.framework */,
 				3273F258175BC4DE00BC273D /* AVFoundation.framework */,
@@ -553,6 +556,7 @@
 			files = (
 				3249B3DC172D7FA7009F4D84 /* InfoPlist.strings in Resources */,
 				3267856B177C6A1C0087D677 /* tessdata in Resources */,
+				3268B303177F7935006921EF /* image_sample.png in Resources */,
 				3249B3E4172D7FA8009F4D84 /* Default.png in Resources */,
 				3249B3E6172D7FA8009F4D84 /* Default@2x.png in Resources */,
 				3249B3E8172D7FA8009F4D84 /* Default-568h@2x.png in Resources */,

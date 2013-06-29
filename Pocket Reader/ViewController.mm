@@ -108,9 +108,24 @@
 
 - (IBAction)apertouTres:(id)sender
 {
-    [self.recordPreview removeFromSuperview];
+    UIImageWriteToSavedPhotosAlbum([UIImage imageNamed:@"image_sample.jpg"], nil, nil, nil); 
+    [self.imageView setImage:[UIImage imageNamed:@"image_sample.jpg"]];
+    Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
+    [tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ" forKey:@"tessedit_char_whitelist"];
+    [tesseract setImage:[UIImage imageNamed:@"image_sample.png"]];
+    NSLog(@"começa a reconhecer");
+    NSLog([tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
+    NSLog(@"terminou");
+    NSLog(@"%@",[tesseract description]);
+    NSLog(@"%@", [tesseract recognizedText]);
+    NSLog(@"deveria ter mostrado");
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:[tesseract recognizedText] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [message show];
     
-    [self.recordPreview.layer addSublayer:captureLayer];
+    
+    [tesseract clear];
+    
+    
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
@@ -128,7 +143,7 @@
       //  size_t height = CVPixelBufferGetHeight(pixelBuffer);
         NSLog(@"entra em uimage");
         UIImage *img = [[UIImage alloc] initWithCIImage:ciImage];
-
+        [self.imageView setImage:img];
         UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
         NSLog(@"saiu uimage");
     Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];

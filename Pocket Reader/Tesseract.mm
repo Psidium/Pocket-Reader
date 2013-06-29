@@ -114,10 +114,6 @@ namespace tesseract {
 - (NSString *)recognizedText {
     //_tesseract->; TODO
     char* utf8Text = _tesseract->GetUTF8Text();
-    
-    NSLog(@"resultado do texto: %s",utf8Text);
-    
-    NSLog(@"Entrou na função de reconhecimento");
     return [NSString stringWithUTF8String:utf8Text];
 }
 

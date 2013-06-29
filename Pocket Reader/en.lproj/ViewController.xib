@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController">
             <connections>
                 <outlet property="dois" destination="130" id="141"/>
+                <outlet property="imageView" destination="0dQ-De-v2Q" id="RkC-HR-QcM"/>
                 <outlet property="recordPreview" destination="147" id="154"/>
                 <outlet property="tres" destination="131" id="142"/>
                 <outlet property="um" destination="111" id="140"/>
@@ -22,6 +23,12 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="147">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0dQ-De-v2Q">
+                            <rect key="frame" x="0.0" y="310" width="320" height="174"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="110">
@@ -65,21 +72,4 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
-    <classes>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="apertouDois:"/>
-                <relationship kind="action" name="apertouTres:"/>
-                <relationship kind="action" name="apertouUm:"/>
-                <relationship kind="outlet" name="dois" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="recordPreview" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tres" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="um" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-    </classes>
 </document>
