@@ -34,7 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.qualityPreset = AVCaptureSessionPreset1920x1080;
+    self.qualityPreset = AVCaptureSessionPresetPhoto;
     captureGrayscale = YES;
     self.camera = -1;
     recognize=false;
@@ -108,7 +108,7 @@
 
 - (IBAction)apertouTres:(id)sender
 {
-    UIImageWriteToSavedPhotosAlbum([UIImage imageNamed:@"image_sample.jpg"], nil, nil, nil); 
+    //UIImageWriteToSavedPhotosAlbum([UIImage imageNamed:@"image_sample.jpg"], nil, nil, nil);
     [self.imageView setImage:[UIImage imageNamed:@"image_sample.jpg"]];
     Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
     [tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ" forKey:@"tessedit_char_whitelist"];
@@ -133,33 +133,38 @@
  // TODO TODO TODO TODO TODO TODO TODO TODO TODO
     if(recognize){
         [captureSession stopRunning];
-    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+   /* CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         NSLog(@"pixelBuffer ok");
         CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
         NSLog(@"dictionary ok");
         CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(NSDictionary *)CFBridgingRelease(attachments)];
-        NSLog(@"");
+        NSLog(@"");*/
         //    size_t width = CVPixelBufferGetWidth(pixelBuffer);
       //  size_t height = CVPixelBufferGetHeight(pixelBuffer);
+        
         NSLog(@"entra em uimage");
-        UIImage *img = [[UIImage alloc] initWithCIImage:ciImage];
-        [self.imageView setImage:img];
+        UIImage *img = [self imageFromSampleBuffer:sampleBuffer];
+        if (img!=nil) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.imageView setImage:img]; });
         UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
         NSLog(@"saiu uimage");
-    Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
-    [tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
-    [tesseract setImage:img];
+        Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
+        [tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
+        [tesseract setImage:img];
         NSLog(@"começa a reconhecer");
         NSLog([tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
         NSLog(@"terminou");
         NSLog(@"%@",[tesseract description]);
-        NSLog(@"%@", [tesseract recognizedText]);
-        NSLog(@"deveria ter mostrado");
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:[tesseract recognizedText] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [message show];
-    
-        
+        NSString *textoReconhecido = [tesseract recognizedText];
         [tesseract clear];
+        NSLog(@"%@", textoReconhecido);
+        NSLog(@"deveria ter mostrado");
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [message show];
+        }
+        
+        
         recognize=false;
         [captureSession startRunning];
         NSLog(@"voltou a funcionar");
@@ -193,6 +198,48 @@
 
     
 */
+}
+
+- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer
+{
+    NSLog(@"imageFromSampleBuffer: called");
+    // Get a CMSampleBuffer's Core Video image buffer for the media data
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    // Lock the base address of the pixel buffer
+    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    
+    // Get the number of bytes per row for the pixel buffer
+    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+    
+    // Get the number of bytes per row for the pixel buffer
+  //  size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    // Get the pixel buffer width and height
+    size_t width = CVPixelBufferGetWidth(imageBuffer);
+    size_t height = CVPixelBufferGetHeight(imageBuffer);
+    
+    // Create a device-dependent RGB color space
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    // Create a bitmap graphics context with the sample buffer data
+    CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8,
+                                                 0, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    // Create a Quartz image from the pixel data in the bitmap graphics context
+    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
+    // Unlock the pixel buffer
+    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
+    
+    
+    // Free up the context and color space
+    //CGContextRelease(context);
+    //CGColorSpaceRelease(colorSpace);
+    
+    // Create an image object from the Quartz image
+    UIImage *image = [UIImage imageWithCGImage:quartzImage];
+    
+    // Release the Quartz image
+  /*  CGImageRelease(quartzImage);*/ //ARC  is used
+    
+    return (image);
 }
 
 - (void)processFrame:(cv::Mat &)mat videoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videOrientation
@@ -377,7 +424,7 @@
     
     // Create the capture session
     captureSession = [[AVCaptureSession alloc] init];
-    captureSession.sessionPreset = (_qualityPreset)? _qualityPreset : AVCaptureSessionPresetMedium;
+    captureSession.sessionPreset = (self.qualityPreset)? self.qualityPreset : AVCaptureSessionPresetHigh;
     
     // Create device input
     NSError *error = nil;
