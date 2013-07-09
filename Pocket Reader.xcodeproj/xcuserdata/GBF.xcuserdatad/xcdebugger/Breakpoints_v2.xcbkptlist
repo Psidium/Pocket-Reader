@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pocket Reader/ViewController.mm"
-            timestampString = "394377651.442605"
+            timestampString = "394986697.960943"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
             landmarkName = "-imageFromSampleBuffer:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,13 +26,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pocket Reader/ViewController.mm"
-            timestampString = "394378414.802068"
+            timestampString = "394986697.960943"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "428"
-            endingLineNumber = "428"
-            landmarkName = "-createCaptureSessionForCamera:qualityPreset:grayscale:"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "-captureOutput:didOutputSampleBuffer:fromConnection:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController captureOutput:didOutputSampleBuffer:fromConnection:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "394986697.982029"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "210">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController captureOutput:didOutputSampleBuffer:fromConnection:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "394986697.982502"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152"
+                  offsetFromSymbolStart = "736">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

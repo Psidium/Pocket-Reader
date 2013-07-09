@@ -16,6 +16,7 @@
     AVCaptureDevice *captureDevice;
     AVCaptureVideoDataOutput* videoOutput;
     AVCaptureVideoPreviewLayer *captureLayer;
+    AVCaptureStillImageOutput *stillImage;
     
     int camera;
     NSString *_qualityPreset;
@@ -30,6 +31,7 @@
 @property (strong, nonatomic) AVCaptureDevice *captureDevice;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *videoOutput;
 @property (strong, nonatomic) AVCaptureSession *captureSession;
+@property (strong, nonatomic) AVCaptureStillImageOutput *stillImage;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *um;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *dois;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *tres;

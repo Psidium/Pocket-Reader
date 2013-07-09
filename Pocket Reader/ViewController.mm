@@ -30,6 +30,7 @@
 @synthesize captureDevice;
 @synthesize videoOutput;
 @synthesize captureLayer;
+@synthesize stillImage;
 
 - (void)viewDidLoad
 {
@@ -109,9 +110,9 @@
 - (IBAction)apertouTres:(id)sender
 {
     //UIImageWriteToSavedPhotosAlbum([UIImage imageNamed:@"image_sample.jpg"], nil, nil, nil);
-    [self.imageView setImage:[UIImage imageNamed:@"image_sample.jpg"]];
+    [self.imageView setImage:[UIImage imageNamed:@"image_sample.png"]];
     Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
-    [tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ" forKey:@"tessedit_char_whitelist"];
+    //[tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ" forKey:@"tessedit_char_whitelist"];
     [tesseract setImage:[UIImage imageNamed:@"image_sample.png"]];
     NSLog(@"começa a reconhecer");
     NSLog([tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
@@ -119,8 +120,12 @@
     NSLog(@"%@",[tesseract description]);
     NSLog(@"%@", [tesseract recognizedText]);
     NSLog(@"deveria ter mostrado");
-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:[tesseract recognizedText] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [message show];
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
+                                        [tesseract recognizedText]);
+    }
+   // UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:[tesseract recognizedText] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    //[message show];
     
     
     [tesseract clear];
@@ -133,26 +138,25 @@
  // TODO TODO TODO TODO TODO TODO TODO TODO TODO
     if(recognize){
         [captureSession stopRunning];
-   /* CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-        NSLog(@"pixelBuffer ok");
-        CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
-        NSLog(@"dictionary ok");
-        CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(NSDictionary *)CFBridgingRelease(attachments)];
-        NSLog(@"");*/
-        //    size_t width = CVPixelBufferGetWidth(pixelBuffer);
-      //  size_t height = CVPixelBufferGetHeight(pixelBuffer);
+
+        NSLog(@"%@",[stillImage description]);
+        AVCaptureConnection *vc = [stillImage connectionWithMediaType:AVMediaTypeVideo];
+        [stillImage captureStillImageAsynchronouslyFromConnection:vc completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+            NSLog(@"bloco de AVCaptureStillImageOutput capturestillimageassuybncaslopdfaslfgrofmcoennction");
+            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+            UIImage *img = [[UIImage alloc] initWithData:imageData];
         
-        NSLog(@"entra em uimage");
-        UIImage *img = [self imageFromSampleBuffer:sampleBuffer];
+            NSLog(@"%@", [img description]);
+        // = [self imageFromSampleBuffer:sampleBuffer];
         if (img!=nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.imageView setImage:img]; });
-        UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+        //UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
         NSLog(@"saiu uimage");
         Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
         [tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
         [tesseract setImage:img];
-        NSLog(@"começa a reconhecer");
+        NSLog(@"começa a reconhecer"); 
         NSLog([tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
         NSLog(@"terminou");
         NSLog(@"%@",[tesseract description]);
@@ -160,9 +164,15 @@
         [tesseract clear];
         NSLog(@"%@", textoReconhecido);
         NSLog(@"deveria ter mostrado");
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [message show];
+            if (UIAccessibilityIsVoiceOverRunning()) {
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
+                                                textoReconhecido);
+            }
+       // UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lsadsaddaso:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+       // [message show];
         }
+        
+        }];
         
         
         recognize=false;
@@ -460,6 +470,15 @@
     
     if ([captureSession canAddOutput:videoOutput]) {
         [captureSession addOutput:videoOutput];
+    }
+    
+    stillImage = [[AVCaptureStillImageOutput alloc] init];
+    stillImage.outputSettings = [NSDictionary dictionaryWithObject:AVVideoCodecJPEG
+                                                            forKey:AVVideoCodecKey];
+    
+    NSLog(@"canAddOutput: stillImage: %hhd",[captureSession canAddOutput:stillImage]);
+    if ([captureSession canAddOutput:stillImage]){
+        [captureSession addOutput:stillImage];
     }
     
     // Create the preview layer

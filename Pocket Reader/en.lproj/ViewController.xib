@@ -48,7 +48,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="132"/>
-                        <barButtonItem title="3" id="131">
+                        <barButtonItem title="teste" id="131">
                             <connections>
                                 <action selector="apertouTres:" destination="-1" id="145"/>
                             </connections>
@@ -72,4 +72,22 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <classes>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="apertouDois:"/>
+                <relationship kind="action" name="apertouTres:"/>
+                <relationship kind="action" name="apertouUm:"/>
+                <relationship kind="outlet" name="dois" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="recordPreview" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tres" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="um" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+    </classes>
 </document>
