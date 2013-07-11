@@ -18,7 +18,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () 
+@interface ViewController ()
 @end
 
 @implementation ViewController
@@ -31,6 +31,7 @@
 @synthesize videoOutput;
 @synthesize captureLayer;
 @synthesize stillImage;
+@synthesize tesseract;
 
 - (void)viewDidLoad
 {
@@ -42,19 +43,19 @@
     [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale];
     [captureSession startRunning];
     /*AVCaptureDevice *camera = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo][1];
-    if (camera == nil){
-        //aviso de erro e fecha o app
-    }
-    captureSession = [[AVCaptureSession alloc] init];
-    AVCaptureDeviceInput *videoInputCamera = [[AVCaptureDeviceInput alloc] initWithDevice:camera error:nil];
-    [captureSession addInput:videoInputCamera];
-    
-    captureLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];
-    captureLayer.frame = self.recordPreview.bounds;
-    [captureLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    [self.recordPreview.layer addSublayer:captureLayer];
-    [captureSession startRunning];
-    NSLog(@"batata");*/
+     if (camera == nil){
+     //aviso de erro e fecha o app
+     }
+     captureSession = [[AVCaptureSession alloc] init];
+     AVCaptureDeviceInput *videoInputCamera = [[AVCaptureDeviceInput alloc] initWithDevice:camera error:nil];
+     [captureSession addInput:videoInputCamera];
+     
+     captureLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];
+     captureLayer.frame = self.recordPreview.bounds;
+     [captureLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+     [self.recordPreview.layer addSublayer:captureLayer];
+     [captureSession startRunning];
+     NSLog(@"batata");*/
     
     
 }
@@ -104,110 +105,186 @@
 
 - (IBAction)apertouDois:(id)sender
 {
-    recognize=true;
+    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:@"Língua:" message:@"Selecione a língua:" delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Português",@"Inglês",@"Espanhol", nil];
+    [alerta show];
 }
 
 - (IBAction)apertouTres:(id)sender
 {
     //UIImageWriteToSavedPhotosAlbum([UIImage imageNamed:@"image_sample.jpg"], nil, nil, nil);
     [self.imageView setImage:[UIImage imageNamed:@"image_sample.png"]];
-    Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
     //[tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ" forKey:@"tessedit_char_whitelist"];
-    [tesseract setImage:[UIImage imageNamed:@"image_sample.png"]];
+    [self.tesseract setImage:[UIImage imageNamed:@"image_sample.png"]];
     NSLog(@"começa a reconhecer");
-    NSLog([tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
+    NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
     NSLog(@"terminou");
-    NSLog(@"%@",[tesseract description]);
-    NSLog(@"%@", [tesseract recognizedText]);
+    NSLog(@"%@",[self.tesseract description]);
+    NSLog(@"%@", [self.tesseract recognizedText]);
     NSLog(@"deveria ter mostrado");
     if (UIAccessibilityIsVoiceOverRunning()) {
         UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
-                                        [tesseract recognizedText]);
+                                        [self.tesseract recognizedText]);
     }
-   // UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:[tesseract recognizedText] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    // UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:[tesseract recognizedText] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     //[message show];
     
     
-    [tesseract clear];
+    [self.tesseract clear];
     
     
 }
 
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self.tesseract clear];
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Português"]) {
+        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
+        if(tesseractHolder) {
+            tesseract=tesseractHolder;
+            NSLog(@"linguagem muda pra por");
+            recognize=true;
+        } else
+            NSLog(@"erro na troca de linguagem pra por");
+    }
+    else { if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Inglês"]) {
+        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
+        if(tesseractHolder) {
+            tesseract=tesseractHolder;
+            NSLog(@"linguagem muda pra eng");
+            recognize=true;
+        } else
+            NSLog(@"erro na troca de linguagem pra eng");
+    }
+    else { if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Espanhol"]) {
+        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"spa"];
+        if(tesseractHolder) {
+            tesseract=tesseractHolder;
+            NSLog(@"linguagem muda pra spa");
+            recognize=true;
+        } else
+            NSLog(@"erro na troca de linguagem pra spa");
+    }}}
+}
+
+// this does the trick to have tesseract accept the UIImage.
+-(UIImage *) gs_convert_image:(UIImage *)src_img {
+    CGColorSpaceRef d_colorSpace = CGColorSpaceCreateDeviceRGB();
+    /*
+     * Note we specify 4 bytes per pixel here even though we ignore the
+     * alpha value; you can't specify 3 bytes per-pixel.
+     */
+    size_t d_bytesPerRow = src_img.size.width * 4;
+    unsigned char * imgData = (unsigned char*)malloc(src_img.size.height*d_bytesPerRow);
+    CGContextRef context =  CGBitmapContextCreate(imgData, src_img.size.width,
+                                                  src_img.size.height,
+                                                  8, d_bytesPerRow,
+                                                  d_colorSpace,
+                                                  kCGImageAlphaNoneSkipFirst);
+    
+    UIGraphicsPushContext(context);
+    // These next two lines 'flip' the drawing so it doesn't appear upside-down.
+    CGContextTranslateCTM(context, 0.0, src_img.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    // Use UIImage's drawInRect: instead of the CGContextDrawImage function, otherwise you'll have issues when the source image is in portrait orientation.
+    [src_img drawInRect:CGRectMake(0.0, 0.0, src_img.size.width, src_img.size.height)];
+    UIGraphicsPopContext();
+    
+    /*
+     * At this point, we have the raw ARGB pixel data in the imgData buffer, so
+     * we can perform whatever image processing here.
+     */
+    
+    
+    // After we've processed the raw data, turn it back into a UIImage instance.
+    CGImageRef new_img = CGBitmapContextCreateImage(context);
+    UIImage * convertedImage = [[UIImage alloc] initWithCGImage:
+                                new_img];
+    
+    CGImageRelease(new_img);
+    CGContextRelease(context);
+    CGColorSpaceRelease(d_colorSpace);
+    free(imgData);
+    return convertedImage;
+}
+
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
- // TODO TODO TODO TODO TODO TODO TODO TODO TODO
+    // TODO TODO TODO TODO TODO TODO TODO TODO TODO
     if(recognize){
-        [captureSession stopRunning];
-
+        //[captureSession stopRunning];
+        //[tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
         NSLog(@"%@",[stillImage description]);
         AVCaptureConnection *vc = [stillImage connectionWithMediaType:AVMediaTypeVideo];
         [stillImage captureStillImageAsynchronouslyFromConnection:vc completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
             NSLog(@"bloco de AVCaptureStillImageOutput capturestillimageassuybncaslopdfaslfgrofmcoennction");
-            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+            NSLog(@"%@",error);
+            NSLog(@"%@", imageDataSampleBuffer);
+            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer]; //error-------------------------------------------------------------------
             UIImage *img = [[UIImage alloc] initWithData:imageData];
-        
+            img= [self gs_convert_image:img];
+            
             NSLog(@"%@", [img description]);
-        // = [self imageFromSampleBuffer:sampleBuffer];
-        if (img!=nil) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.imageView setImage:img]; });
-        //UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
-        NSLog(@"saiu uimage");
-        Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
-        [tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
-        [tesseract setImage:img];
-        NSLog(@"começa a reconhecer"); 
-        NSLog([tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
-        NSLog(@"terminou");
-        NSLog(@"%@",[tesseract description]);
-        NSString *textoReconhecido = [tesseract recognizedText];
-        [tesseract clear];
-        NSLog(@"%@", textoReconhecido);
-        NSLog(@"deveria ter mostrado");
-            if (UIAccessibilityIsVoiceOverRunning()) {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
-                                                textoReconhecido);
+            // = [self imageFromSampleBuffer:sampleBuffer];
+            if (img!=nil) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.imageView setImage:img]; });
+                //UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+                NSLog(@"saiu uimage");
+                
+                
+                [self.tesseract setImage:img] ;
+                NSLog(@"começa a reconhecer");
+                NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
+                NSLog(@"terminou");
+                NSLog(@"%@",[self.tesseract description]);
+                NSString *textoReconhecido = [self.tesseract recognizedText];
+                [self.tesseract clear];
+                NSLog(@"%@", textoReconhecido);
+                NSLog(@"deveria ter mostrado");
+                if (UIAccessibilityIsVoiceOverRunning()) {
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
+                                                    textoReconhecido);
+                }
+                UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lsadsaddaso:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [message show];
             }
-       // UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lsadsaddaso:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-       // [message show];
-        }
-        
+            
         }];
         
         
         recognize=false;
-        [captureSession startRunning];
+        //[captureSession startRunning];
         NSLog(@"voltou a funcionar");
     }
     
-   /* if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
-        // For grayscale mode, the luminance channel of the YUV data is used
-        CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-        void *baseaddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
-        
-        cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC1, baseaddress, 0);
-        
-        [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
-        
-        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-    }
-    else if (format == kCVPixelFormatType_32BGRA) {
-        // For color mode a 4-channel cv::Mat is created from the BGRA data
-        CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-        void *baseaddress = CVPixelBufferGetBaseAddress(pixelBuffer);
-        
-        cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC4, baseaddress, 0);
-        
-        [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
-        
-        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-    }
-    else {
-        NSLog(@"Unsupported video format");
-    }
-
-    
-*/
+    /* if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
+     // For grayscale mode, the luminance channel of the YUV data is used
+     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+     void *baseaddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+     
+     cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC1, baseaddress, 0);
+     
+     [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+     
+     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+     }
+     else if (format == kCVPixelFormatType_32BGRA) {
+     // For color mode a 4-channel cv::Mat is created from the BGRA data
+     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+     void *baseaddress = CVPixelBufferGetBaseAddress(pixelBuffer);
+     
+     cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC4, baseaddress, 0);
+     
+     [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+     
+     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+     }
+     else {
+     NSLog(@"Unsupported video format");
+     }
+     
+     
+     */
 }
 
 - (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer
@@ -222,7 +299,7 @@
     void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
     
     // Get the number of bytes per row for the pixel buffer
-  //  size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    //  size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
     // Get the pixel buffer width and height
     size_t width = CVPixelBufferGetWidth(imageBuffer);
     size_t height = CVPixelBufferGetHeight(imageBuffer);
@@ -247,53 +324,53 @@
     UIImage *image = [UIImage imageWithCGImage:quartzImage];
     
     // Release the Quartz image
-  /*  CGImageRelease(quartzImage);*/ //ARC  is used
+    /*  CGImageRelease(quartzImage);*/ //ARC  is used
     
     return (image);
 }
 
 - (void)processFrame:(cv::Mat &)mat videoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videOrientation
 {
-   /* // Shrink video frame to 320X240
-    cv::resize(mat, mat, cv::Size(), 0.5f, 0.5f, CV_INTER_LINEAR);
-    rect.size.width /= 2.0f;
-    rect.size.height /= 2.0f;
-    
-    // Rotate video frame by 90deg to portrait by combining a transpose and a flip
-    // Note that AVCaptureVideoDataOutput connection does NOT support hardware-accelerated
-    // rotation and mirroring via videoOrientation and setVideoMirrored properties so we
-    // need to do the rotation in software here.
-    cv::transpose(mat, mat);
-    CGFloat temp = rect.size.width;
-    rect.size.width = rect.size.height;
-    rect.size.height = temp;
-    
-    if (videOrientation == AVCaptureVideoOrientationLandscapeRight)
-    {
-        // flip around y axis for back camera
-        cv::flip(mat, mat, 1);
-    }
-    else {
-        // Front camera output needs to be mirrored to match preview layer so no flip is required here
-    }
-    
-    videOrientation = AVCaptureVideoOrientationPortrait;
-    
-    // Detect RETÂNGULOS
-    std::vector<cv::Rect> retangulo;
-    
-    //_faceCascade.detectMultiScale(mat, faces, 1.1, 2, kHaarOptions, cv::Size(60, 60));
-    
-    //ACHA O QUADRADO
-    
-    
-    
-    // Dispatch updating of face markers to main queue
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [self displaySheet:retangulo
-              forVideoRect:rect
-          videoOrientation:videOrientation];
-    });*/
+    /* // Shrink video frame to 320X240
+     cv::resize(mat, mat, cv::Size(), 0.5f, 0.5f, CV_INTER_LINEAR);
+     rect.size.width /= 2.0f;
+     rect.size.height /= 2.0f;
+     
+     // Rotate video frame by 90deg to portrait by combining a transpose and a flip
+     // Note that AVCaptureVideoDataOutput connection does NOT support hardware-accelerated
+     // rotation and mirroring via videoOrientation and setVideoMirrored properties so we
+     // need to do the rotation in software here.
+     cv::transpose(mat, mat);
+     CGFloat temp = rect.size.width;
+     rect.size.width = rect.size.height;
+     rect.size.height = temp;
+     
+     if (videOrientation == AVCaptureVideoOrientationLandscapeRight)
+     {
+     // flip around y axis for back camera
+     cv::flip(mat, mat, 1);
+     }
+     else {
+     // Front camera output needs to be mirrored to match preview layer so no flip is required here
+     }
+     
+     videOrientation = AVCaptureVideoOrientationPortrait;
+     
+     // Detect RETÂNGULOS
+     std::vector<cv::Rect> retangulo;
+     
+     //_faceCascade.detectMultiScale(mat, faces, 1.1, 2, kHaarOptions, cv::Size(60, 60));
+     
+     //ACHA O QUADRADO
+     
+     
+     
+     // Dispatch updating of face markers to main queue
+     dispatch_sync(dispatch_get_main_queue(), ^{
+     [self displaySheet:retangulo
+     forVideoRect:rect
+     videoOrientation:videOrientation];
+     });*/
 }
 
 - (void)displaySheet:(const std::vector<cv::Rect> &)faces forVideoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videoOrientation
@@ -406,10 +483,10 @@
 
 - (BOOL)createCaptureSessionForCamera:(NSInteger)camera qualityPreset:(NSString *)qualityPreset grayscale:(BOOL)grayscale
 {
-   /* _lastFrameTimestamp = 0;
-    _frameTimesIndex = 0;
-    _captureQueueFps = 0.0f;
-    _fps = 0.0f;*/
+    /* _lastFrameTimestamp = 0;
+     _frameTimesIndex = 0;
+     _captureQueueFps = 0.0f;
+     _fps = 0.0f;*/
 	
     // Set up AV capture
     NSArray* devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
@@ -447,7 +524,7 @@
     [videoOutput setSampleBufferDelegate:self queue:queue];
     
     videoOutput.alwaysDiscardsLateVideoFrames = YES;
-   // captureDevice.activeVideoMinFrameDuration = CMTimeMake(1, 30);
+    // captureDevice.activeVideoMinFrameDuration = CMTimeMake(1, 30);
     
     
     // For grayscale mode, the luminance channel from the YUV fromat is used
@@ -461,7 +538,7 @@
     }
     
     videoOutput.videoSettings = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInt:format]
-                                                             forKey:(id)kCVPixelBufferPixelFormatTypeKey];
+                                                            forKey:(id)kCVPixelBufferPixelFormatTypeKey];
     
     // Connect up inputs and outputs
     if ([captureSession canAddInput:input]) {
@@ -486,6 +563,8 @@
     [captureLayer setFrame:self.recordPreview.bounds];
     captureLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.recordPreview.layer insertSublayer:captureLayer atIndex:0];
+    
+    self.tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
     
     return YES;
 }

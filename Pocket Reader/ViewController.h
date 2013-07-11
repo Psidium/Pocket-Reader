@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "Tesseract.h"
 
-@interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate> {
+@interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate, UIAlertViewDelegate> {
     
 	AVCaptureSession *captureSession;
     AVCaptureDevice *captureDevice;
@@ -18,6 +18,7 @@
     AVCaptureVideoPreviewLayer *captureLayer;
     AVCaptureStillImageOutput *stillImage;
     
+    Tesseract* tesseract;
     int camera;
     NSString *_qualityPreset;
     BOOL captureGrayscale;
@@ -32,6 +33,7 @@
 @property (strong, nonatomic) AVCaptureVideoDataOutput *videoOutput;
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureStillImageOutput *stillImage;
+@property (strong, nonatomic) Tesseract* tesseract;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *um;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *dois;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *tres;
