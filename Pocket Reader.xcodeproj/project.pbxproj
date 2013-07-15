@@ -28,7 +28,6 @@
 		3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F25A175BC4E600BC273D /* CoreMotion.framework */; };
 		3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F260175C4DDA00BC273D /* PRicon@2x.png */; };
 		3273F263175C4DE200BC273D /* PRicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F262175C4DE200BC273D /* PRicon.png */; };
-		3286AEE61789F6F700154AC5 /* image_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 3286AEE51789F6F700154AC5 /* image_sample.png */; };
 		329B967A17762D0000846FA9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B967917762D0000846FA9 /* QuartzCore.framework */; };
 		329B967E17762D6500846FA9 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 329B967D17762D6500846FA9 /* Tesseract.mm */; };
 		329B971517762DBA00846FA9 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971317762DBA00846FA9 /* liblept.a */; };
@@ -60,9 +59,8 @@
 		3267856A177C6A1C0087D677 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		3273F258175BC4DE00BC273D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3273F25A175BC4E600BC273D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		3273F260175C4DDA00BC273D /* PRicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PRicon@2x.png"; sourceTree = "<group>"; };
-		3273F262175C4DE200BC273D /* PRicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PRicon.png; sourceTree = "<group>"; };
-		3286AEE51789F6F700154AC5 /* image_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_sample.png; sourceTree = "<group>"; };
+		3273F260175C4DDA00BC273D /* PRicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PRicon@2x.png"; path = "../PRicon@2x.png"; sourceTree = "<group>"; };
+		3273F262175C4DE200BC273D /* PRicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PRicon.png; path = ../PRicon.png; sourceTree = "<group>"; };
 		329B967917762D0000846FA9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		329B967C17762D6500846FA9 /* Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tesseract.h; sourceTree = "<group>"; };
 		329B967D17762D6500846FA9 /* Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tesseract.mm; sourceTree = "<group>"; };
@@ -240,16 +238,9 @@
 		3249B3C5172D7FA7009F4D84 = {
 			isa = PBXGroup;
 			children = (
-				329B967F17762D8300846FA9 /* tesseract */,
-				3273F262175C4DE200BC273D /* PRicon.png */,
-				3286AEE51789F6F700154AC5 /* image_sample.png */,
-				3273F260175C4DDA00BC273D /* PRicon@2x.png */,
-				3273F25A175BC4E600BC273D /* CoreMotion.framework */,
-				3273F258175BC4DE00BC273D /* AVFoundation.framework */,
 				3249B3D7172D7FA7009F4D84 /* Pocket Reader */,
 				3249B3D0172D7FA7009F4D84 /* Frameworks */,
 				3249B3CF172D7FA7009F4D84 /* Products */,
-				3267856A177C6A1C0087D677 /* tessdata */,
 			);
 			sourceTree = "<group>";
 		};
@@ -264,6 +255,9 @@
 		3249B3D0172D7FA7009F4D84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				329B967F17762D8300846FA9 /* tesseract */,
+				3273F25A175BC4E600BC273D /* CoreMotion.framework */,
+				3273F258175BC4DE00BC273D /* AVFoundation.framework */,
 				3207A76C17945CC900360D43 /* opencv2.framework */,
 				32678568177C67D80087D677 /* CoreImage.framework */,
 				3254F4471765098C00573DF3 /* Accelerate.framework */,
@@ -294,6 +288,8 @@
 		3249B3D8172D7FA7009F4D84 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3273F262175C4DE200BC273D /* PRicon.png */,
+				3273F260175C4DDA00BC273D /* PRicon@2x.png */,
 				3249B3D9172D7FA7009F4D84 /* Pocket Reader-Info.plist */,
 				3249B3DA172D7FA7009F4D84 /* InfoPlist.strings */,
 				3249B3DD172D7FA7009F4D84 /* main.m */,
@@ -317,6 +313,7 @@
 		329B967F17762D8300846FA9 /* tesseract */ = {
 			isa = PBXGroup;
 			children = (
+				3267856A177C6A1C0087D677 /* tessdata */,
 				329B968017762DBA00846FA9 /* include */,
 				329B971217762DBA00846FA9 /* lib */,
 			);
@@ -562,7 +559,6 @@
 				3249B3EE172D7FA8009F4D84 /* ViewController.xib in Resources */,
 				3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */,
 				3273F263175C4DE200BC273D /* PRicon.png in Resources */,
-				3286AEE61789F6F700154AC5 /* image_sample.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

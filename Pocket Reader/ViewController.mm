@@ -111,25 +111,6 @@
 
 - (IBAction)apertouTres:(id)sender
 {
-    //UIImageWriteToSavedPhotosAlbum([UIImage imageNamed:@"image_sample.jpg"], nil, nil, nil);
-    [self.imageView setImage:[UIImage imageNamed:@"image_sample.png"]];
-    //[tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ" forKey:@"tessedit_char_whitelist"];
-    [self.tesseract setImage:[UIImage imageNamed:@"image_sample.png"]];
-    NSLog(@"começa a reconhecer");
-    NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
-    NSLog(@"terminou");
-    NSLog(@"%@",[self.tesseract description]);
-    NSLog(@"%@", [self.tesseract recognizedText]);
-    NSLog(@"deveria ter mostrado");
-    if (UIAccessibilityIsVoiceOverRunning()) {
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
-                                        [self.tesseract recognizedText]);
-    }
-    // UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lido:" message:[tesseract recognizedText] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    //[message show];
-    
-    
-    [self.tesseract clear];
     
     
 }
@@ -210,7 +191,6 @@
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
     // TODO TODO TODO TODO TODO TODO TODO TODO TODO
-    cv::Mat *batata;
     if(recognize){
         //[captureSession stopRunning];
         //[tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
@@ -253,9 +233,9 @@
         }];
         
         
+        
         recognize=false;
         //[captureSession startRunning];
-        NSLog(@"voltou a funcionar");
     }
     
     /* if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
