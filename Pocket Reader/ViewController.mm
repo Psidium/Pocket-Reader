@@ -210,6 +210,7 @@
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
     // TODO TODO TODO TODO TODO TODO TODO TODO TODO
+    cv::Mat *batata;
     if(recognize){
         //[captureSession stopRunning];
         //[tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
@@ -329,9 +330,10 @@
     return (image);
 }
 
+/*
 - (void)processFrame:(cv::Mat &)mat videoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videOrientation
 {
-    /* // Shrink video frame to 320X240
+     // Shrink video frame to 320X240
      cv::resize(mat, mat, cv::Size(), 0.5f, 0.5f, CV_INTER_LINEAR);
      rect.size.width /= 2.0f;
      rect.size.height /= 2.0f;
@@ -370,7 +372,7 @@
      [self displaySheet:retangulo
      forVideoRect:rect
      videoOrientation:videOrientation];
-     });*/
+     });
 }
 
 - (void)displaySheet:(const std::vector<cv::Rect> &)faces forVideoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videoOrientation
@@ -425,7 +427,7 @@
     }
     
     [CATransaction commit];
-}
+}*/
 
 - (CGAffineTransform)affineTransformForVideoFrame:(CGRect)videoFrame orientation:(AVCaptureVideoOrientation)videoOrientation
 {

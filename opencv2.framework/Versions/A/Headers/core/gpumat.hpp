@@ -22,7 +22,7 @@
 //
 //   * Redistribution's in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
-//     and/or other materials provided with the distribution.
+//     and/or other GpuMaterials provided with the distribution.
 //
 //   * The name of the copyright holders may not be used to endorse or promote products
 //     derived from this software without specific prior written permission.
@@ -73,16 +73,12 @@ namespace cv { namespace gpu
         FEATURE_SET_COMPUTE_20 = 20,
         FEATURE_SET_COMPUTE_21 = 21,
         FEATURE_SET_COMPUTE_30 = 30,
-        FEATURE_SET_COMPUTE_35 = 35,
-
         GLOBAL_ATOMICS = FEATURE_SET_COMPUTE_11,
         SHARED_ATOMICS = FEATURE_SET_COMPUTE_12,
         NATIVE_DOUBLE = FEATURE_SET_COMPUTE_13,
-        WARP_SHUFFLE_FUNCTIONS = FEATURE_SET_COMPUTE_30,
-        DYNAMIC_PARALLELISM = FEATURE_SET_COMPUTE_35
+        WARP_SHUFFLE_FUNCTIONS = FEATURE_SET_COMPUTE_30
     };
 
-    // Checks whether current device supports the given feature
     CV_EXPORTS bool deviceSupports(FeatureSet feature_set);
 
     // Gives information about what GPU archs this OpenCV GPU module was
@@ -120,9 +116,8 @@ namespace cv { namespace gpu
 
         int multiProcessorCount() const { return multi_processor_count_; }
 
-        size_t sharedMemPerBlock() const;
+        size_t sharedMemPerBlock() const { return sharedMemPerBlock_; }
 
-        void queryMemory(size_t& totalMemory, size_t& freeMemory) const;
         size_t freeMemory() const;
         size_t totalMemory() const;
 
@@ -136,6 +131,7 @@ namespace cv { namespace gpu
 
     private:
         void query();
+        void queryMemory(size_t& free_memory, size_t& total_memory) const;
 
         int device_id_;
 
@@ -143,6 +139,7 @@ namespace cv { namespace gpu
         int multi_processor_count_;
         int majorVersion_;
         int minorVersion_;
+        size_t sharedMemPerBlock_;
     };
 
     CV_EXPORTS void printCudaDeviceInfo(int device);
@@ -278,7 +275,6 @@ namespace cv { namespace gpu
 
         // Deprecated function
         __CV_GPU_DEPR_BEFORE__ template <typename _Tp> operator DevMem2D_<_Tp>() const __CV_GPU_DEPR_AFTER__;
-        __CV_GPU_DEPR_BEFORE__ template <typename _Tp> operator PtrStep_<_Tp>() const __CV_GPU_DEPR_AFTER__;
         #undef __CV_GPU_DEPR_BEFORE__
         #undef __CV_GPU_DEPR_AFTER__
 
@@ -527,11 +523,6 @@ namespace cv { namespace gpu
         return DevMem2D_<T>(rows, cols, (T*)data, step);
     }
 
-    template <class T> inline GpuMat::operator PtrStep_<T>() const
-    {
-        return PtrStep_<T>(static_cast< DevMem2D_<T> >(*this));
-    }
-
     inline GpuMat createContinuous(int rows, int cols, int type)
     {
         GpuMat m;
@@ -554,6 +545,13 @@ namespace cv { namespace gpu
     inline void ensureSizeIsEnough(Size size, int type, GpuMat& m)
     {
         ensureSizeIsEnough(size.height, size.width, type, m);
+    }
+
+    inline GpuMat allocMatFromBuf(int rows, int cols, int type, GpuMat &mat)
+    {
+        if (!mat.empty() && mat.type() == type && mat.rows >= rows && mat.cols >= cols)
+            return mat(Rect(0, 0, cols, rows));
+        return mat = GpuMat(rows, cols, type);
     }
 }}
 

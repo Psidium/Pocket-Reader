@@ -315,8 +315,6 @@ CV_INLINE  int  cvRound( double value )
         fistp t;
     }
     return t;
-#elif defined _MSC_VER && defined _M_ARM && defined HAVE_TEGRA_OPTIMIZATION
-    TEGRA_ROUND(value);
 #elif defined HAVE_LRINT || defined CV_ICC || defined __GNUC__
 #  ifdef HAVE_TEGRA_OPTIMIZATION
     TEGRA_ROUND(value);
@@ -324,12 +322,8 @@ CV_INLINE  int  cvRound( double value )
     return (int)lrint(value);
 #  endif
 #else
-    double intpart, fractpart;
-    fractpart = modf(value, &intpart);
-    if ((fabs(fractpart) != 0.5) || ((((int)intpart) % 2) != 0))
-        return (int)(value + (value >= 0 ? 0.5 : -0.5));
-    else
-        return (int)intpart;
+    // while this is not IEEE754-compliant rounding, it's usually a good enough approximation
+    return (int)(value + (value >= 0 ? 0.5 : -0.5));
 #endif
 }
 

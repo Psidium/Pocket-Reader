@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3207A76D17945CC900360D43 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3207A76C17945CC900360D43 /* opencv2.framework */; };
 		3249B3D2172D7FA7009F4D84 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D1172D7FA7009F4D84 /* UIKit.framework */; };
 		3249B3D4172D7FA7009F4D84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D3172D7FA7009F4D84 /* Foundation.framework */; };
 		3249B3D6172D7FA7009F4D84 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D5172D7FA7009F4D84 /* CoreGraphics.framework */; };
@@ -28,7 +29,6 @@
 		3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F260175C4DDA00BC273D /* PRicon@2x.png */; };
 		3273F263175C4DE200BC273D /* PRicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F262175C4DE200BC273D /* PRicon.png */; };
 		3286AEE61789F6F700154AC5 /* image_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 3286AEE51789F6F700154AC5 /* image_sample.png */; };
-		3287F9AF178F2865004EC1AF /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3287F9AE178F2865004EC1AF /* opencv2.framework */; };
 		329B967A17762D0000846FA9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B967917762D0000846FA9 /* QuartzCore.framework */; };
 		329B967E17762D6500846FA9 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 329B967D17762D6500846FA9 /* Tesseract.mm */; };
 		329B971517762DBA00846FA9 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971317762DBA00846FA9 /* liblept.a */; };
@@ -36,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3207A76C17945CC900360D43 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		3249B3CE172D7FA7009F4D84 /* Pocket Reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket Reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3249B3D1172D7FA7009F4D84 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3249B3D3172D7FA7009F4D84 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -62,7 +63,6 @@
 		3273F260175C4DDA00BC273D /* PRicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PRicon@2x.png"; sourceTree = "<group>"; };
 		3273F262175C4DE200BC273D /* PRicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PRicon.png; sourceTree = "<group>"; };
 		3286AEE51789F6F700154AC5 /* image_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_sample.png; sourceTree = "<group>"; };
-		3287F9AE178F2865004EC1AF /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		329B967917762D0000846FA9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		329B967C17762D6500846FA9 /* Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tesseract.h; sourceTree = "<group>"; };
 		329B967D17762D6500846FA9 /* Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tesseract.mm; sourceTree = "<group>"; };
@@ -218,12 +218,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3207A76D17945CC900360D43 /* opencv2.framework in Frameworks */,
 				32678569177C67D80087D677 /* CoreImage.framework in Frameworks */,
 				329B967A17762D0000846FA9 /* QuartzCore.framework in Frameworks */,
 				3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */,
 				329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */,
 				3260A6AF17709B3F0042ED68 /* CoreVideo.framework in Frameworks */,
-				3287F9AF178F2865004EC1AF /* opencv2.framework in Frameworks */,
 				3254F4481765098C00573DF3 /* Accelerate.framework in Frameworks */,
 				329B971517762DBA00846FA9 /* liblept.a in Frameworks */,
 				3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */,
@@ -264,7 +264,7 @@
 		3249B3D0172D7FA7009F4D84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3287F9AE178F2865004EC1AF /* opencv2.framework */,
+				3207A76C17945CC900360D43 /* opencv2.framework */,
 				32678568177C67D80087D677 /* CoreImage.framework */,
 				3254F4471765098C00573DF3 /* Accelerate.framework */,
 				329B967917762D0000846FA9 /* QuartzCore.framework */,
@@ -606,8 +606,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -637,8 +637,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -662,6 +662,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -686,6 +687,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

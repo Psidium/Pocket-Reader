@@ -22,7 +22,7 @@
 //
 //   * Redistribution's in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
-//     and/or other materials provided with the distribution.
+//     and/or other GpuMaterials provided with the distribution.
 //
 //   * The name of the copyright holders may not be used to endorse or promote products
 //     derived from this software without specific prior written permission.
@@ -46,14 +46,21 @@
 #ifdef __cplusplus
 
 #include "opencv2/core/core.hpp"
-#include "opencv2/core/opengl_interop_deprecated.hpp"
 
-namespace cv { namespace ogl {
+namespace cv {
+
+CV_EXPORTS bool checkGlError(const char* file, const int line, const char* func = "");
+
+#if defined(__GNUC__)
+    #define CV_CheckGlError() CV_DbgAssert( (cv::checkGlError(__FILE__, __LINE__, __func__)) )
+#else
+    #define CV_CheckGlError() CV_DbgAssert( (cv::checkGlError(__FILE__, __LINE__)) )
+#endif
 
 /////////////////// OpenGL Objects ///////////////////
 
 //! Smart pointer for OpenGL buffer memory with reference counting.
-class CV_EXPORTS Buffer
+class CV_EXPORTS GlBuffer
 {
 public:
     enum Target
@@ -72,18 +79,18 @@ public:
     };
 
     //! create empty buffer
-    Buffer();
+    GlBuffer();
 
     //! create buffer from existed buffer id
-    Buffer(int arows, int acols, int atype, unsigned int abufId, bool autoRelease = false);
-    Buffer(Size asize, int atype, unsigned int abufId, bool autoRelease = false);
+    GlBuffer(int arows, int acols, int atype, unsigned int abufId, bool autoRelease = false);
+    GlBuffer(Size asize, int atype, unsigned int abufId, bool autoRelease = false);
 
     //! create buffer
-    Buffer(int arows, int acols, int atype, Target target = ARRAY_BUFFER, bool autoRelease = false);
-    Buffer(Size asize, int atype, Target target = ARRAY_BUFFER, bool autoRelease = false);
+    GlBuffer(int arows, int acols, int atype, Target target = ARRAY_BUFFER, bool autoRelease = false);
+    GlBuffer(Size asize, int atype, Target target = ARRAY_BUFFER, bool autoRelease = false);
 
     //! copy from host/device memory
-    explicit Buffer(InputArray arr, Target target = ARRAY_BUFFER, bool autoRelease = false);
+    explicit GlBuffer(InputArray arr, Target target = ARRAY_BUFFER, bool autoRelease = false);
 
     //! create buffer
     void create(int arows, int acols, int atype, Target target = ARRAY_BUFFER, bool autoRelease = false);
@@ -102,7 +109,7 @@ public:
     void copyTo(OutputArray arr, Target target = ARRAY_BUFFER, bool autoRelease = false) const;
 
     //! create copy of current buffer
-    Buffer clone(Target target = ARRAY_BUFFER, bool autoRelease = false) const;
+    GlBuffer clone(Target target = ARRAY_BUFFER, bool autoRelease = false) const;
 
     //! bind buffer for specified target
     void bind(Target target) const;
@@ -140,8 +147,10 @@ private:
     int type_;
 };
 
+template <> CV_EXPORTS void Ptr<GlBuffer::Impl>::delete_obj();
+
 //! Smart pointer for OpenGL 2D texture memory with reference counting.
-class CV_EXPORTS Texture2D
+class CV_EXPORTS GlTexture2D
 {
 public:
     enum Format
@@ -153,18 +162,18 @@ public:
     };
 
     //! create empty texture
-    Texture2D();
+    GlTexture2D();
 
     //! create texture from existed texture id
-    Texture2D(int arows, int acols, Format aformat, unsigned int atexId, bool autoRelease = false);
-    Texture2D(Size asize, Format aformat, unsigned int atexId, bool autoRelease = false);
+    GlTexture2D(int arows, int acols, Format aformat, unsigned int atexId, bool autoRelease = false);
+    GlTexture2D(Size asize, Format aformat, unsigned int atexId, bool autoRelease = false);
 
     //! create texture
-    Texture2D(int arows, int acols, Format aformat, bool autoRelease = false);
-    Texture2D(Size asize, Format aformat, bool autoRelease = false);
+    GlTexture2D(int arows, int acols, Format aformat, bool autoRelease = false);
+    GlTexture2D(Size asize, Format aformat, bool autoRelease = false);
 
     //! copy from host/device memory
-    explicit Texture2D(InputArray arr, bool autoRelease = false);
+    explicit GlTexture2D(InputArray arr, bool autoRelease = false);
 
     //! create texture
     void create(int arows, int acols, Format aformat, bool autoRelease = false);
@@ -203,11 +212,13 @@ private:
     Format format_;
 };
 
+template <> CV_EXPORTS void Ptr<GlTexture2D::Impl>::delete_obj();
+
 //! OpenGL Arrays
-class CV_EXPORTS Arrays
+class CV_EXPORTS GlArrays
 {
 public:
-    Arrays();
+    GlArrays();
 
     void setVertexArray(InputArray vertex);
     void resetVertexArray();
@@ -232,52 +243,45 @@ public:
 
 private:
     int size_;
-    Buffer vertex_;
-    Buffer color_;
-    Buffer normal_;
-    Buffer texCoord_;
+    GlBuffer vertex_;
+    GlBuffer color_;
+    GlBuffer normal_;
+    GlBuffer texCoord_;
 };
 
 /////////////////// Render Functions ///////////////////
 
 //! render texture rectangle in window
-CV_EXPORTS void render(const Texture2D& tex,
+CV_EXPORTS void render(const GlTexture2D& tex,
     Rect_<double> wndRect = Rect_<double>(0.0, 0.0, 1.0, 1.0),
     Rect_<double> texRect = Rect_<double>(0.0, 0.0, 1.0, 1.0));
 
 //! render mode
-enum {
-    POINTS         = 0x0000,
-    LINES          = 0x0001,
-    LINE_LOOP      = 0x0002,
-    LINE_STRIP     = 0x0003,
-    TRIANGLES      = 0x0004,
-    TRIANGLE_STRIP = 0x0005,
-    TRIANGLE_FAN   = 0x0006,
-    QUADS          = 0x0007,
-    QUAD_STRIP     = 0x0008,
-    POLYGON        = 0x0009
-};
+namespace RenderMode {
+    enum {
+        POINTS         = 0x0000,
+        LINES          = 0x0001,
+        LINE_LOOP      = 0x0002,
+        LINE_STRIP     = 0x0003,
+        TRIANGLES      = 0x0004,
+        TRIANGLE_STRIP = 0x0005,
+        TRIANGLE_FAN   = 0x0006,
+        QUADS          = 0x0007,
+        QUAD_STRIP     = 0x0008,
+        POLYGON        = 0x0009
+    };
+}
 
 //! render OpenGL arrays
-CV_EXPORTS void render(const Arrays& arr, int mode = POINTS, Scalar color = Scalar::all(255));
-CV_EXPORTS void render(const Arrays& arr, InputArray indices, int mode = POINTS, Scalar color = Scalar::all(255));
+CV_EXPORTS void render(const GlArrays& arr, int mode = RenderMode::POINTS, Scalar color = Scalar::all(255));
+CV_EXPORTS void render(const GlArrays& arr, InputArray indices, int mode = RenderMode::POINTS, Scalar color = Scalar::all(255));
 
-}} // namespace cv::gl
-
-namespace cv { namespace gpu {
-
-//! set a CUDA device to use OpenGL interoperability
-CV_EXPORTS void setGlDevice(int device = 0);
-
-}}
-
-namespace cv {
-
-template <> CV_EXPORTS void Ptr<cv::ogl::Buffer::Impl>::delete_obj();
-template <> CV_EXPORTS void Ptr<cv::ogl::Texture2D::Impl>::delete_obj();
-
+namespace gpu {
+    //! set a CUDA device to use OpenGL interoperability
+    CV_EXPORTS void setGlDevice(int device = 0);
 }
+
+} // namespace cv
 
 #endif // __cplusplus
 
