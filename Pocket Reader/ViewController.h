@@ -47,7 +47,9 @@
 - (IBAction) apertouUm:(id)sender;
 - (IBAction) apertouDois:(id)sender;
 - (IBAction) apertouTres:(id)sender;
+- (IBAction)handleRotation:(UIRotationGestureRecognizer *)sender;
 - (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
+- (IBAction)handlePinch:(UIPinchGestureRecognizer *)sender;
 - (IBAction)handleTap:(UITapGestureRecognizer *)sender;
 
 
