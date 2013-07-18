@@ -33,13 +33,16 @@
 @synthesize stillImage;
 @synthesize tesseract;
 
+
+#pragma mark - Default:
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.qualityPreset = AVCaptureSessionPresetPhoto;
     captureGrayscale = YES;
     self.camera = -1;
-    recognize=false;
+    recognize = NO;
+    isOpenCVOn = NO;
     [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale];
     [captureSession startRunning];
     /*AVCaptureDevice *camera = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo][1];
@@ -65,6 +68,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Buttons:
 
 - (IBAction)apertouUm:(id)sender
 {
@@ -111,9 +116,29 @@
 
 - (IBAction)apertouTres:(id)sender
 {
-    
+    isOpenCVOn = !isOpenCVOn;
     
 }
+
+- (IBAction)batata:(id)sender {
+}
+
+- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer {
+    if(![self.imageView isHidden]){
+        CGPoint translation = [recognizer translationInView:self.imageView];
+        recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
+                                             recognizer.view.center.y + translation.y);
+        [recognizer setTranslation:CGPointMake(0, 0) inView:self.imageView];
+    }
+}
+
+- (IBAction)handleTap:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        [self.imageView setHidden:YES];
+    }
+}
+
+#pragma mark - Tesseract:
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -147,6 +172,7 @@
     }}}
 }
 
+#pragma mark - Image processing:
 // this does the trick to have tesseract accept the UIImage.
 -(UIImage *) gs_convert_image:(UIImage *)src_img {
     CGColorSpaceRef d_colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -190,9 +216,45 @@
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
+    //MARK: metodo mais importante
+    if(isOpenCVOn) {
+        
+        CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+        OSType format = CVPixelBufferGetPixelFormatType(pixelBuffer);
+        CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
+        AVCaptureVideoOrientation videoOrientation = AVCaptureVideoOrientationPortrait;
+        
+        if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
+            // For grayscale mode, the luminance channel of the YUV data is used
+            CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+            void *baseaddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+            
+            cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC1, baseaddress, 0);
+            
+            [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+            
+            CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+        }
+        else if (format == kCVPixelFormatType_32BGRA) {
+            // For color mode a 4-channel cv::Mat is created from the BGRA data
+            CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+            void *baseaddress = CVPixelBufferGetBaseAddress(pixelBuffer);
+            
+            cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC4, baseaddress, 0);
+            
+            [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+            
+            CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+        }
+        else {
+            NSLog(@"Unsupported video format");
+        }
+    }
+    
     // TODO TODO TODO TODO TODO TODO TODO TODO TODO
     if(recognize){
-        //[captureSession stopRunning];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];});
         //[tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
         NSLog(@"%@",[stillImage description]);
         AVCaptureConnection *vc = [stillImage connectionWithMediaType:AVMediaTypeVideo];
@@ -200,20 +262,23 @@
             NSLog(@"bloco de AVCaptureStillImageOutput capturestillimageassuybncaslopdfaslfgrofmcoennction");
             NSLog(@"%@",error);
             NSLog(@"%@", imageDataSampleBuffer);
-            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer]; //error-------------------------------------------------------------------
+            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
             UIImage *img = [[UIImage alloc] initWithData:imageData];
-            img= [self gs_convert_image:img];
+            img=[self gs_convert_image:img];
             
             NSLog(@"%@", [img description]);
             // = [self imageFromSampleBuffer:sampleBuffer];
             if (img!=nil) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.imageView setImage:img]; });
+                    [self.imageView setImage:img];
+                    [self.imageView setHidden:NO];
+                    
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];});
                 //UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
                 NSLog(@"saiu uimage");
                 
                 
-                [self.tesseract setImage:img] ;
+                [self.tesseract setImage:img];
                 NSLog(@"começa a reconhecer");
                 NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
                 NSLog(@"terminou");
@@ -229,135 +294,56 @@
                 UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lsadsaddaso:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [message show];
             }
-            
         }];
-        
-        
-        
         recognize=false;
-        //[captureSession startRunning];
     }
-    
-    /* if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
-     // For grayscale mode, the luminance channel of the YUV data is used
-     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-     void *baseaddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
-     
-     cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC1, baseaddress, 0);
-     
-     [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
-     
-     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-     }
-     else if (format == kCVPixelFormatType_32BGRA) {
-     // For color mode a 4-channel cv::Mat is created from the BGRA data
-     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-     void *baseaddress = CVPixelBufferGetBaseAddress(pixelBuffer);
-     
-     cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC4, baseaddress, 0);
-     
-     [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
-     
-     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
-     }
-     else {
-     NSLog(@"Unsupported video format");
-     }
-     
-     
-     */
 }
-
-- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer
-{
-    NSLog(@"imageFromSampleBuffer: called");
-    // Get a CMSampleBuffer's Core Video image buffer for the media data
-    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    // Lock the base address of the pixel buffer
-    CVPixelBufferLockBaseAddress(imageBuffer, 0);
-    
-    // Get the number of bytes per row for the pixel buffer
-    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
-    
-    // Get the number of bytes per row for the pixel buffer
-    //  size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
-    // Get the pixel buffer width and height
-    size_t width = CVPixelBufferGetWidth(imageBuffer);
-    size_t height = CVPixelBufferGetHeight(imageBuffer);
-    
-    // Create a device-dependent RGB color space
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    // Create a bitmap graphics context with the sample buffer data
-    CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8,
-                                                 0, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
-    // Create a Quartz image from the pixel data in the bitmap graphics context
-    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
-    // Unlock the pixel buffer
-    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
-    
-    
-    // Free up the context and color space
-    //CGContextRelease(context);
-    //CGColorSpaceRelease(colorSpace);
-    
-    // Create an image object from the Quartz image
-    UIImage *image = [UIImage imageWithCGImage:quartzImage];
-    
-    // Release the Quartz image
-    /*  CGImageRelease(quartzImage);*/ //ARC  is used
-    
-    return (image);
-}
-
-/*
+#pragma mark - Implementation of FaceTracker:
 - (void)processFrame:(cv::Mat &)mat videoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videOrientation
 {
-     // Shrink video frame to 320X240
-     cv::resize(mat, mat, cv::Size(), 0.5f, 0.5f, CV_INTER_LINEAR);
-     rect.size.width /= 2.0f;
-     rect.size.height /= 2.0f;
-     
-     // Rotate video frame by 90deg to portrait by combining a transpose and a flip
-     // Note that AVCaptureVideoDataOutput connection does NOT support hardware-accelerated
-     // rotation and mirroring via videoOrientation and setVideoMirrored properties so we
-     // need to do the rotation in software here.
-     cv::transpose(mat, mat);
-     CGFloat temp = rect.size.width;
-     rect.size.width = rect.size.height;
-     rect.size.height = temp;
-     
-     if (videOrientation == AVCaptureVideoOrientationLandscapeRight)
-     {
-     // flip around y axis for back camera
-     cv::flip(mat, mat, 1);
-     }
-     else {
-     // Front camera output needs to be mirrored to match preview layer so no flip is required here
-     }
-     
-     videOrientation = AVCaptureVideoOrientationPortrait;
-     
-     // Detect RETÂNGULOS
-     std::vector<cv::Rect> retangulo;
-     
-     //_faceCascade.detectMultiScale(mat, faces, 1.1, 2, kHaarOptions, cv::Size(60, 60));
-     
-     //ACHA O QUADRADO
-     
-     
-     
-     // Dispatch updating of face markers to main queue
-     dispatch_sync(dispatch_get_main_queue(), ^{
-     [self displaySheet:retangulo
-     forVideoRect:rect
-     videoOrientation:videOrientation];
-     });
+    // Shrink video frame to 320X240
+    cv::resize(mat, mat, cv::Size(), 0.5f, 0.5f, CV_INTER_LINEAR);
+    rect.size.width /= 2.0f;
+    rect.size.height /= 2.0f;
+    
+    // Rotate video frame by 90deg to portrait by combining a transpose and a flip
+    // Note that AVCaptureVideoDataOutput connection does NOT support hardware-accelerated
+    // rotation and mirroring via videoOrientation and setVideoMirrored properties so we
+    // need to do the rotation in software here.
+    cv::transpose(mat, mat);
+    CGFloat temp = rect.size.width;
+    rect.size.width = rect.size.height;
+    rect.size.height = temp;
+    
+    if (videOrientation == AVCaptureVideoOrientationLandscapeRight)
+    {
+        // flip around y axis for back camera
+        cv::flip(mat, mat, 1);
+    }
+    else {
+        // Front camera output needs to be mirrored to match preview layer so no flip is required here
+    }
+    
+    videOrientation = AVCaptureVideoOrientationPortrait;
+    
+    // Detect faces
+    std::vector<cv::Rect> faces;
+    // MARK: AQUI ENTRA O OPENCV
+    
+    // Dispatch updating of face markers to main queue
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self displayFaces:faces
+              forVideoRect:rect
+          videoOrientation:videOrientation];
+    });
 }
 
-- (void)displaySheet:(const std::vector<cv::Rect> &)faces forVideoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videoOrientation
+// Update face markers given vector of face rectangles
+- (void)displayFaces:(const std::vector<cv::Rect> &)faces
+        forVideoRect:(CGRect)rect
+    videoOrientation:(AVCaptureVideoOrientation)videoOrientation
 {
-    NSArray *sublayers = [NSArray arrayWithArray:[_recordPreview.layer sublayers]];
+    NSArray *sublayers = [NSArray arrayWithArray:[self.view.layer sublayers]];
     int sublayersCount = [sublayers count];
     int currentSublayer = 0;
     
@@ -372,7 +358,7 @@
 	}
     
     // Create transform to convert from vide frame coordinate space to view coordinate space
-    CGAffineTransform t = [self affineTransformForVideoFrame:rect orientation:videoOrientation];
+    //CGAffineTransform t = [self affineTransformForVideoFrame:rect orientation:videoOrientation];
     
     for (int i = 0; i < faces.size(); i++) {
         
@@ -382,7 +368,7 @@
         faceRect.size.width = faces[i].width;
         faceRect.size.height = faces[i].height;
         
-        faceRect = CGRectApplyAffineTransform(faceRect, t);
+        //   faceRect = CGRectApplyAffineTransform(faceRect, t);
         
         CALayer *featureLayer = nil;
         
@@ -407,7 +393,130 @@
     }
     
     [CATransaction commit];
-}*/
+}
+
+
+
+#pragma mark - OpenCV (C++):
+int thresh = 50, N = 11;
+
+// helper function:
+// finds a cosine of angle between vectors
+// from pt0->pt1 and from pt0->pt2
+double angle( cv::Point pt1, cv::Point pt2, cv::Point pt0 )
+{
+    double dx1 = pt1.x - pt0.x;
+    double dy1 = pt1.y - pt0.y;
+    double dx2 = pt2.x - pt0.x;
+    double dy2 = pt2.y - pt0.y;
+    return (dx1*dx2 + dy1*dy2)/sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
+}
+
+- (std::vector<std::vector<cv::Point> >)findSquaresInImage:(cv::Mat)_image
+{
+    std::vector<std::vector<cv::Point> > squares;
+    //blur will enhance edge detection
+    cv::Mat blurred(_image);
+    cv::medianBlur(_image, blurred, 9);
+    NSLog(@"medianBlur(_image, blurred, 9);");
+    
+    cv::Mat gray0(blurred.size(), CV_8U), gray;
+    cv::vector<cv::vector<cv::Point> > contours;
+    
+    // find squares in every color plane of the image
+    for (int c = 0; c < 3; c++)
+    {
+        int ch[] = {c, 0};
+        mixChannels(&blurred, 1, &gray0, 1, ch, 1);
+        NSLog(@"mixChannels(&blurred, 1, &gray0, 1, ch, 1);");
+        
+        // try several threshold levels
+        const int threshold_level = 2;
+        for (int l = 0; l < threshold_level; l++)
+        {
+            // Use Canny instead of zero threshold level!
+            // Canny helps to catch squares with gradient shading
+            if (l == 0)
+            {
+                Canny(gray0, gray, 10, 20, 3); //
+                
+                // Dilate helps to remove potential holes between edge segments
+                dilate(gray, gray, cv::Mat(), cv::Point(-1,-1));
+            }
+            else
+            {
+                gray = gray0 >= (l+1) * 255 / threshold_level;
+                NSLog(@"gray = gray0 >= (l+1) * 255 / %d;", threshold_level);
+            }
+            
+            // Find contours and store them in a list
+            findContours(gray, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+            NSLog(@"findContours(gray, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);");
+            
+            // Test contours
+            cv::vector<cv::Point> approx;
+            for (size_t i = 0; i < contours.size(); i++)
+            {
+                // approximate contour with accuracy proportional
+                // to the contour perimeter
+                approxPolyDP(cv::Mat(contours[i]), approx, arcLength(cv::Mat(contours[i]), true)*0.02, true);
+                NSLog(@"approxPolyDP(cv::Mat(contours[%lu]), approx, arcLength(cv::Mat(contours[%lu]), true)*0.02, true); %lu",i, i, contours.size());
+
+                // Note: absolute value of an area is used because
+                // area may be positive or negative - in accordance with the
+                // contour orientation
+                if (approx.size() == 4 &&
+                    fabs(contourArea(cv::Mat(approx))) > 1000 &&
+                    isContourConvex(cv::Mat(approx)))
+                {
+                    double maxCosine = 0;
+                    
+                    for (int j = 2; j < 5; j++)
+                    {
+                        double cosine = fabs(angle(approx[j%4], approx[j-2], approx[j-1]));
+                        maxCosine = MAX(maxCosine, cosine);
+                        NSLog(@" double cosine = fabs(angle(approx[j porc 4], approx[j-2], approx[j-1]));");
+                    }
+                    
+                    if (maxCosine < 0.3){
+                        squares.push_back(approx);
+                        NSLog(@" squares.push_back(approx);");
+                    }
+                }
+            }
+        }
+    }
+    return squares;
+}
+
+void debugSquares( std::vector<std::vector<cv::Point> > squares, cv::Mat &image )
+{
+    /*  //
+     */
+    for ( int i = 0; i< squares.size(); i++ ) {
+        // draw contour
+        cv::drawContours(image, squares, i, cv::Scalar(255,0,0), 1, 8, std::vector<cv::Vec4i>(), 0, cv::Point());
+        NSLog(@" cv::drawContours(image, squares, i, cv::Scalar(255,0,0), 1, 8, std::vector<cv::Vec4i>(), 0, cv::Point());");
+        // draw bounding rect
+        cv::Rect rect = boundingRect(cv::Mat(squares[i]));
+        cv::rectangle(image, rect.tl(), rect.br(), cv::Scalar(0,255,0), 2, 8, 0);
+        NSLog(@"cv::rectangle(image, rect.tl(), rect.br(), cv::Scalar(0,255,0), 2, 8, 0);");
+        
+        // draw rotated rect
+        cv::RotatedRect minRect = minAreaRect(cv::Mat(squares[i]));
+        cv::Point2f rect_points[4];
+        minRect.points( rect_points );
+        for ( int j = 0; j < 4; j++ ) {
+            cv::line( image, rect_points[j], rect_points[(j+1)%4], cv::Scalar(0,0,255), 1, 8 ); // blue
+            NSLog(@"cv::line( image, rect_points[j], rect_points[(j+1)b 4], cv::Scalar(0,0,255), 1, 8 ); // blue");
+        }
+    }
+    
+    // return ;
+}
+
+
+#pragma mark - Camera initialization:
 
 - (CGAffineTransform)affineTransformForVideoFrame:(CGRect)videoFrame orientation:(AVCaptureVideoOrientation)videoOrientation
 {
@@ -465,10 +574,7 @@
 
 - (BOOL)createCaptureSessionForCamera:(NSInteger)camera qualityPreset:(NSString *)qualityPreset grayscale:(BOOL)grayscale
 {
-    /* _lastFrameTimestamp = 0;
-     _frameTimesIndex = 0;
-     _captureQueueFps = 0.0f;
-     _fps = 0.0f;*/
+
 	
     // Set up AV capture
     NSArray* devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];

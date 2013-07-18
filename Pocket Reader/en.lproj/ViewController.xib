@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController">
             <connections>
                 <outlet property="dois" destination="130" id="141"/>
+                <outlet property="handleTap" destination="7Oj-8F-Qub" id="MYr-T3-OJY"/>
                 <outlet property="imageView" destination="0dQ-De-v2Q" id="RkC-HR-QcM"/>
                 <outlet property="recordPreview" destination="147" id="154"/>
                 <outlet property="tres" destination="131" id="142"/>
@@ -24,9 +25,14 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0dQ-De-v2Q">
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0dQ-De-v2Q">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <gestureRecognizers/>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="NSz-Gp-XYi" appends="YES" id="aBE-iz-YE2"/>
+                                <outletCollection property="gestureRecognizers" destination="7Oj-8F-Qub" appends="YES" id="OQe-MH-7Tv"/>
+                            </connections>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -71,5 +77,15 @@
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="NSz-Gp-XYi">
+            <connections>
+                <action selector="handlePan:" destination="-1" id="0ui-yF-INP"/>
+            </connections>
+        </panGestureRecognizer>
+        <tapGestureRecognizer id="7Oj-8F-Qub">
+            <connections>
+                <action selector="handleTap:" destination="-1" id="d3b-mf-aDT"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
 </document>

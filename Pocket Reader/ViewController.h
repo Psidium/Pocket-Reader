@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "Tesseract.h"
+#import "MBProgressHUD.h"
 
 @interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate, UIAlertViewDelegate> {
     
@@ -23,6 +24,7 @@
     NSString *_qualityPreset;
     BOOL captureGrayscale;
     BOOL recognize;
+    BOOL isOpenCVOn;
    
 }
 
@@ -37,6 +39,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *um;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *dois;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *tres;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *handleTap;
 @property (nonatomic) int camera;
 @property (weak, nonatomic) NSString * const qualityPreset;
 @property (nonatomic) BOOL captureGrayscale;
@@ -44,5 +47,8 @@
 - (IBAction) apertouUm:(id)sender;
 - (IBAction) apertouDois:(id)sender;
 - (IBAction) apertouTres:(id)sender;
+- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
+- (IBAction)handleTap:(UITapGestureRecognizer *)sender;
+
 
 @end
