@@ -320,7 +320,7 @@
                     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
                                                     textoReconhecido);
                 }
-                UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Lsadsaddaso:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Texto reconhecido:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [message show];
             }
         }];
@@ -356,19 +356,21 @@
     videOrientation = AVCaptureVideoOrientationPortrait;
     
     // Detect faces
-    std::vector<cv::Rect> faces;
+    std::vector<cv::Rect> sheet;
     // MARK: AQUI ENTRA O OPENCV
+    //_faceCascade.detectMultiScale(mat, faces, 1.1, 2, kHaarOptions, cv::Size(60, 60))
+    
     
     // Dispatch updating of face markers to main queue
     dispatch_sync(dispatch_get_main_queue(), ^{
-        [self displayFaces:faces
+        [self displaySheet:sheet
               forVideoRect:rect
           videoOrientation:videOrientation];
     });
 }
 
 // Update face markers given vector of face rectangles
-- (void)displayFaces:(const std::vector<cv::Rect> &)faces
+- (void)displaySheet:(const std::vector<cv::Rect> &)squares
         forVideoRect:(CGRect)rect
     videoOrientation:(AVCaptureVideoOrientation)videoOrientation
 {
@@ -389,13 +391,13 @@
     // Create transform to convert from vide frame coordinate space to view coordinate space
     //CGAffineTransform t = [self affineTransformForVideoFrame:rect orientation:videoOrientation];
     
-    for (int i = 0; i < faces.size(); i++) {
+    for (int i = 0; i < squares.size(); i++) {
         
         CGRect faceRect;
-        faceRect.origin.x = faces[i].x;
-        faceRect.origin.y = faces[i].y;
-        faceRect.size.width = faces[i].width;
-        faceRect.size.height = faces[i].height;
+        faceRect.origin.x = squares[i].x;
+        faceRect.origin.y = squares[i].y;
+        faceRect.size.width = squares[i].width;
+        faceRect.size.height = squares[i].height;
         
         //   faceRect = CGRectApplyAffineTransform(faceRect, t);
         
