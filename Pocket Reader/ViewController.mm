@@ -110,7 +110,7 @@
 
 - (IBAction)apertouDois:(id)sender
 {
-    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:@"Língua:" message:@"Selecione a língua:" delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Português",@"Inglês",@"Espanhol", nil];
+    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:@"Língua:" message:@"Selecione a língua:" delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Português",@"Inglês",@"Espanhol",@"Alemão", nil];
     [alerta show];
 }
 
@@ -198,7 +198,16 @@
             recognize=true;
         } else
             NSLog(@"erro na troca de linguagem pra spa");
-    }}}
+    }
+    else { if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Alemão"]) {
+        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"deu"];
+        if(tesseractHolder) {
+            tesseract=tesseractHolder;
+            NSLog(@"linguagem muda pra deu");
+            recognize=true;
+        } else
+            NSLog(@"erro na troca de linguagem pra deu");
+    }}}}
 }
 
 #pragma mark - Image processing:

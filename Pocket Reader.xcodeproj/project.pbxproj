@@ -24,7 +24,6 @@
 		3260A6AF17709B3F0042ED68 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6AE17709B3F0042ED68 /* CoreVideo.framework */; };
 		3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6B017709B580042ED68 /* CoreMedia.framework */; };
 		32678569177C67D80087D677 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32678568177C67D80087D677 /* CoreImage.framework */; };
-		3267856B177C6A1C0087D677 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 3267856A177C6A1C0087D677 /* tessdata */; };
 		3273F259175BC4DE00BC273D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F258175BC4DE00BC273D /* AVFoundation.framework */; };
 		3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F25A175BC4E600BC273D /* CoreMotion.framework */; };
 		3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F260175C4DDA00BC273D /* PRicon@2x.png */; };
@@ -33,6 +32,7 @@
 		329B967E17762D6500846FA9 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 329B967D17762D6500846FA9 /* Tesseract.mm */; };
 		329B971517762DBA00846FA9 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971317762DBA00846FA9 /* liblept.a */; };
 		329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971417762DBA00846FA9 /* libtesseract_all.a */; };
+		32C2825F17A5982900926FC6 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 32C2825E17A5982900926FC6 /* tessdata */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,7 +59,6 @@
 		3260A6AE17709B3F0042ED68 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		3260A6B017709B580042ED68 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32678568177C67D80087D677 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
-		3267856A177C6A1C0087D677 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		3273F258175BC4DE00BC273D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3273F25A175BC4E600BC273D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		3273F260175C4DDA00BC273D /* PRicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PRicon@2x.png"; path = "../PRicon@2x.png"; sourceTree = "<group>"; };
@@ -212,6 +211,7 @@
 		329B971117762DBA00846FA9 /* werdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = werdit.h; sourceTree = "<group>"; };
 		329B971317762DBA00846FA9 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
 		329B971417762DBA00846FA9 /* libtesseract_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract_all.a; sourceTree = "<group>"; };
+		32C2825E17A5982900926FC6 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,7 +318,7 @@
 		329B967F17762D8300846FA9 /* tesseract */ = {
 			isa = PBXGroup;
 			children = (
-				3267856A177C6A1C0087D677 /* tessdata */,
+				32C2825E17A5982900926FC6 /* tessdata */,
 				329B968017762DBA00846FA9 /* include */,
 				329B971217762DBA00846FA9 /* lib */,
 			);
@@ -557,7 +557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3249B3DC172D7FA7009F4D84 /* InfoPlist.strings in Resources */,
-				3267856B177C6A1C0087D677 /* tessdata in Resources */,
+				32C2825F17A5982900926FC6 /* tessdata in Resources */,
 				3249B3E4172D7FA8009F4D84 /* Default.png in Resources */,
 				3249B3E6172D7FA8009F4D84 /* Default@2x.png in Resources */,
 				3249B3E8172D7FA8009F4D84 /* Default-568h@2x.png in Resources */,
