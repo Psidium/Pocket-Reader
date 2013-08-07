@@ -312,7 +312,7 @@
                     [self.imageView setHidden:NO];
                     
                     [MBProgressHUD hideHUDForView:self.view animated:YES];});
-                //UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+                //UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil); //NEEDED TO SAVE TO CAMERA ROLL
                 NSLog(@"saiu uimage");
                 
                 
