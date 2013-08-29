@@ -51,7 +51,7 @@ static void ProviderReleaseDataNOP(void *info, const void *data, size_t size)
 -(cv::Mat)CVGrayscaleMat
 {
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-    CGFloat cols = self.size.width;
+    CGFloat cols = self.size.width; // Test
     CGFloat rows = self.size.height;
     
     cv::Mat cvMat = cv::Mat(rows, cols, CV_8UC1); // 8 bits per component, 1 channel
