@@ -15,7 +15,7 @@
 //  appreciated but not required.
 //
 //
-
+#import "UIImage+OpenCV.h"
 #import "ViewController.h"
 
 @interface ViewController ()
@@ -39,7 +39,7 @@
 {
     [super viewDidLoad];
     self.qualityPreset = AVCaptureSessionPresetPhoto;
-    captureGrayscale = YES;
+    captureGrayscale = NO;
     self.camera = -1;
     recognize = NO;
     isOpenCVOn = NO;
@@ -116,7 +116,8 @@
 
 - (IBAction)apertouTres:(id)sender
 {
-    isOpenCVOn = !isOpenCVOn;
+    isOpenCVOn = YES;
+    NSLog(@"Entrou no botao opencv");
     
 }
 
@@ -269,9 +270,12 @@
             
             cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC1, baseaddress, 0);
             
-            [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+            UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
+            //[self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+            NSLog(@"foi salvo no camera roll");
             
             CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+            isOpenCVOn = NO;
         }
         else if (format == kCVPixelFormatType_32BGRA) {
             // For color mode a 4-channel cv::Mat is created from the BGRA data
@@ -280,8 +284,9 @@
             
             cv::Mat mat(videoRect.size.height, videoRect.size.width, CV_8UC4, baseaddress, 0);
             
-            [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
-            
+            UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
+            //[self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+            NSLog(@"foi salvo no camera roollll");
             CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
         }
         else {

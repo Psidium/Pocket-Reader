@@ -11,6 +11,7 @@
 #import "Tesseract.h"
 #import "MBProgressHUD.h"
 
+
 @interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate, UIAlertViewDelegate> {
     
 	AVCaptureSession *captureSession;

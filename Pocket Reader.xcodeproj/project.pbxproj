@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 245F11A917C5279600114E66 /* UIImage+OpenCV.mm */; };
 		3207A76D17945CC900360D43 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3207A76C17945CC900360D43 /* opencv2.framework */; };
 		3249B3D2172D7FA7009F4D84 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D1172D7FA7009F4D84 /* UIKit.framework */; };
 		3249B3D4172D7FA7009F4D84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D3172D7FA7009F4D84 /* Foundation.framework */; };
@@ -36,6 +37,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		245F11A817C5279600114E66 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
+		245F11A917C5279600114E66 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
 		3207A76C17945CC900360D43 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		3249B3CE172D7FA7009F4D84 /* Pocket Reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket Reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3249B3D1172D7FA7009F4D84 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -307,6 +310,8 @@
 		329B967B17762D5200846FA9 /* Aditionals */ = {
 			isa = PBXGroup;
 			children = (
+				245F11A817C5279600114E66 /* UIImage+OpenCV.h */,
+				245F11A917C5279600114E66 /* UIImage+OpenCV.mm */,
 				329B967C17762D6500846FA9 /* Tesseract.h */,
 				325422E9179728D7008A6204 /* MBProgressHUD.h */,
 				325422EA179728D7008A6204 /* MBProgressHUD.m */,
@@ -578,6 +583,7 @@
 				3249B3E2172D7FA8009F4D84 /* AppDelegate.m in Sources */,
 				325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */,
 				329B967E17762D6500846FA9 /* Tesseract.mm in Sources */,
+				245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */,
 				3249B3EB172D7FA8009F4D84 /* ViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
