@@ -22,6 +22,8 @@
 		3249B3EE172D7FA8009F4D84 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3EC172D7FA8009F4D84 /* ViewController.xib */; };
 		325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 325422EA179728D7008A6204 /* MBProgressHUD.m */; };
 		3254F4481765098C00573DF3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3254F4471765098C00573DF3 /* Accelerate.framework */; };
+		325B8E0317D27B2500308DC6 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = 325B8E0117D27B2500308DC6 /* fishhook.c */; };
+		325B8E0517D27B4000308DC6 /* QuietAssertMacros.c in Sources */ = {isa = PBXBuildFile; fileRef = 325B8E0417D27B4000308DC6 /* QuietAssertMacros.c */; };
 		3260A6AF17709B3F0042ED68 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6AE17709B3F0042ED68 /* CoreVideo.framework */; };
 		3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6B017709B580042ED68 /* CoreMedia.framework */; };
 		32678569177C67D80087D677 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32678568177C67D80087D677 /* CoreImage.framework */; };
@@ -53,12 +55,15 @@
 		3249B3E3172D7FA8009F4D84 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		3249B3E5172D7FA8009F4D84 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		3249B3E7172D7FA8009F4D84 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		3249B3E9172D7FA8009F4D84 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		3249B3E9172D7FA8009F4D84 /* ViewController.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ViewController.h; sourceTree = "<group>"; };
 		3249B3EA172D7FA8009F4D84 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		3249B3ED172D7FA8009F4D84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		325422E9179728D7008A6204 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		325422EA179728D7008A6204 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3254F4471765098C00573DF3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		325B8E0117D27B2500308DC6 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fishhook.c; sourceTree = "<group>"; };
+		325B8E0217D27B2500308DC6 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fishhook.h; sourceTree = "<group>"; };
+		325B8E0417D27B4000308DC6 /* QuietAssertMacros.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QuietAssertMacros.c; sourceTree = "<group>"; };
 		3260A6AE17709B3F0042ED68 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		3260A6B017709B580042ED68 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32678568177C67D80087D677 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
@@ -280,6 +285,7 @@
 		3249B3D7172D7FA7009F4D84 /* Pocket Reader */ = {
 			isa = PBXGroup;
 			children = (
+				325B8E0017D27AF900308DC6 /* iOS 7 BETALIFE THIS SHOULD GO AWAY */,
 				329B967B17762D5200846FA9 /* Aditionals */,
 				3249B3E0172D7FA7009F4D84 /* AppDelegate.h */,
 				3249B3E1172D7FA8009F4D84 /* AppDelegate.m */,
@@ -307,14 +313,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		325B8E0017D27AF900308DC6 /* iOS 7 BETALIFE THIS SHOULD GO AWAY */ = {
+			isa = PBXGroup;
+			children = (
+				325B8E0117D27B2500308DC6 /* fishhook.c */,
+				325B8E0217D27B2500308DC6 /* fishhook.h */,
+				325B8E0417D27B4000308DC6 /* QuietAssertMacros.c */,
+			);
+			name = "iOS 7 BETALIFE THIS SHOULD GO AWAY";
+			sourceTree = "<group>";
+		};
 		329B967B17762D5200846FA9 /* Aditionals */ = {
 			isa = PBXGroup;
 			children = (
 				245F11A817C5279600114E66 /* UIImage+OpenCV.h */,
 				245F11A917C5279600114E66 /* UIImage+OpenCV.mm */,
-				329B967C17762D6500846FA9 /* Tesseract.h */,
 				325422E9179728D7008A6204 /* MBProgressHUD.h */,
 				325422EA179728D7008A6204 /* MBProgressHUD.m */,
+				329B967C17762D6500846FA9 /* Tesseract.h */,
 				329B967D17762D6500846FA9 /* Tesseract.mm */,
 			);
 			name = Aditionals;
@@ -531,6 +547,7 @@
 		3249B3C6172D7FA7009F4D84 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = PocketReader;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Gabriel Borges Fernandes";
 				TargetAttributes = {
@@ -580,7 +597,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3249B3DE172D7FA7009F4D84 /* main.m in Sources */,
+				325B8E0317D27B2500308DC6 /* fishhook.c in Sources */,
 				3249B3E2172D7FA8009F4D84 /* AppDelegate.m in Sources */,
+				325B8E0517D27B4000308DC6 /* QuietAssertMacros.c in Sources */,
 				325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */,
 				329B967E17762D6500846FA9 /* Tesseract.mm in Sources */,
 				245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */,

@@ -26,11 +26,19 @@
     BOOL captureGrayscale;
     BOOL recognize;
     BOOL isOpenCVOn;
+    BOOL isTorchOn;
+    
+    NSTimer *timer;
+    
+    double threshold; // Precisa ajustar pro iPhone
+    int n_erode_dilate; // Precisa ajustar pro iPhone
    
 }
 
 @property (strong, nonatomic) IBOutlet UIView *recordPreview;
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIStepper *stepperOne;
+@property (weak, nonatomic) IBOutlet UIStepper *stepperTwo;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureLayer;
 @property (strong, nonatomic) AVCaptureDevice *captureDevice;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *videoOutput;
