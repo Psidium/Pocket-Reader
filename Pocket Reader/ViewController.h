@@ -10,7 +10,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import "Tesseract.h"
 #import "MBProgressHUD.h"
-
+#import "PocketReaderDataClass.h"
+#import "PocketReaderConfigViewController.h"
 
 @interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate, UIAlertViewDelegate> {
     
@@ -25,20 +26,13 @@
     NSString *_qualityPreset;
     BOOL captureGrayscale;
     BOOL recognize;
-    BOOL isOpenCVOn;
-    BOOL isTorchOn;
-    
-    NSTimer *timer;
-    
-    double threshold; // Precisa ajustar pro iPhone
+    PocketReaderDataClass * dataClass;    
     int n_erode_dilate; // Precisa ajustar pro iPhone
    
 }
 
 @property (strong, nonatomic) IBOutlet UIView *recordPreview;
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIStepper *stepperOne;
-@property (weak, nonatomic) IBOutlet UIStepper *stepperTwo;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureLayer;
 @property (strong, nonatomic) AVCaptureDevice *captureDevice;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *videoOutput;
@@ -52,6 +46,7 @@
 @property (nonatomic) int camera;
 @property (weak, nonatomic) NSString * const qualityPreset;
 @property (nonatomic) BOOL captureGrayscale;
+@property (nonatomic) PocketReaderDataClass * dataClass;
 
 - (IBAction) apertouUm:(id)sender;
 - (IBAction) apertouDois:(id)sender;
@@ -60,6 +55,6 @@
 - (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
 - (IBAction)handlePinch:(UIPinchGestureRecognizer *)sender;
 - (IBAction)handleTap:(UITapGestureRecognizer *)sender;
-
+- (void) setOpenCVOn:(BOOL)openCVState;
 
 @end

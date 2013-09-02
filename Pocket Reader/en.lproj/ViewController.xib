@@ -11,8 +11,6 @@
                 <outlet property="handleTap" destination="7Oj-8F-Qub" id="MYr-T3-OJY"/>
                 <outlet property="imageView" destination="0dQ-De-v2Q" id="RkC-HR-QcM"/>
                 <outlet property="recordPreview" destination="147" id="154"/>
-                <outlet property="stepperOne" destination="WvR-3g-Cbu" id="4jE-MG-0MU"/>
-                <outlet property="stepperTwo" destination="8rP-RQ-l2F" id="3nO-5A-k87"/>
                 <outlet property="tres" destination="131" id="142"/>
                 <outlet property="um" destination="111" id="140"/>
                 <outlet property="view" destination="6" id="146"/>
@@ -43,20 +41,6 @@
                                 <outletCollection property="gestureRecognizers" destination="7Oj-8F-Qub" appends="YES" id="OQe-MH-7Tv"/>
                             </connections>
                         </imageView>
-                        <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="WvR-3g-Cbu">
-                            <rect key="frame" x="226" y="475" width="94" height="29"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <connections>
-                                <action selector="toqueStepperUm:" destination="-1" eventType="valueChanged" id="vz8-KW-l2e"/>
-                            </connections>
-                        </stepper>
-                        <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="8rP-RQ-l2F">
-                            <rect key="frame" x="0.0" y="475" width="94" height="29"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <connections>
-                                <action selector="toqueStepperDois:" destination="-1" eventType="valueChanged" id="SZw-8t-pNt"/>
-                            </connections>
-                        </stepper>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -78,7 +62,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="132"/>
-                        <barButtonItem title="OpenCV" id="131">
+                        <barButtonItem title="Settings" id="131">
                             <connections>
                                 <action selector="apertouTres:" destination="-1" id="145"/>
                             </connections>

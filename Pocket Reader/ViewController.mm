@@ -34,6 +34,7 @@
 @synthesize captureLayer;
 @synthesize stillImage;
 @synthesize tesseract;
+@synthesize dataClass;
 
 
 #pragma mark - Default:
@@ -48,17 +49,11 @@
     captureGrayscale = NO; //Set color capture
     self.camera = -1; //Set back camera
     recognize = NO; //clean Recognize text flag
-    isOpenCVOn = NO; //clean OpenCV Flag
-    isTorchOn = NO; //clean Flash Flag
-    
-    threshold = 128;                        // set threshold stepper (for debug)
-    [self.stepperOne setValue:threshold];
-    [self.stepperOne setMaximumValue:255];
-    [self.stepperOne setMinimumValue:0];
-    n_erode_dilate = 1;                     // set errode_dilatate stepper (for debug)
-    [self.stepperTwo setValue:n_erode_dilate];
-    [self.stepperTwo setMaximumValue:255];
-    [self.stepperTwo setMinimumValue:0];
+    [self setOpenCVOn:YES]; //set OpenCV Flag
+    [self setTorch:NO]; //turn flash off
+    dataClass = [PocketReaderDataClass getInstance];
+    dataClass.threshold = 230;
+    n_erode_dilate = 1;
     //[self.recordPreview setBounds:];
     [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale]; //set camera and it view
     [captureSession startRunning]; //start the camera capturing
@@ -67,18 +62,18 @@
 
 - (void)didReceiveMemoryWarning
 {
-    isOpenCVOn = NO;  //disable OpenCV processing and let ARC clean the memory
+    [self setOpenCVOn:NO];  //disable OpenCV processing and let ARC clean the memory
     [self performSelector:@selector(timerFireMethod:) withObject:nil afterDelay:2.0]; //after 2 seconds turn openCV on again
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-
+    
 }
 
 #pragma mark - Buttons:
 
 - (IBAction)apertouUm:(id)sender
 {
-    isTorchOn = !isTorchOn; //Invert the flash state
+    [self setTorch:![captureDevice isTorchActive]]; //Invert the flash state
 }
 
 - (IBAction)apertouDois:(id)sender
@@ -89,8 +84,8 @@
 
 - (IBAction)apertouTres:(id)sender
 {
-    isOpenCVOn = !isOpenCVOn; //Invert OpenCV processing state
-    
+    UIViewController *configViewController = [[PocketReaderConfigViewController alloc] initWithNibName:@"PocketReaderConfigViewController" bundle:nil];
+    [self presentViewController:configViewController animated:YES completion:NULL];
 }
 
 - (IBAction)handleRotation:(UIRotationGestureRecognizer *)sender {
@@ -139,20 +134,90 @@
     }
 }
 
-- (void)timerFireMethod:(NSTimer*)theTimer{
-    isOpenCVOn=YES; //turn the OpenCV processing back on
-
-}
-
-- (IBAction)toqueStepperUm:(UIStepper *)sender {
-    threshold = self.stepperOne.value; //add value to threshold
-    NSLog(@"Threshold: %f",threshold);
+- (void) setTorch:(BOOL)torchState {
+    if(torchState){
+        NSError *__autoreleasing* errores = NULL;
+        [captureDevice lockForConfiguration:errores];
+        
+        [captureDevice setTorchMode:AVCaptureTorchModeOn];
+        
+        [captureDevice unlockForConfiguration];
+    } else {
+        NSError *__autoreleasing* errores = NULL;
+        [captureDevice lockForConfiguration:errores];
+        
+        [captureDevice setTorchMode:AVCaptureTorchModeOff];
+        
+        [captureDevice unlockForConfiguration];
+    }
     
 }
 
-- (IBAction)toqueStepperDois:(UIStepper *)sender {
-    n_erode_dilate = self.stepperTwo.value; //add value to errode dialte
-    NSLog(@"nerrodefdilatesrta: %d", n_erode_dilate);
+- (void) setOpenCVOn:(BOOL)openCVState {
+    dataClass.isOpenCVOn = openCVState;
+    NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
+    int sublayersCount = [sublayers count];
+    int currentSublayer = 0;
+    
+    if(openCVState){
+
+        
+        [CATransaction begin];
+        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+        
+        // hide all the face layers
+        for (CALayer *layer in sublayers) {
+            NSString *layerName = [layer name];
+            if ([layerName isEqualToString:@"DefaultLayer"])
+                [layer setHidden:YES];
+        }
+        
+        // Create transform to convert from vide frame coordinate space to view coordinate space
+        CGAffineTransform t = [self affineTransformForVideoFrame:self.recordPreview.bounds orientation:AVCaptureVideoOrientationPortrait];
+        
+        CGRect faceRect = CGRectMake(50.0f, 70.0f, 233.0f, 319.0f);
+        
+        faceRect = CGRectApplyAffineTransform(faceRect, t);
+        
+        CALayer *featureLayer = nil;
+        
+        while (!featureLayer && (currentSublayer < sublayersCount)) {
+            CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
+            if ([[currentLayer name] isEqualToString:@"DefaultLayer"]) {
+                featureLayer = currentLayer;
+                [currentLayer setHidden:NO];
+            }
+        }
+        
+        if (!featureLayer) {
+            // Create a new feature marker layer
+            featureLayer = [[CALayer alloc] init];
+            featureLayer.name = @"DefaultLayer";
+            featureLayer.borderColor = [[UIColor redColor] CGColor];
+            featureLayer.borderWidth = 1.0f;
+            [self.recordPreview.layer addSublayer:featureLayer];
+        }
+        
+        featureLayer.frame = faceRect;
+        
+        [CATransaction commit];
+    }
+    else  {
+        
+        for (CALayer *layer in sublayers) {
+            if ([[layer name] isEqualToString:@"DefaultLayer"])
+                [layer setHidden:YES];
+            if ([[layer name] isEqualToString:@"SheetLayer"])
+                [layer setHidden:YES];
+        }
+        
+    }
+}
+
+
+- (void)timerFireMethod:(NSTimer*)theTimer{
+    [self setOpenCVOn:YES]; //turn the OpenCV processing back on
+    
 }
 
 #pragma mark - Tesseract:
@@ -161,9 +226,9 @@
 {
     [self.tesseract clear]; //clean the tesseract
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Português"]) {
-        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"]; //initialize a new tesseract build with the selected language
+        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"]; //initialize a new tesseract instance with the selected language
         if(tesseractHolder) { //if it exists
-            tesseract=tesseractHolder; //set the recently initialided method over the synthesized one
+            tesseract=tesseractHolder; //set the recently initialised method over the synthesized one
             NSLog(@"linguagem muda pra por");
             recognize=true; //set the flag allowing the picture to be taken
         } else
@@ -244,44 +309,22 @@
 {
     //MARK: Most Important Method
     
-    /*if(isTorchOn){
-        NSError *__autoreleasing* errores = NULL;
-        [captureDevice lockForConfiguration:errores];
-        
-        [captureDevice setTorchMode:AVCaptureTorchModeOn];
-        
-        [captureDevice unlockForConfiguration];
-    } else {
-        NSError *__autoreleasing* errores = NULL;
-        [captureDevice lockForConfiguration:errores];
-        
-        [captureDevice setTorchMode:AVCaptureTorchModeOff];
-        
-        [captureDevice unlockForConfiguration];
-     }*/ //need to add all this torch to a watchForKeyValue: method
-    if(isOpenCVOn) {
-        // CMSampleBufferIsValid(sampleBuffer) ? NSLog(@"sampleBuffer is valid") : NSLog(@"WARNING: sampleBuffer is invalid");
+    if(dataClass.isOpenCVOn) {
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-        //OSType format = CVPixelBufferGetPixelFormatType(pixelBuffer);
         CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
         AVCaptureVideoOrientation videoOrientation = AVCaptureVideoOrientationPortrait;
         
         
         CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
-        //
         CIContext *temporaryContext = [CIContext contextWithOptions:nil];
         CGImageRef videoImage = [temporaryContext
                                  createCGImage:ciImage
                                  fromRect:videoRect];
         
-        //UIImage *imageBebug = [UIImage imageWithCGImage:videoImage scale:1.0 orientation:UIImageOrientationRight]; //UIImage portrait when saved to camera roll
+        
         UIImage *imageBebug = [UIImage imageWithCGImage:videoImage];
         CGImageRelease(videoImage);
-        //UIImageWriteToSavedPhotosAlbum(imageBebug, nil, nil, nil);
-        
         cv::Mat mat = [imageBebug CVMat];
-        //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
-        //NSLog(@"salvou caremera lrosal");
         
         [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
         
@@ -290,7 +333,7 @@
         NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
         for (CALayer *layer in sublayers) {
             NSString *layerName = [layer name];
-            if ([layerName isEqualToString:@"FaceLayer"])
+            if ([layerName isEqualToString:@"SheetLayer"])
                 [layer setHidden:YES];
         }
         
@@ -298,11 +341,9 @@
         
     }
     
-    // TODO TODO TODO TODO TODO TODO TODO TODO TODO
     if(recognize){
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];});
-        //[tesseract setVariableValue:@"ABCDEFGHIJKLMNOPQRSTUVWXYZÇabcdefghijklmnopqrstuvwxyzçÁÉÍÓÚáéíóúÜüÔôêÊÀàõÕãÃ!@#$%¨&*()[]{}\"'" forKey:@"tessedit_char_whitelist"];
         NSLog(@"%@",[stillImage description]);
         AVCaptureConnection *vc = [stillImage connectionWithMediaType:AVMediaTypeVideo];
         [stillImage captureStillImageAsynchronouslyFromConnection:vc completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
@@ -314,14 +355,12 @@
             img=[self gs_convert_image:img];
             
             NSLog(@"%@", [img description]);
-            // = [self imageFromSampleBuffer:sampleBuffer];
             if (img!=nil) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.imageView setImage:img];
                     [self.imageView setHidden:NO];
                     
                     [MBProgressHUD hideHUDForView:self.view animated:YES];});
-                //UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil); //NEEDED TO SAVE TO CAMERA ROLL
                 NSLog(@"saiu uimage");
                 
                 
@@ -351,7 +390,7 @@
 - (void)processFrame:(cv::Mat &)mat videoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videOrientation
 {
     // Shrink video frame to 320X240
-     cv::resize(mat, mat, cv::Size(), 0.5f, 0.5f, CV_INTER_LINEAR);
+    cv::resize(mat, mat, cv::Size(), 0.5f, 0.5f, CV_INTER_LINEAR);
     rect.size.width /= 2.0f;
     rect.size.height /= 2.0f;
     
@@ -374,61 +413,48 @@
     }
     cv::flip(mat, mat, 1);
     
-    videOrientation = AVCaptureVideoOrientationPortrait;
     
     // Detect faces
     cv::Rect sheet;
-    // MARK: AQUI ENTRA O OPENCV
-    //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
-    //_faceCascade.detectMultiScale(mat, faces, 1.1, 2, kHaarOptions, cv::Size(60, 60))
+    // MARK: Here comes the OpenCV methods
     
-    
-    
-    //MARK: inicia a colação do metodo contron objectonview aqui
     sheet = [self contornObjectOnView:mat];
+    
     mat.release();
     
+    if(sheet==padrao){
+        recognize=YES;
+    }
     
     // Dispatch updating of face markers to main queue
     dispatch_sync(dispatch_get_main_queue(), ^{
         [self displaySheet:sheet
               forVideoRect:rect
-          videoOrientation:videOrientation
+          videoOrientation:AVCaptureVideoOrientationPortrait
                  withColor:[UIColor greenColor]];
-        [self displayPadrao:padrao
-              forVideoRect:rect
-          videoOrientation:videOrientation
-                 withColor:[UIColor redColor]];
     });
 }
 
 - (cv::Rect) contornObjectOnView:(cv::Mat&)img {
-
     
     cv::Mat m = img.clone();
-    cv::cvtColor(m, m, CV_RGB2GRAY); // Converte pra escala de cinza
+    cv::cvtColor(m, m, CV_RGB2GRAY);
     cv::blur(m, m, cv::Size(5,5));
-    cv::threshold(m, m, threshold, 255,CV_THRESH_BINARY);
+    cv::threshold(m, m, dataClass.threshold, 255,CV_THRESH_BINARY);
     cv::erode(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
     cv::dilate(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
     
     std::vector< std::vector<cv::Point> > contours;
     std::vector<cv::Point> points;
     cv::findContours(m, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+    m.release();
     for (size_t i=0; i<contours.size(); i++) {
         for (size_t j = 0; j < contours[i].size(); j++) {
             cv::Point p = contours[i][j];
             points.push_back(p);
         }
     }
-    // Aqui da pra escolher se quer retornar ou pode contornar aqui mesmo
-    
-    // Se for desenhar o retângulo aqui mesmo:
-    //Senão é só substituir isso por "cv::Rect brect = cv::boundingRect(cv::Mat(points).reshape(2));
     return cv::boundingRect(cv::Mat(points).reshape(2));
-    /*if(points.size() > 0){
-     cv::Rect brect = cv::boundingRect(cv::Mat(points).reshape(2));
-     cv::rectangle(img, brect.tl(), brect.br(), cv::Scalar(100, 100, 200), 2, CV_AA);*/
 }
 
 
@@ -448,62 +474,7 @@
 	// hide all the face layers
 	for (CALayer *layer in sublayers) {
         NSString *layerName = [layer name];
-		if ([layerName isEqualToString:@"FaceLayer"])
-			[layer setHidden:YES];
-	}
-    
-    // Create transform to convert from vide frame coordinate space to view coordinate space
-    CGAffineTransform t = [self affineTransformForVideoFrame:rect orientation:videoOrientation];
-    
-        CGRect faceRect;
-        faceRect.origin.x = squares.x;
-        faceRect.origin.y = squares.y;
-        faceRect.size.width = squares.width;
-        faceRect.size.height = squares.height;
-        NSLog(@"x: %d y: %d width: %d  height: %d", squares.x, squares.y, squares.width, squares.height);
-    
-     faceRect = CGRectApplyAffineTransform(faceRect, t);
-        
-        CALayer *featureLayer = nil;
-        
-        while (!featureLayer && (currentSublayer < sublayersCount)) {
-			CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
-			if ([[currentLayer name] isEqualToString:@"FaceLayer"]) {
-				featureLayer = currentLayer;
-				[currentLayer setHidden:NO];
-			}
-		}
-        
-        if (!featureLayer) {
-            // Create a new feature marker layer
-			featureLayer = [[CALayer alloc] init];
-            featureLayer.name = @"FaceLayer";
-            featureLayer.borderColor = [color CGColor];
-            featureLayer.borderWidth = 1.0f;
-			[self.recordPreview.layer addSublayer:featureLayer];
-		}
-        
-        featureLayer.frame = faceRect;
-    
-    [CATransaction commit];
-}
-
-- (void)displayPadrao:(const cv::Rect &)squares
-        forVideoRect:(CGRect)rect
-    videoOrientation:(AVCaptureVideoOrientation)videoOrientation
-           withColor:(UIColor*) color
-{
-    NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-    int sublayersCount = [sublayers count];
-    int currentSublayer = 0;
-    
-	[CATransaction begin];
-	[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-	
-	// hide all the face layers
-	for (CALayer *layer in sublayers) {
-        NSString *layerName = [layer name];
-		if ([layerName isEqualToString:@"FaceLayer2"])
+		if ([layerName isEqualToString:@"SheetLayer"])
 			[layer setHidden:YES];
 	}
     
@@ -515,7 +486,6 @@
     faceRect.origin.y = squares.y;
     faceRect.size.width = squares.width;
     faceRect.size.height = squares.height;
-    NSLog(@"x: %d y: %d width: %d  height: %d", squares.x, squares.y, squares.width, squares.height);
     
     faceRect = CGRectApplyAffineTransform(faceRect, t);
     
@@ -523,7 +493,7 @@
     
     while (!featureLayer && (currentSublayer < sublayersCount)) {
         CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
-        if ([[currentLayer name] isEqualToString:@"FaceLayer2"]) {
+        if ([[currentLayer name] isEqualToString:@"SheetLayer"]) {
             featureLayer = currentLayer;
             [currentLayer setHidden:NO];
         }
@@ -532,7 +502,7 @@
     if (!featureLayer) {
         // Create a new feature marker layer
         featureLayer = [[CALayer alloc] init];
-        featureLayer.name = @"FaceLayer2";
+        featureLayer.name = @"SheetLayer";
         featureLayer.borderColor = [color CGColor];
         featureLayer.borderWidth = 1.0f;
         [self.recordPreview.layer addSublayer:featureLayer];
@@ -541,8 +511,15 @@
     featureLayer.frame = faceRect;
     
     [CATransaction commit];
+    
+    if(!dataClass.isOpenCVOn){
+        for (CALayer *layer in sublayers) {
+            NSString *layerName = [layer name];
+            if ([layerName isEqualToString:@"SheetLayer"])
+                [layer setHidden:YES];
+        }
+    }
 }
-
 
 #pragma mark - Camera initialization:
 
@@ -628,7 +605,7 @@
     [captureDevice lockForConfiguration:errores];
     
     [captureDevice setTorchMode:AVCaptureTorchModeOff];
-
+    
     [captureDevice unlockForConfiguration];
     // Create the capture session
     captureSession = [[AVCaptureSession alloc] init];

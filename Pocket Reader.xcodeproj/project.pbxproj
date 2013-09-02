@@ -36,6 +36,9 @@
 		329B971517762DBA00846FA9 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971317762DBA00846FA9 /* liblept.a */; };
 		329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971417762DBA00846FA9 /* libtesseract_all.a */; };
 		32C2825F17A5982900926FC6 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 32C2825E17A5982900926FC6 /* tessdata */; };
+		32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */; };
+		32DFDF4317D3F43400D76809 /* PocketReaderConfigViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32DFDF4117D3F43400D76809 /* PocketReaderConfigViewController.xib */; };
+		32DFDF4617D4009F00D76809 /* PocketReaderDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -220,6 +223,11 @@
 		329B971317762DBA00846FA9 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
 		329B971417762DBA00846FA9 /* libtesseract_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract_all.a; sourceTree = "<group>"; };
 		32C2825E17A5982900926FC6 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
+		32DFDF3F17D3F43400D76809 /* PocketReaderConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderConfigViewController.h; sourceTree = "<group>"; };
+		32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderConfigViewController.m; sourceTree = "<group>"; };
+		32DFDF4117D3F43400D76809 /* PocketReaderConfigViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PocketReaderConfigViewController.xib; sourceTree = "<group>"; };
+		32DFDF4417D4009F00D76809 /* PocketReaderDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderDataClass.h; sourceTree = "<group>"; };
+		32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderDataClass.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +257,7 @@
 		3249B3C5172D7FA7009F4D84 = {
 			isa = PBXGroup;
 			children = (
+				325B8E0017D27AF900308DC6 /* iOS 7 BETALIFE THIS SHOULD GO AWAY */,
 				3249B3D7172D7FA7009F4D84 /* Pocket Reader */,
 				3249B3D0172D7FA7009F4D84 /* Frameworks */,
 				3249B3CF172D7FA7009F4D84 /* Products */,
@@ -285,13 +294,17 @@
 		3249B3D7172D7FA7009F4D84 /* Pocket Reader */ = {
 			isa = PBXGroup;
 			children = (
-				325B8E0017D27AF900308DC6 /* iOS 7 BETALIFE THIS SHOULD GO AWAY */,
 				329B967B17762D5200846FA9 /* Aditionals */,
 				3249B3E0172D7FA7009F4D84 /* AppDelegate.h */,
 				3249B3E1172D7FA8009F4D84 /* AppDelegate.m */,
+				32DFDF4417D4009F00D76809 /* PocketReaderDataClass.h */,
+				32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */,
 				3249B3E9172D7FA8009F4D84 /* ViewController.h */,
 				3249B3EA172D7FA8009F4D84 /* ViewController.mm */,
 				3249B3EC172D7FA8009F4D84 /* ViewController.xib */,
+				32DFDF3F17D3F43400D76809 /* PocketReaderConfigViewController.h */,
+				32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */,
+				32DFDF4117D3F43400D76809 /* PocketReaderConfigViewController.xib */,
 				3249B3D8172D7FA7009F4D84 /* Supporting Files */,
 			);
 			path = "Pocket Reader";
@@ -321,6 +334,7 @@
 				325B8E0417D27B4000308DC6 /* QuietAssertMacros.c */,
 			);
 			name = "iOS 7 BETALIFE THIS SHOULD GO AWAY";
+			path = "Pocket Reader";
 			sourceTree = "<group>";
 		};
 		329B967B17762D5200846FA9 /* Aditionals */ = {
@@ -586,6 +600,7 @@
 				3249B3EE172D7FA8009F4D84 /* ViewController.xib in Resources */,
 				3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */,
 				3273F263175C4DE200BC273D /* PRicon.png in Resources */,
+				32DFDF4317D3F43400D76809 /* PocketReaderConfigViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,12 +611,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */,
 				3249B3DE172D7FA7009F4D84 /* main.m in Sources */,
 				325B8E0317D27B2500308DC6 /* fishhook.c in Sources */,
 				3249B3E2172D7FA8009F4D84 /* AppDelegate.m in Sources */,
 				325B8E0517D27B4000308DC6 /* QuietAssertMacros.c in Sources */,
 				325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */,
 				329B967E17762D6500846FA9 /* Tesseract.mm in Sources */,
+				32DFDF4617D4009F00D76809 /* PocketReaderDataClass.m in Sources */,
 				245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */,
 				3249B3EB172D7FA8009F4D84 /* ViewController.mm in Sources */,
 			);
