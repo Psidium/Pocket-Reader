@@ -14,8 +14,14 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>PRicon@2x.png</string>
-				<string>PRicon.png</string>
+				<string>PS2Icon133x133</string>
+				<string>Default</string>
+				<string>PR2Icon120x120</string>
+				<string>PR2Icon144x144</string>
+				<string>PR2Icon57x57</string>
+				<string>PRIcon144x144.png</string>
+				<string></string>
+				<string>PR2Icon57x57.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>

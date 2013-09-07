@@ -11,11 +11,13 @@
 @interface PocketReaderDataClass : NSObject {
     double threshold;
     BOOL isOpenCVOn;
+    int openCVMethodSelector;
 }
 
 
 @property (nonatomic) double threshold;
 @property (nonatomic) BOOL isOpenCVOn;
+@property (nonatomic) int openCVMethodSelector;
 
 +(PocketReaderDataClass*) getInstance;
 @end

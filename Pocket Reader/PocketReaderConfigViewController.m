@@ -33,6 +33,7 @@
     [self.thresholdSlider setValue:dataClass.threshold animated:YES];
     [self.switchOpenCVOn  setOn:dataClass.isOpenCVOn   animated:YES];
     dataClass.isOpenCVOn = NO;
+    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -47,6 +48,10 @@
 }
 
 - (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender {
+}
+
+- (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender {
+    dataClass.openCVMethodSelector = sender.selectedSegmentIndex;
 }
 
 - (IBAction)didBackPressed:(UIButton *)sender {

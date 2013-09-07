@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 245F11A917C5279600114E66 /* UIImage+OpenCV.mm */; };
 		3207A76D17945CC900360D43 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3207A76C17945CC900360D43 /* opencv2.framework */; };
+		3208F87E17D436F3001B8A67 /* PS2Icon133x133.png in Resources */ = {isa = PBXBuildFile; fileRef = 3208F87D17D436F3001B8A67 /* PS2Icon133x133.png */; };
 		3249B3D2172D7FA7009F4D84 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D1172D7FA7009F4D84 /* UIKit.framework */; };
 		3249B3D4172D7FA7009F4D84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D3172D7FA7009F4D84 /* Foundation.framework */; };
 		3249B3D6172D7FA7009F4D84 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D5172D7FA7009F4D84 /* CoreGraphics.framework */; };
@@ -29,22 +30,24 @@
 		32678569177C67D80087D677 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32678568177C67D80087D677 /* CoreImage.framework */; };
 		3273F259175BC4DE00BC273D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F258175BC4DE00BC273D /* AVFoundation.framework */; };
 		3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F25A175BC4E600BC273D /* CoreMotion.framework */; };
-		3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F260175C4DDA00BC273D /* PRicon@2x.png */; };
-		3273F263175C4DE200BC273D /* PRicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3273F262175C4DE200BC273D /* PRicon.png */; };
 		329B967A17762D0000846FA9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B967917762D0000846FA9 /* QuartzCore.framework */; };
 		329B967E17762D6500846FA9 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 329B967D17762D6500846FA9 /* Tesseract.mm */; };
 		329B971517762DBA00846FA9 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971317762DBA00846FA9 /* liblept.a */; };
 		329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971417762DBA00846FA9 /* libtesseract_all.a */; };
+		32A1D00617D435E200E9D2EA /* PR2Icon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 32A1D00517D435E200E9D2EA /* PR2Icon57x57.png */; };
 		32C2825F17A5982900926FC6 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 32C2825E17A5982900926FC6 /* tessdata */; };
 		32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */; };
 		32DFDF4317D3F43400D76809 /* PocketReaderConfigViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32DFDF4117D3F43400D76809 /* PocketReaderConfigViewController.xib */; };
 		32DFDF4617D4009F00D76809 /* PocketReaderDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */; };
+		32DFDF4817D4320E00D76809 /* PR2Icon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DFDF4717D4320E00D76809 /* PR2Icon57x57.png */; };
+		32DFDF4C17D4321C00D76809 /* PR2Icon120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DFDF4B17D4321C00D76809 /* PR2Icon120x120.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		245F11A817C5279600114E66 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
 		245F11A917C5279600114E66 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
 		3207A76C17945CC900360D43 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		3208F87D17D436F3001B8A67 /* PS2Icon133x133.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PS2Icon133x133.png; sourceTree = "<group>"; };
 		3249B3CE172D7FA7009F4D84 /* Pocket Reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket Reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3249B3D1172D7FA7009F4D84 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3249B3D3172D7FA7009F4D84 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -72,8 +75,6 @@
 		32678568177C67D80087D677 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		3273F258175BC4DE00BC273D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3273F25A175BC4E600BC273D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		3273F260175C4DDA00BC273D /* PRicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PRicon@2x.png"; path = "../PRicon@2x.png"; sourceTree = "<group>"; };
-		3273F262175C4DE200BC273D /* PRicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PRicon.png; path = ../PRicon.png; sourceTree = "<group>"; };
 		329B967917762D0000846FA9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		329B967C17762D6500846FA9 /* Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tesseract.h; sourceTree = "<group>"; };
 		329B967D17762D6500846FA9 /* Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tesseract.mm; sourceTree = "<group>"; };
@@ -222,12 +223,16 @@
 		329B971117762DBA00846FA9 /* werdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = werdit.h; sourceTree = "<group>"; };
 		329B971317762DBA00846FA9 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
 		329B971417762DBA00846FA9 /* libtesseract_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract_all.a; sourceTree = "<group>"; };
+		32A1D00517D435E200E9D2EA /* PR2Icon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PR2Icon57x57.png; sourceTree = "<group>"; };
 		32C2825E17A5982900926FC6 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		32DFDF3F17D3F43400D76809 /* PocketReaderConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderConfigViewController.h; sourceTree = "<group>"; };
 		32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderConfigViewController.m; sourceTree = "<group>"; };
 		32DFDF4117D3F43400D76809 /* PocketReaderConfigViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PocketReaderConfigViewController.xib; sourceTree = "<group>"; };
 		32DFDF4417D4009F00D76809 /* PocketReaderDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderDataClass.h; sourceTree = "<group>"; };
 		32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderDataClass.m; sourceTree = "<group>"; };
+		32DFDF4717D4320E00D76809 /* PR2Icon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PR2Icon57x57.png; sourceTree = "<group>"; };
+		32DFDF4B17D4321C00D76809 /* PR2Icon120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PR2Icon120x120.png; sourceTree = "<group>"; };
+		32DFDF4D17D4339900D76809 /* PR2Icon120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PR2Icon120x120.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +262,8 @@
 		3249B3C5172D7FA7009F4D84 = {
 			isa = PBXGroup;
 			children = (
+				32A1D00517D435E200E9D2EA /* PR2Icon57x57.png */,
+				32DFDF4D17D4339900D76809 /* PR2Icon120x120.png */,
 				325B8E0017D27AF900308DC6 /* iOS 7 BETALIFE THIS SHOULD GO AWAY */,
 				3249B3D7172D7FA7009F4D84 /* Pocket Reader */,
 				3249B3D0172D7FA7009F4D84 /* Frameworks */,
@@ -313,8 +320,9 @@
 		3249B3D8172D7FA7009F4D84 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3273F262175C4DE200BC273D /* PRicon.png */,
-				3273F260175C4DDA00BC273D /* PRicon@2x.png */,
+				32DFDF4717D4320E00D76809 /* PR2Icon57x57.png */,
+				32DFDF4B17D4321C00D76809 /* PR2Icon120x120.png */,
+				3208F87D17D436F3001B8A67 /* PS2Icon133x133.png */,
 				3249B3D9172D7FA7009F4D84 /* Pocket Reader-Info.plist */,
 				3249B3DA172D7FA7009F4D84 /* InfoPlist.strings */,
 				3249B3DD172D7FA7009F4D84 /* main.m */,
@@ -592,15 +600,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32DFDF4C17D4321C00D76809 /* PR2Icon120x120.png in Resources */,
 				3249B3DC172D7FA7009F4D84 /* InfoPlist.strings in Resources */,
 				32C2825F17A5982900926FC6 /* tessdata in Resources */,
 				3249B3E4172D7FA8009F4D84 /* Default.png in Resources */,
 				3249B3E6172D7FA8009F4D84 /* Default@2x.png in Resources */,
+				32DFDF4817D4320E00D76809 /* PR2Icon57x57.png in Resources */,
 				3249B3E8172D7FA8009F4D84 /* Default-568h@2x.png in Resources */,
 				3249B3EE172D7FA8009F4D84 /* ViewController.xib in Resources */,
-				3273F261175C4DDA00BC273D /* PRicon@2x.png in Resources */,
-				3273F263175C4DE200BC273D /* PRicon.png in Resources */,
+				3208F87E17D436F3001B8A67 /* PS2Icon133x133.png in Resources */,
 				32DFDF4317D3F43400D76809 /* PocketReaderConfigViewController.xib in Resources */,
+				32A1D00617D435E200E9D2EA /* PR2Icon57x57.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

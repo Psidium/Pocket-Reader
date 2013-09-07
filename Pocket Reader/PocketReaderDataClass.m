@@ -12,6 +12,7 @@
 
 @synthesize isOpenCVOn;
 @synthesize threshold;
+@synthesize openCVMethodSelector;
 
 static PocketReaderDataClass *instance = nil;
 
