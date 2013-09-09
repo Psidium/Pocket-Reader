@@ -19,9 +19,11 @@
 @property (strong, nonatomic) IBOutlet UISwitch *switchOpenCVOn;
 @property (strong, nonatomic) IBOutlet UINavigationItem *settingsNavigationItem;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentControlMethodSelector;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *languageSelectorOne;
 
 - (IBAction)didChngeThresholdValue:(UISlider *)sender;
 - (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender;
 - (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender;
+- (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender;
 
 @end

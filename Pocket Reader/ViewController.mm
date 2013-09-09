@@ -78,10 +78,47 @@
     [self setTorch:![captureDevice isTorchActive]]; //Invert the flash state
 }
 
+#pragma mark - Tesseract:
+
 - (IBAction)apertouDois:(id)sender
 {
-    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:@"Língua:" message:@"Selecione a língua:" delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Português",@"Inglês",@"Espanhol",@"Alemão", nil]; //create an alert for selecting the language of tesseract before taking the picture
-    [alerta show]; //shows the alert
+    [self.tesseract clear]; //clean the tesseract
+    if (self.dataClass.tesseractLanguageSelector == 0) {
+        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"]; //initialize a new tesseract instance with the selected language
+        if(tesseractHolder) { //if it exists
+            tesseract=tesseractHolder; //set the recently initialised method over the synthesized one
+            NSLog(@"linguagem muda pra por");
+            recognize=true; //set the flag allowing the picture to be taken
+        } else
+            NSLog(@"erro na troca de linguagem pra por");
+    }
+    else { if (self.dataClass.tesseractLanguageSelector == 1) {
+        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"]; //same thing as before, but for english
+        if(tesseractHolder) {
+            tesseract=tesseractHolder;
+            NSLog(@"linguagem muda pra eng");
+            recognize=true;
+        } else
+            NSLog(@"erro na troca de linguagem pra eng");
+    }
+    else { if (self.dataClass.tesseractLanguageSelector == 2) {
+        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"spa"]; //same thing as before, but for spanish
+        if(tesseractHolder) {
+            tesseract=tesseractHolder;
+            NSLog(@"linguagem muda pra spa");
+            recognize=true;
+        } else
+            NSLog(@"erro na troca de linguagem pra spa");
+    }
+    else { if (self.dataClass.tesseractLanguageSelector == 3) {
+        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"deu"]; //same thing as before, but for german
+        if(tesseractHolder) {
+            tesseract=tesseractHolder;
+            NSLog(@"linguagem muda pra deu");
+            recognize=true;
+        } else
+            NSLog(@"erro na troca de linguagem pra deu");
+    }}}}
 }
 
 - (IBAction)apertouTres:(id)sender
@@ -224,49 +261,6 @@
 - (void)timerFireMethod:(NSTimer*)theTimer{
     [self setOpenCVOn:YES]; //turn the OpenCV processing back on
     
-}
-
-#pragma mark - Tesseract:
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [self.tesseract clear]; //clean the tesseract
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Português"]) {
-        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"]; //initialize a new tesseract instance with the selected language
-        if(tesseractHolder) { //if it exists
-            tesseract=tesseractHolder; //set the recently initialised method over the synthesized one
-            NSLog(@"linguagem muda pra por");
-            recognize=true; //set the flag allowing the picture to be taken
-        } else
-            NSLog(@"erro na troca de linguagem pra por");
-    }
-    else { if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Inglês"]) {
-        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"]; //same thing as before, but for english
-        if(tesseractHolder) {
-            tesseract=tesseractHolder;
-            NSLog(@"linguagem muda pra eng");
-            recognize=true;
-        } else
-            NSLog(@"erro na troca de linguagem pra eng");
-    }
-    else { if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Espanhol"]) {
-        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"spa"]; //same thing as before, but for spanish
-        if(tesseractHolder) {
-            tesseract=tesseractHolder;
-            NSLog(@"linguagem muda pra spa");
-            recognize=true;
-        } else
-            NSLog(@"erro na troca de linguagem pra spa");
-    }
-    else { if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Alemão"]) {
-        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"deu"]; //same thing as before, but for german
-        if(tesseractHolder) {
-            tesseract=tesseractHolder;
-            NSLog(@"linguagem muda pra deu");
-            recognize=true;
-        } else
-            NSLog(@"erro na troca de linguagem pra deu");
-    }}}}
 }
 
 #pragma mark - Image processing:

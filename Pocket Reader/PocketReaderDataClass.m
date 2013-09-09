@@ -14,6 +14,7 @@
 @synthesize threshold;
 @synthesize openCVMethodSelector;
 @synthesize tesseractLanguage;
+@synthesize tesseractLanguageSelector;
 
 static PocketReaderDataClass *instance = nil;
 

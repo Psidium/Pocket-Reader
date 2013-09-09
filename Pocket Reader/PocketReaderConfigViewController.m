@@ -56,6 +56,10 @@
     dataClass.openCVMethodSelector = sender.selectedSegmentIndex;
 }
 
+- (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender {
+    dataClass.tesseractLanguageSelector = sender.selectedSegmentIndex;
+}
+
 - (IBAction)didDonePressed:(id)sender {
     dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
     [self dismissViewControllerAnimated:YES completion:NULL];

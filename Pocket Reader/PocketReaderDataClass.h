@@ -13,6 +13,7 @@
     BOOL isOpenCVOn;
     int openCVMethodSelector;
     NSString* tesseractLanguage;
+    int tesseractLanguageSelector;
 }
 
 
@@ -20,6 +21,7 @@
 @property (nonatomic) double threshold;
 @property (nonatomic) BOOL isOpenCVOn;
 @property (nonatomic) int openCVMethodSelector;
+@property (nonatomic) int tesseractLanguageSelector;
 
 +(PocketReaderDataClass*) getInstance;
 @end
