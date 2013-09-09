@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
 
-@interface PocketReaderConfigViewController : UIViewController  {
+@interface PocketReaderConfigViewController : UITableViewController  {
     
     PocketReaderDataClass * dataClass;
 }
@@ -17,12 +17,11 @@
 @property (strong, nonatomic) IBOutlet UISlider *thresholdSlider;
 @property (nonatomic) PocketReaderDataClass * dataClass;
 @property (strong, nonatomic) IBOutlet UISwitch *switchOpenCVOn;
+@property (strong, nonatomic) IBOutlet UINavigationItem *settingsNavigationItem;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentControlMethodSelector;
 
 - (IBAction)didChngeThresholdValue:(UISlider *)sender;
 - (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender;
 - (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender;
-
-- (IBAction)didBackPressed:(UIButton *)sender;
 
 @end

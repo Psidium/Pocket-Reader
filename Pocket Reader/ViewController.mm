@@ -89,7 +89,7 @@
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
                                                              bundle: nil];
     
-    ViewController *controller = (ViewController*)[mainStoryboard
+    PocketReaderConfigViewController *controller = [mainStoryboard
                                                        instantiateViewControllerWithIdentifier: @"storyboardTwo"];
     [self presentViewController:controller animated:YES completion:NULL];
 }

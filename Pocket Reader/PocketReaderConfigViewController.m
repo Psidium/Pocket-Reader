@@ -17,6 +17,7 @@
 
 @synthesize dataClass;
 
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,8 +33,9 @@
     dataClass = [PocketReaderDataClass getInstance];
     [self.thresholdSlider setValue:dataClass.threshold animated:YES];
     [self.switchOpenCVOn  setOn:dataClass.isOpenCVOn   animated:YES];
+    [self.segmentControlMethodSelector setSelectedSegmentIndex:dataClass.openCVMethodSelector];
     dataClass.isOpenCVOn = NO;
-    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    self.settingsNavigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(didDonePressed:)];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -54,7 +56,7 @@
     dataClass.openCVMethodSelector = sender.selectedSegmentIndex;
 }
 
-- (IBAction)didBackPressed:(UIButton *)sender {
+- (IBAction)didDonePressed:(id)sender {
     dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
