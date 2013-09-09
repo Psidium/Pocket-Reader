@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3734.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--View Controller - storyboardOne-->
         <scene sceneID="VaK-il-826">
             <objects>
-                <viewController id="oYx-kR-ddB" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="storyboardOne" title="storyboardOne" id="oYx-kR-ddB" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gx9-SM-gUf"/>
                         <viewControllerLayoutGuide type="bottom" id="0R5-MJ-Sqk"/>
@@ -22,7 +22,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S2C-h1-axn">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="517"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <gestureRecognizers/>
                                         <connections>
@@ -33,7 +33,7 @@
                                         </connections>
                                     </imageView>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EyR-2w-ZTb">
-                                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <items>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="cwI-Xq-Hrx"/>
@@ -52,7 +52,6 @@
                                             <barButtonItem title="Settings" id="agy-1K-YKC">
                                                 <connections>
                                                     <action selector="apertouTres:" destination="oYx-kR-ddB" id="A2A-hP-cee"/>
-                                                    <segue destination="Ie1-52-AfM" kind="push" id="8v1-Ma-rOU"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="Fu7-DN-fS9"/>
@@ -98,10 +97,10 @@
             </objects>
             <point key="canvasLocation" x="1594" y="-321"/>
         </scene>
-        <!--Pocket Reader Config View Controller-->
+        <!--Pocket Reader Config View Controller - storyboardTwo-->
         <scene sceneID="Axc-6L-1Up">
             <objects>
-                <viewController id="Ie1-52-AfM" customClass="PocketReaderConfigViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="storyboardTwo" title="storyboardTwo" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ie1-52-AfM" customClass="PocketReaderConfigViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Qxk-ow-Zyo"/>
                         <viewControllerLayoutGuide type="bottom" id="n76-do-wdP"/>
@@ -110,61 +109,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Threshold" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="foi-DH-FmN">
-                                <rect key="frame" x="20" y="75" width="76" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OpenCV" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ik-ep-1IH">
-                                <rect key="frame" x="20" y="273" width="65" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="fhS-EU-vb0">
-                                <rect key="frame" x="18" y="104" width="284" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="didChngeThresholdValue:" destination="Ie1-52-AfM" eventType="valueChanged" id="AEN-Gw-AmB"/>
-                                </connections>
-                            </slider>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5pl-xQ-rV8">
-                                <rect key="frame" x="251" y="268" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="didChangeIsOpenCVOnValue:" destination="Ie1-52-AfM" eventType="valueChanged" id="JDK-Z2-6cV"/>
-                                </connections>
-                            </switch>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="umX-Sw-bHN">
-                                <rect key="frame" x="20" y="384" width="280" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="contornObject"/>
-                                    <segment title="findSquares"/>
-                                </segments>
-                                <connections>
-                                    <action selector="didChangedSegmentControl:" destination="Ie1-52-AfM" eventType="valueChanged" id="aBX-u5-n8j"/>
-                                </connections>
-                            </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X1u-ka-1z9">
-                                <rect key="frame" x="20" y="518" width="39" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Voltar">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didBackPressed:" destination="Ie1-52-AfM" eventType="touchUpInside" id="eZY-mk-j3r"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pka-4Q-MyJ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GF1-Pi-Kzd">
+                                        <rect key="frame" x="-48" y="81" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Threshold" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SvI-ww-KS8">
+                                        <rect key="frame" x="20" y="20" width="76" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OpenCV" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cig-Bu-T2c">
+                                        <rect key="frame" x="20" y="165" width="65" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="MYj-XT-xIH">
+                                        <rect key="frame" x="18" y="49" width="284" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="didChngeThresholdValue:" destination="Ie1-52-AfM" eventType="valueChanged" id="j3p-ny-6Fb"/>
+                                        </connections>
+                                    </slider>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lnv-d9-5xG">
+                                        <rect key="frame" x="224" y="160" width="51" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="didChangeIsOpenCVOnValue:" destination="Ie1-52-AfM" eventType="valueChanged" id="wnS-ks-KOv"/>
+                                        </connections>
+                                    </switch>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SNf-mt-d85">
+                                        <rect key="frame" x="20" y="289" width="280" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="contornObject"/>
+                                            <segment title="findSquares"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="didChangedSegmentControl:" destination="Ie1-52-AfM" eventType="valueChanged" id="3bn-nF-RQU"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r75-o3-jQC">
+                                        <rect key="frame" x="20" y="430" width="45" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Voltar">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didBackPressed:" destination="Ie1-52-AfM" eventType="touchUpInside" id="7tk-ZO-p3o"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="8rG-CL-FeR"/>
                     <connections>
-                        <outlet property="segmentControlMethodSelector" destination="umX-Sw-bHN" id="cxh-dY-qhu"/>
-                        <outlet property="switchOpenCVOn" destination="5pl-xQ-rV8" id="zc1-DI-bvW"/>
-                        <outlet property="thresholdSlider" destination="fhS-EU-vb0" id="D0Q-8Y-RK0"/>
+                        <outlet property="segmentControlMethodSelector" destination="SNf-mt-d85" id="4LJ-qM-MwM"/>
+                        <outlet property="switchOpenCVOn" destination="Lnv-d9-5xG" id="PXf-fV-F5Q"/>
+                        <outlet property="thresholdSlider" destination="MYj-XT-xIH" id="tUd-iF-tFE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pu5-5p-ejJ" userLabel="First Responder" sceneMemberID="firstResponder"/>

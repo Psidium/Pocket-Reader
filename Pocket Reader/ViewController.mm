@@ -86,8 +86,12 @@
 
 - (IBAction)apertouTres:(id)sender
 {
-    UIViewController *configViewController = [[PocketReaderConfigViewController alloc] initWithNibName:@"PocketReaderConfigViewController" bundle:nil];
-    [self presentViewController:configViewController animated:YES completion:NULL];
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle: nil];
+    
+    ViewController *controller = (ViewController*)[mainStoryboard
+                                                       instantiateViewControllerWithIdentifier: @"storyboardTwo"];
+    [self presentViewController:controller animated:YES completion:NULL];
 }
 
 - (IBAction)handleRotation:(UIRotationGestureRecognizer *)sender {

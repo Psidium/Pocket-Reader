@@ -48,7 +48,6 @@
 }
 
 - (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender {
-    dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
 }
 
 - (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender {
@@ -56,6 +55,7 @@
 }
 
 - (IBAction)didBackPressed:(UIButton *)sender {
+    dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 @end
