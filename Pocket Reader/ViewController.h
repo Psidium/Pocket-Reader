@@ -28,11 +28,11 @@
     BOOL recognize;
     PocketReaderDataClass * dataClass;    
     int n_erode_dilate; // Precisa ajustar pro iPhone
+    BOOL isMemoryAlmostFull;
    
 }
 
 @property (strong, nonatomic) IBOutlet UIView *recordPreview;
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureLayer;
 @property (strong, nonatomic) AVCaptureDevice *captureDevice;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *videoOutput;
@@ -41,20 +41,13 @@
 @property (strong, nonatomic) Tesseract* tesseract;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *um;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *dois;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *tres;
-@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *handleTap;
 @property (nonatomic) int camera;
 @property (weak, nonatomic) NSString * const qualityPreset;
 @property (nonatomic) BOOL captureGrayscale;
 @property (nonatomic) PocketReaderDataClass * dataClass;
+@property (nonatomic) BOOL isMemoryAlmostFull;
 
 - (IBAction) apertouUm:(id)sender;
 - (IBAction) apertouDois:(id)sender;
-- (IBAction) apertouTres:(id)sender;
-- (IBAction)handleRotation:(UIRotationGestureRecognizer *)sender;
-- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
-- (IBAction)handlePinch:(UIPinchGestureRecognizer *)sender;
-- (IBAction)handleTap:(UITapGestureRecognizer *)sender;
-- (void) setOpenCVOn:(BOOL)openCVState;
 
 @end

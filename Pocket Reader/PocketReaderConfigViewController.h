@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
 
-@interface PocketReaderConfigViewController : UITableViewController  {
+@interface PocketReaderConfigViewController : UITableViewController {
     
     PocketReaderDataClass * dataClass;
 }

@@ -35,6 +35,7 @@
 @synthesize stillImage;
 @synthesize tesseract;
 @synthesize dataClass;
+@synthesize isMemoryAlmostFull;
 
 
 #pragma mark - Default:
@@ -49,9 +50,12 @@
     captureGrayscale = NO; //Set color capture
     self.camera = -1; //Set back camera
     recognize = NO; //clean Recognize text flag
-    [self setOpenCVOn:YES]; //set OpenCV Flag
+    [self timerFireMethod:nil]; // prints a red rectangle on the screen for DEBUG
     [self setTorch:NO]; //turn flash off
     dataClass = [PocketReaderDataClass getInstance];
+    dataClass.isOpenCVOn = YES;
+    isMemoryAlmostFull = NO;
+    dataClass.tesseractLanguage = @"por";
     dataClass.threshold = 230;
     n_erode_dilate = 1;
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
@@ -64,7 +68,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-    [self setOpenCVOn:NO];  //disable OpenCV processing and let ARC clean the memory
+    isMemoryAlmostFull = YES; //disable OpenCV processing and let ARC clean the memory
     [self performSelector:@selector(timerFireMethod:) withObject:nil afterDelay:2.0]; //after 2 seconds turn openCV on again
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -83,98 +87,10 @@
 - (IBAction)apertouDois:(id)sender
 {
     [self.tesseract clear]; //clean the tesseract
-    if (self.dataClass.tesseractLanguageSelector == 0) {
-        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"]; //initialize a new tesseract instance with the selected language
-        if(tesseractHolder) { //if it exists
-            tesseract=tesseractHolder; //set the recently initialised method over the synthesized one
-            NSLog(@"linguagem muda pra por");
-            recognize=true; //set the flag allowing the picture to be taken
-        } else
-            NSLog(@"erro na troca de linguagem pra por");
-    }
-    else { if (self.dataClass.tesseractLanguageSelector == 1) {
-        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"]; //same thing as before, but for english
-        if(tesseractHolder) {
+    Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
             tesseract=tesseractHolder;
-            NSLog(@"linguagem muda pra eng");
-            recognize=true;
-        } else
-            NSLog(@"erro na troca de linguagem pra eng");
-    }
-    else { if (self.dataClass.tesseractLanguageSelector == 2) {
-        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"spa"]; //same thing as before, but for spanish
-        if(tesseractHolder) {
-            tesseract=tesseractHolder;
-            NSLog(@"linguagem muda pra spa");
-            recognize=true;
-        } else
-            NSLog(@"erro na troca de linguagem pra spa");
-    }
-    else { if (self.dataClass.tesseractLanguageSelector == 3) {
-        Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"deu"]; //same thing as before, but for german
-        if(tesseractHolder) {
-            tesseract=tesseractHolder;
-            NSLog(@"linguagem muda pra deu");
-            recognize=true;
-        } else
-            NSLog(@"erro na troca de linguagem pra deu");
-    }}}}
-}
-
-- (IBAction)apertouTres:(id)sender
-{
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
-                                                             bundle: nil];
-    
-    PocketReaderConfigViewController *controller = [mainStoryboard
-                                                       instantiateViewControllerWithIdentifier: @"storyboardTwo"];
-    [self presentViewController:controller animated:YES completion:NULL];
-}
-
-- (IBAction)handleRotation:(UIRotationGestureRecognizer *)sender {
-    sender.view.transform = CGAffineTransformRotate(sender.view.transform, sender.rotation); //Rotate the UIImageView which debugs the OCR photo
-    sender.rotation = 0;
-}
-
-
-- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer {
-    if(![self.imageView isHidden]){
-        CGPoint translation = [recognizer translationInView:self.imageView]; //some methods for handling touch on the OCR photo
-        recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
-                                             recognizer.view.center.y + translation.y);
-        [recognizer setTranslation:CGPointMake(0, 0) inView:self.imageView];
-    }
-    
-    if (recognizer.state == UIGestureRecognizerStateEnded) {
-        
-        CGPoint velocity = [recognizer velocityInView:self.view];
-        CGFloat magnitude = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
-        CGFloat slideMult = magnitude / 200;
-        NSLog(@"magnitude: %f, slideMult: %f", magnitude, slideMult);
-        
-        float slideFactor = 0.1 * slideMult; // Increase for more of a slide
-        CGPoint finalPoint = CGPointMake(recognizer.view.center.x + (velocity.x * slideFactor),
-                                         recognizer.view.center.y + (velocity.y * slideFactor));
-        finalPoint.x = MIN(MAX(finalPoint.x, 0), self.view.bounds.size.width);
-        finalPoint.y = MIN(MAX(finalPoint.y, 0), self.view.bounds.size.height);
-        
-        [UIView animateWithDuration:slideFactor*2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            recognizer.view.center = finalPoint;
-        } completion:nil];
-        
-    }
-}
-
-- (IBAction)handlePinch:(UIPinchGestureRecognizer *)sender {
-    sender.view.transform = CGAffineTransformScale(sender.view.transform, sender.scale, sender.scale); //change the scale of UIImageView
-    sender.scale = 1;
-}
-
-- (IBAction)handleTap:(UITapGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateEnded) {
-        [self.imageView setHidden:YES]; //dipose the UIImageView
-        
-    }
+    NSLog(@"Mudou pra %@",dataClass.tesseractLanguage);
+    recognize=YES;
 }
 
 - (void) setTorch:(BOOL)torchState {
@@ -196,71 +112,8 @@
     
 }
 
-- (void) setOpenCVOn:(BOOL)openCVState {
-    dataClass.isOpenCVOn = openCVState;
-    NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-    int sublayersCount = [sublayers count];
-    int currentSublayer = 0;
-    
-    if(openCVState){
-        
-        
-        [CATransaction begin];
-        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-        
-        // hide all the face layers
-        for (CALayer *layer in sublayers) {
-            NSString *layerName = [layer name];
-            if ([layerName isEqualToString:@"DefaultLayer"])
-                [layer setHidden:YES];
-        }
-        
-        // Create transform to convert from vide frame coordinate space to view coordinate space
-        CGAffineTransform t = [self affineTransformForVideoFrame:self.recordPreview.bounds orientation:AVCaptureVideoOrientationPortrait];
-        
-        CGRect faceRect = CGRectMake(50.0f, 70.0f, 233.0f, 319.0f);
-        
-        faceRect = CGRectApplyAffineTransform(faceRect, t);
-        
-        CALayer *featureLayer = nil;
-        
-        while (!featureLayer && (currentSublayer < sublayersCount)) {
-            CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
-            if ([[currentLayer name] isEqualToString:@"DefaultLayer"]) {
-                featureLayer = currentLayer;
-                [currentLayer setHidden:NO];
-            }
-        }
-        
-        if (!featureLayer) {
-            // Create a new feature marker layer
-            featureLayer = [[CALayer alloc] init];
-            featureLayer.name = @"DefaultLayer";
-            featureLayer.borderColor = [[UIColor redColor] CGColor];
-            featureLayer.borderWidth = 1.0f;
-            [self.recordPreview.layer addSublayer:featureLayer];
-        }
-        
-        featureLayer.frame = faceRect;
-        
-        [CATransaction commit];
-    }
-    else  {
-        
-        for (CALayer *layer in sublayers) {
-            if ([[layer name] isEqualToString:@"DefaultLayer"])
-                [layer setHidden:YES];
-            if ([[layer name] isEqualToString:@"SheetLayer"])
-                [layer setHidden:YES];
-        }
-        
-    }
-}
-
-
-- (void)timerFireMethod:(NSTimer*)theTimer{
-    [self setOpenCVOn:YES]; //turn the OpenCV processing back on
-    
+- (void)timerFireMethod:(NSTimer*)theTimer {
+    isMemoryAlmostFull = NO;
 }
 
 #pragma mark - Image processing:
@@ -309,7 +162,54 @@
 {
     //MARK: Most Important Method
     
-    if(dataClass.isOpenCVOn) {
+    if((dataClass.isOpenCVOn) && (!isMemoryAlmostFull)) {
+        
+        NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
+        int sublayersCount = [sublayers count];
+        int currentSublayer = 0;
+        
+        [CATransaction begin];
+        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+        
+        // hide all the face layers
+        for (CALayer *layer in sublayers) {
+            NSString *layerName = [layer name];
+            if ([layerName isEqualToString:@"DefaultLayer"])
+                [layer setHidden:YES];
+        }
+        
+        // Create transform to convert from vide frame coordinate space to view coordinate space
+        CGAffineTransform t = [self affineTransformForVideoFrame:self.recordPreview.bounds orientation:AVCaptureVideoOrientationPortrait];
+        
+        CGRect faceRect = CGRectMake(50.0f, 70.0f, 233.0f, 319.0f);
+        
+        faceRect = CGRectApplyAffineTransform(faceRect, t);
+        
+        CALayer *featureLayer = nil;
+        
+        while (!featureLayer && (currentSublayer < sublayersCount)) {
+            CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
+            if ([[currentLayer name] isEqualToString:@"DefaultLayer"]) {
+                featureLayer = currentLayer;
+                [currentLayer setHidden:NO];
+            }
+        }
+        
+        if (!featureLayer) {
+            // Create a new feature marker layer
+            featureLayer = [[CALayer alloc] init];
+            featureLayer.name = @"DefaultLayer";
+            featureLayer.borderColor = [[UIColor redColor] CGColor];
+            featureLayer.borderWidth = 1.0f;
+            [self.recordPreview.layer addSublayer:featureLayer];
+        }
+        
+        
+        
+        featureLayer.frame = faceRect;
+        
+        [CATransaction commit];
+        
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
         AVCaptureVideoOrientation videoOrientation = AVCaptureVideoOrientationPortrait;
@@ -329,11 +229,18 @@
         [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
         
         mat.release();
+        
     } else {
         NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
         for (CALayer *layer in sublayers) {
             NSString *layerName = [layer name];
             if ([layerName isEqualToString:@"SheetLayer"])
+                [layer setHidden:YES];
+        }
+        for (CALayer *layer in sublayers) {
+            if ([[layer name] isEqualToString:@"DefaultLayer"])
+                [layer setHidden:YES];
+            if ([[layer name] isEqualToString:@"SheetLayer"])
                 [layer setHidden:YES];
         }
         
@@ -357,8 +264,6 @@
             NSLog(@"%@", [img description]);
             if (img!=nil) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.imageView setImage:img];
-                    [self.imageView setHidden:NO];
                     
                     [MBProgressHUD hideHUDForView:self.view animated:YES];});
                 NSLog(@"saiu uimage");

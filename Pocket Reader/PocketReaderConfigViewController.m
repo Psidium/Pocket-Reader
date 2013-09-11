@@ -17,7 +17,6 @@
 
 @synthesize dataClass;
 
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,10 +31,9 @@
     [super viewDidLoad];
     dataClass = [PocketReaderDataClass getInstance];
     [self.thresholdSlider setValue:dataClass.threshold animated:YES];
-    [self.switchOpenCVOn  setOn:dataClass.isOpenCVOn   animated:YES];
+    [self.switchOpenCVOn  setOn:YES animated:YES];
     [self.segmentControlMethodSelector setSelectedSegmentIndex:dataClass.openCVMethodSelector];
-    dataClass.isOpenCVOn = NO;
-    self.settingsNavigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(didDonePressed:)];
+    [self.languageSelectorOne setSelectedSegmentIndex:dataClass.tesseractLanguageSelector];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -50,18 +48,25 @@
 }
 
 - (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender {
+    dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
 }
 
-- (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender {
+- (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender {    
     dataClass.openCVMethodSelector = sender.selectedSegmentIndex;
 }
 
 - (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender {
     dataClass.tesseractLanguageSelector = sender.selectedSegmentIndex;
+    if (sender.selectedSegmentIndex == 0) {
+        dataClass.tesseractLanguage = @"por";
+    }
+    if (sender.selectedSegmentIndex == 1) {
+        dataClass.tesseractLanguage = @"eng";
+    }if (sender.selectedSegmentIndex == 2) {
+        dataClass.tesseractLanguage = @"spa";
+    }if (sender.selectedSegmentIndex == 3) {
+        dataClass.tesseractLanguage = @"deu";
+    }
 }
 
-- (IBAction)didDonePressed:(id)sender {
-    dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
 @end
