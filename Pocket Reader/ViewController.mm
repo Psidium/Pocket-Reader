@@ -54,6 +54,7 @@
     [self setTorch:NO]; //turn flash off
     dataClass = [PocketReaderDataClass getInstance];
     dataClass.isOpenCVOn = YES;
+    dataClass.binarizeSelector=0;
     isMemoryAlmostFull = NO;
     dataClass.tesseractLanguage = @"por";
     dataClass.threshold = 230;
@@ -249,7 +250,9 @@
     }
     
     if(recognize){
+        BOOL torchPreviousState = [captureDevice isTorchActive];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self setTorch:NO];
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];});
         NSLog(@"%@",[stillImage description]);
         AVCaptureConnection *vc = [stillImage connectionWithMediaType:AVMediaTypeVideo];
@@ -264,12 +267,8 @@
             NSLog(@"%@", [img description]);
             if (img!=nil) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
                     [MBProgressHUD hideHUDForView:self.view animated:YES];});
-                NSLog(@"saiu uimage");
-                
-                
-                [self.tesseract setImage:img];
+                NSLog(@"saiu uimage");                [self.tesseract setImage:img];
                 NSLog(@"começa a reconhecer");
                 NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
                 NSLog(@"terminou");
@@ -284,6 +283,7 @@
                 }
                 UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Texto reconhecido:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [message show];
+                [self setTorch:torchPreviousState];
             }
         }];
         recognize=false;
@@ -348,8 +348,7 @@
     cv::Mat m = img.clone();
     cv::cvtColor(m, m, CV_RGB2GRAY);
     cv::blur(m, m, cv::Size(5,5));
-    cv::threshold(m, m, dataClass.threshold, 255,CV_THRESH_BINARY);
-    cv::erode(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
+    cv::threshold(m, m, dataClass.threshold, 255,dataClass.binarizeSelector);   cv::erode(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
     cv::dilate(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
     
     std::vector< std::vector<cv::Point> > contours;

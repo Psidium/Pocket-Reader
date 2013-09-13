@@ -69,4 +69,17 @@
     }
 }
 
+- (IBAction)didChangedBinarizeSegment:(UISegmentedControl *)sender {
+    dataClass.binarizeSelector = sender.selectedSegmentIndex;
+    
+    if (sender.selectedSegmentIndex == 0)
+        [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:@"Higher threshold is better" attributes:@ {
+        NSFontAttributeName: [UIFont systemFontOfSize:10]
+        }]];
+    else if (sender.selectedSegmentIndex == 1)
+        [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:@"Lower threshold is better" attributes:@ {
+        NSFontAttributeName: [UIFont systemFontOfSize:10]
+        }]];
+}
+
 @end

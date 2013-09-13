@@ -61,11 +61,11 @@
             </objects>
             <point key="canvasLocation" x="1611" y="-1121"/>
         </scene>
-        <!--Navigation Controller - Item-->
+        <!--Navigation Controller - Settings-->
         <scene sceneID="cZY-18-lC0">
             <objects>
                 <navigationController definesPresentationContext="YES" id="hg9-vu-ZbR" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="ZQS-NT-DSO"/>
+                    <tabBarItem key="tabBarItem" title="Settings" id="ZQS-NT-DSO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aAe-rL-VpR">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -147,7 +147,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="zLH-9s-9Sp">
-                                        <rect key="frame" x="0.0" y="317" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="317" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zLH-9s-9Sp" id="Wog-Hl-Is8">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -169,12 +169,54 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="65" id="er5-0o-s67">
+                                        <rect key="frame" x="0.0" y="361" width="320" height="66"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="er5-0o-s67" id="XmG-Gz-kHR">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="64"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Binarize" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tgb-Ty-fXB">
+                                                    <rect key="frame" x="20" y="10" width="62" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1iH-Xp-iLz">
+                                                    <rect key="frame" x="123" y="10" width="166" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <segments>
+                                                        <segment title="Normal"/>
+                                                        <segment title="Inverted"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="didChangedBinarizeSegment:" destination="vPL-gl-hKy" eventType="valueChanged" id="86m-5m-XYX"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="95" translatesAutoresizingMaskIntoConstraints="NO" id="eFF-5a-2mu">
+                                                    <rect key="frame" x="20" y="26" width="95" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Higher threshold is better">
+                                                            <attributes>
+                                                                <color key="NSColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <font key="NSFont" size="10" name="HelveticaNeue"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="truncatingTail" baseWritingDirection="natural"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Debug" footerTitle="debug" id="DcK-Jq-C0m">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="111" id="STq-QL-w8H">
-                                        <rect key="frame" x="0.0" y="456" width="320" height="113"/>
+                                        <rect key="frame" x="0.0" y="521" width="320" height="113"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="STq-QL-w8H" id="CjT-7S-BZg">
                                             <rect key="frame" x="10" y="1" width="300" height="110"/>
@@ -212,6 +254,7 @@
                     <tabBarItem key="tabBarItem" title="Settings" id="46b-dd-G02"/>
                     <navigationItem key="navigationItem" title="Settings" id="e47-QX-hN9"/>
                     <connections>
+                        <outlet property="binarizeHint" destination="eFF-5a-2mu" id="juP-E0-pSX"/>
                         <outlet property="languageSelectorOne" destination="bug-bX-oq2" id="rec-hJ-St9"/>
                         <outlet property="segmentControlMethodSelector" destination="Glh-jz-uMb" id="hOc-ri-WQS"/>
                         <outlet property="switchOpenCVOn" destination="T8t-FA-RCO" id="rJG-vm-ntK"/>

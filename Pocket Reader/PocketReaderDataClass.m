@@ -15,6 +15,7 @@
 @synthesize openCVMethodSelector;
 @synthesize tesseractLanguage;
 @synthesize tesseractLanguageSelector;
+@synthesize binarizeSelector;
 
 static PocketReaderDataClass *instance = nil;
 
