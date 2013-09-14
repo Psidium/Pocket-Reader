@@ -49,6 +49,12 @@
 		32678569177C67D80087D677 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32678568177C67D80087D677 /* CoreImage.framework */; };
 		3273F259175BC4DE00BC273D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F258175BC4DE00BC273D /* AVFoundation.framework */; };
 		3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F25A175BC4E600BC273D /* CoreMotion.framework */; };
+		327519AB17E3F7F9009CABFF /* spanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519A817E3F7F9009CABFF /* spanner.png */; };
+		327519AC17E3F7F9009CABFF /* spanner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519A917E3F7F9009CABFF /* spanner@2x.png */; };
+		327519B117E3F80C009CABFF /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519AE17E3F80C009CABFF /* photo.png */; };
+		327519B217E3F80C009CABFF /* photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519AF17E3F80C009CABFF /* photo@2x.png */; };
+		327519B617E401D4009CABFF /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519B417E401D4009CABFF /* gear.png */; };
+		327519B717E401D4009CABFF /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519B517E401D4009CABFF /* gear@2x.png */; };
 		329B967A17762D0000846FA9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B967917762D0000846FA9 /* QuartzCore.framework */; };
 		329B967E17762D6500846FA9 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 329B967D17762D6500846FA9 /* Tesseract.mm */; };
 		329B971517762DBA00846FA9 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971317762DBA00846FA9 /* liblept.a */; };
@@ -108,6 +114,12 @@
 		32678568177C67D80087D677 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		3273F258175BC4DE00BC273D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3273F25A175BC4E600BC273D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		327519A817E3F7F9009CABFF /* spanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spanner.png; sourceTree = "<group>"; };
+		327519A917E3F7F9009CABFF /* spanner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spanner@2x.png"; sourceTree = "<group>"; };
+		327519AE17E3F80C009CABFF /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo.png; sourceTree = "<group>"; };
+		327519AF17E3F80C009CABFF /* photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo@2x.png"; sourceTree = "<group>"; };
+		327519B417E401D4009CABFF /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
+		327519B517E401D4009CABFF /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
 		329B967917762D0000846FA9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		329B967C17762D6500846FA9 /* Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tesseract.h; sourceTree = "<group>"; };
 		329B967D17762D6500846FA9 /* Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tesseract.mm; sourceTree = "<group>"; };
@@ -389,6 +401,7 @@
 		3249B3D8172D7FA7009F4D84 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				327519A617E3F7DF009CABFF /* images */,
 				2413665217E209A7004225C2 /* Icon2 */,
 				3249B3D9172D7FA7009F4D84 /* Pocket Reader-Info.plist */,
 				3249B3DA172D7FA7009F4D84 /* InfoPlist.strings */,
@@ -399,6 +412,27 @@
 				3249B3E7172D7FA8009F4D84 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		327519A617E3F7DF009CABFF /* images */ = {
+			isa = PBXGroup;
+			children = (
+				327519A717E3F7E4009CABFF /* tab bar images */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		327519A717E3F7E4009CABFF /* tab bar images */ = {
+			isa = PBXGroup;
+			children = (
+				327519AE17E3F80C009CABFF /* photo.png */,
+				327519AF17E3F80C009CABFF /* photo@2x.png */,
+				327519A817E3F7F9009CABFF /* spanner.png */,
+				327519A917E3F7F9009CABFF /* spanner@2x.png */,
+				327519B417E401D4009CABFF /* gear.png */,
+				327519B517E401D4009CABFF /* gear@2x.png */,
+			);
+			name = "tab bar images";
 			sourceTree = "<group>";
 		};
 		329B967B17762D5200846FA9 /* Aditionals */ = {
@@ -658,6 +692,7 @@
 			files = (
 				3249B3DC172D7FA7009F4D84 /* InfoPlist.strings in Resources */,
 				2413667E17E209A7004225C2 /* Icon@2x.png in Resources */,
+				327519AB17E3F7F9009CABFF /* spanner.png in Resources */,
 				2413667517E209A7004225C2 /* Icon-40.png in Resources */,
 				2413667D17E209A7004225C2 /* Icon.png in Resources */,
 				2413667817E209A7004225C2 /* Icon-72@2x.png in Resources */,
@@ -667,13 +702,17 @@
 				2413667417E209A7004225C2 /* iTunesArtwork@2x.png in Resources */,
 				2413667317E209A7004225C2 /* iTunesArtwork.png in Resources */,
 				2413666E17E209A7004225C2 /* Icon-Small-50@2x.png in Resources */,
+				327519B617E401D4009CABFF /* gear.png in Resources */,
 				2413666C17E209A7004225C2 /* Icon-72@2x.png in Resources */,
 				2413666D17E209A7004225C2 /* Icon-Small-50.png in Resources */,
+				327519B117E3F80C009CABFF /* photo.png in Resources */,
 				249D42D517DD1EBB007B139E /* Main.storyboard in Resources */,
 				2413667117E209A7004225C2 /* Icon.png in Resources */,
+				327519B717E401D4009CABFF /* gear@2x.png in Resources */,
 				2413667F17E209A7004225C2 /* iTunesArtwork.png in Resources */,
 				2413667717E209A7004225C2 /* Icon-72.png in Resources */,
 				3249B3E4172D7FA8009F4D84 /* Default.png in Resources */,
+				327519AC17E3F7F9009CABFF /* spanner@2x.png in Resources */,
 				2413667217E209A7004225C2 /* Icon@2x.png in Resources */,
 				2413667A17E209A7004225C2 /* Icon-76@2x.png in Resources */,
 				3249B3E6172D7FA8009F4D84 /* Default@2x.png in Resources */,
@@ -681,6 +720,7 @@
 				2413667017E209A7004225C2 /* Icon-Small@2x.png in Resources */,
 				2413668017E209A7004225C2 /* iTunesArtwork@2x.png in Resources */,
 				2413666B17E209A7004225C2 /* Icon-72.png in Resources */,
+				327519B217E3F80C009CABFF /* photo@2x.png in Resources */,
 				2413667C17E209A7004225C2 /* Icon-Small@2x.png in Resources */,
 				3249B3E8172D7FA8009F4D84 /* Default-568h@2x.png in Resources */,
 				2413667B17E209A7004225C2 /* Icon-Small.png in Resources */,

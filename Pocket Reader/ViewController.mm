@@ -27,15 +27,14 @@
 
 @synthesize camera;
 @synthesize captureGrayscale;
-@synthesize qualityPreset;
 @synthesize captureSession;
+@synthesize qualityPreset;
 @synthesize captureDevice;
-@synthesize videoOutput;
 @synthesize captureLayer;
+@synthesize videoOutput;
 @synthesize stillImage;
 @synthesize tesseract;
 @synthesize dataClass;
-@synthesize isMemoryAlmostFull;
 
 
 #pragma mark - Default:
@@ -55,7 +54,6 @@
     dataClass = [PocketReaderDataClass getInstance];
     dataClass.isOpenCVOn = YES;
     dataClass.binarizeSelector=0;
-    isMemoryAlmostFull = NO;
     dataClass.sheetErrorRange = 10;
     dataClass.tesseractLanguage = @"por";
     dataClass.threshold = 230;
@@ -70,9 +68,10 @@
 
 - (void)didReceiveMemoryWarning
 {
-    isMemoryAlmostFull = YES; //disable OpenCV processing and let ARC clean the memory
-    [self performSelector:@selector(timerFireMethod:) withObject:nil afterDelay:2.0]; //after 2 seconds turn openCV on again
     [super didReceiveMemoryWarning];
+    dataClass.isOpenCVOn = NO; //disable OpenCV processing and let ARC clean the memory
+    [self performSelector:@selector(timerFireMethod:) withObject:nil afterDelay:2.0]; //after 2 seconds turn openCV on again
+    
     // Dispose of any resources that can be recreated.
     
 }
@@ -115,7 +114,7 @@
 }
 
 - (void)timerFireMethod:(NSTimer*)theTimer {
-    isMemoryAlmostFull = NO;
+    dataClass.isOpenCVOn = YES;
 }
 
 #pragma mark - Image processing:
@@ -164,7 +163,7 @@
 {
     //MARK: Most Important Method
     
-    if((dataClass.isOpenCVOn) && (!isMemoryAlmostFull)) {
+    if(dataClass.isOpenCVOn) {
         
         NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
         int sublayersCount = [sublayers count];
@@ -253,11 +252,11 @@
     if(recognize){
         BOOL torchPreviousState = [captureDevice isTorchActive];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self setTorch:NO];
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];});
         NSLog(@"%@",[stillImage description]);
         AVCaptureConnection *vc = [stillImage connectionWithMediaType:AVMediaTypeVideo];
         [stillImage captureStillImageAsynchronouslyFromConnection:vc completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+            [self setTorch:NO];
             NSLog(@"bloco de AVCaptureStillImageOutput capturestillimageassuybncaslopdfaslfgrofmcoennction");
             NSLog(@"%@",error);
             NSLog(@"%@", imageDataSampleBuffer);
@@ -330,10 +329,10 @@
     
     mat.release();
     
-    if ((padrao.x - dataClass.sheetErrorRange) < sheet.x < (padrao.x + dataClass.sheetErrorRange) &&
-       (padrao.y - dataClass.sheetErrorRange) < sheet.y < (padrao.y + dataClass.sheetErrorRange) &&
-        (padrao.width - dataClass.sheetErrorRange) < sheet.width < (padrao.width + dataClass.sheetErrorRange) &&
-        (padrao.height - dataClass.sheetErrorRange) < sheet.height < (padrao.height + dataClass.sheetErrorRange))
+    if (
+        //     (padrao.x - dataClass.sheetErrorRange) < sheet.x < (padrao.x + dataClass.sheetErrorRange) && (padrao.y - dataClass.sheetErrorRange) < sheet.y < (padrao.y + dataClass.sheetErrorRange) && (padrao.width - dataClass.sheetErrorRange) < sheet.width < (padrao.width + dataClass.sheetErrorRange) && (padrao.height - dataClass.sheetErrorRange) < sheet.height < (padrao.height + dataClass.sheetErrorRange)
+        sheet==padrao
+        )
     {
         // TODO: Wait for autofocus to take the picture
         recognize=YES; // TODO: Depois de detectar a folha mentir e aproximar mais ainda

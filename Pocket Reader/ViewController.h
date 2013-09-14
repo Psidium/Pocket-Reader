@@ -28,7 +28,6 @@
     BOOL recognize;
     PocketReaderDataClass * dataClass;    
     int n_erode_dilate; // Precisa ajustar pro iPhone
-    BOOL isMemoryAlmostFull;
    
 }
 
@@ -45,7 +44,6 @@
 @property (weak, nonatomic) NSString * const qualityPreset;
 @property (nonatomic) BOOL captureGrayscale;
 @property (nonatomic) PocketReaderDataClass * dataClass;
-@property (nonatomic) BOOL isMemoryAlmostFull;
 
 - (IBAction) apertouUm:(id)sender;
 - (IBAction) apertouDois:(id)sender;
