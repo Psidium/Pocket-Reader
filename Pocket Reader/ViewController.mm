@@ -56,6 +56,7 @@
     dataClass.isOpenCVOn = YES;
     dataClass.binarizeSelector=0;
     isMemoryAlmostFull = NO;
+    dataClass.sheetErrorRange = 10;
     dataClass.tesseractLanguage = @"por";
     dataClass.threshold = 230;
     n_erode_dilate = 1;
@@ -182,7 +183,7 @@
         // Create transform to convert from vide frame coordinate space to view coordinate space
         CGAffineTransform t = [self affineTransformForVideoFrame:self.recordPreview.bounds orientation:AVCaptureVideoOrientationPortrait];
         
-        CGRect faceRect = CGRectMake(50.0f, 70.0f, 233.0f, 319.0f);
+        CGRect faceRect = CGRectMake(padrao.x/1.0f, padrao.y/1.0f, padrao.width/1.0f, padrao.height/1.0f);
         
         faceRect = CGRectApplyAffineTransform(faceRect, t);
         
@@ -329,7 +330,11 @@
     
     mat.release();
     
-    if(sheet==padrao){
+    if ((padrao.x - dataClass.sheetErrorRange) < sheet.x < (padrao.x + dataClass.sheetErrorRange) &&
+       (padrao.y - dataClass.sheetErrorRange) < sheet.y < (padrao.y + dataClass.sheetErrorRange) &&
+        (padrao.width - dataClass.sheetErrorRange) < sheet.width < (padrao.width + dataClass.sheetErrorRange) &&
+        (padrao.height - dataClass.sheetErrorRange) < sheet.height < (padrao.height + dataClass.sheetErrorRange))
+    {
         // TODO: Wait for autofocus to take the picture
         recognize=YES; // TODO: Depois de detectar a folha mentir e aproximar mais ainda
     }

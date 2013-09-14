@@ -44,8 +44,6 @@
 		3249B3EB172D7FA8009F4D84 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3EA172D7FA8009F4D84 /* ViewController.mm */; };
 		325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 325422EA179728D7008A6204 /* MBProgressHUD.m */; };
 		3254F4481765098C00573DF3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3254F4471765098C00573DF3 /* Accelerate.framework */; };
-		325B8E0317D27B2500308DC6 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = 325B8E0117D27B2500308DC6 /* fishhook.c */; };
-		325B8E0517D27B4000308DC6 /* QuietAssertMacros.c in Sources */ = {isa = PBXBuildFile; fileRef = 325B8E0417D27B4000308DC6 /* QuietAssertMacros.c */; };
 		3260A6AF17709B3F0042ED68 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6AE17709B3F0042ED68 /* CoreVideo.framework */; };
 		3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6B017709B580042ED68 /* CoreMedia.framework */; };
 		32678569177C67D80087D677 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32678568177C67D80087D677 /* CoreImage.framework */; };
@@ -105,9 +103,6 @@
 		325422E9179728D7008A6204 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		325422EA179728D7008A6204 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3254F4471765098C00573DF3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		325B8E0117D27B2500308DC6 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fishhook.c; sourceTree = "<group>"; };
-		325B8E0217D27B2500308DC6 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fishhook.h; sourceTree = "<group>"; };
-		325B8E0417D27B4000308DC6 /* QuietAssertMacros.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QuietAssertMacros.c; sourceTree = "<group>"; };
 		3260A6AE17709B3F0042ED68 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		3260A6B017709B580042ED68 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32678568177C67D80087D677 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
@@ -340,7 +335,6 @@
 		3249B3C5172D7FA7009F4D84 = {
 			isa = PBXGroup;
 			children = (
-				325B8E0017D27AF900308DC6 /* iOS 7 BETALIFE THIS SHOULD GO AWAY */,
 				3249B3D7172D7FA7009F4D84 /* Pocket Reader */,
 				3249B3D0172D7FA7009F4D84 /* Frameworks */,
 				3249B3CF172D7FA7009F4D84 /* Products */,
@@ -405,17 +399,6 @@
 				3249B3E7172D7FA8009F4D84 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		325B8E0017D27AF900308DC6 /* iOS 7 BETALIFE THIS SHOULD GO AWAY */ = {
-			isa = PBXGroup;
-			children = (
-				325B8E0117D27B2500308DC6 /* fishhook.c */,
-				325B8E0217D27B2500308DC6 /* fishhook.h */,
-				325B8E0417D27B4000308DC6 /* QuietAssertMacros.c */,
-			);
-			name = "iOS 7 BETALIFE THIS SHOULD GO AWAY";
-			path = "Pocket Reader";
 			sourceTree = "<group>";
 		};
 		329B967B17762D5200846FA9 /* Aditionals */ = {
@@ -713,9 +696,7 @@
 			files = (
 				32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */,
 				3249B3DE172D7FA7009F4D84 /* main.m in Sources */,
-				325B8E0317D27B2500308DC6 /* fishhook.c in Sources */,
 				3249B3E2172D7FA8009F4D84 /* AppDelegate.m in Sources */,
-				325B8E0517D27B4000308DC6 /* QuietAssertMacros.c in Sources */,
 				325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */,
 				329B967E17762D6500846FA9 /* Tesseract.mm in Sources */,
 				32DFDF4617D4009F00D76809 /* PocketReaderDataClass.m in Sources */,

@@ -59,8 +59,7 @@
     dataClass.tesseractLanguageSelector = sender.selectedSegmentIndex;
     if (sender.selectedSegmentIndex == 0) {
         dataClass.tesseractLanguage = @"por";
-    }
-    if (sender.selectedSegmentIndex == 1) {
+    }if (sender.selectedSegmentIndex == 1) {
         dataClass.tesseractLanguage = @"eng";
     }if (sender.selectedSegmentIndex == 2) {
         dataClass.tesseractLanguage = @"spa";

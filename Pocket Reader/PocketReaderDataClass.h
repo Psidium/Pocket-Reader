@@ -15,6 +15,7 @@
     NSString* tesseractLanguage;
     int tesseractLanguageSelector;
     int binarizeSelector;
+    int sheetErrorRange;
 }
 
 
@@ -24,6 +25,7 @@
 @property (nonatomic) int openCVMethodSelector;
 @property (nonatomic) int tesseractLanguageSelector;
 @property (nonatomic) int binarizeSelector;
+@property (nonatomic) int sheetErrorRange;
 
 +(PocketReaderDataClass*) getInstance;
 @end
