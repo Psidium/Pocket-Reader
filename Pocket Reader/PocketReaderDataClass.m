@@ -16,6 +16,7 @@
 @synthesize tesseractLanguage;
 @synthesize tesseractLanguageSelector;
 @synthesize binarizeSelector;
+@synthesize sheetErrorRange;
 
 static PocketReaderDataClass *instance = nil;
 
