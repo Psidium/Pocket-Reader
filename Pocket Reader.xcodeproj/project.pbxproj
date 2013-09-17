@@ -47,6 +47,8 @@
 		3260A6AF17709B3F0042ED68 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6AE17709B3F0042ED68 /* CoreVideo.framework */; };
 		3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3260A6B017709B580042ED68 /* CoreMedia.framework */; };
 		32678569177C67D80087D677 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32678568177C67D80087D677 /* CoreImage.framework */; };
+		326FB40217E8029D00E21084 /* PocketReaderSavedTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 326FB40117E8029D00E21084 /* PocketReaderSavedTextViewController.m */; };
+		326FB40517E805FA00E21084 /* PocketReaderSavedTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 326FB40417E805FA00E21084 /* PocketReaderSavedTextCell.m */; };
 		3273F259175BC4DE00BC273D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F258175BC4DE00BC273D /* AVFoundation.framework */; };
 		3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F25A175BC4E600BC273D /* CoreMotion.framework */; };
 		327519AB17E3F7F9009CABFF /* spanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519A817E3F7F9009CABFF /* spanner.png */; };
@@ -112,6 +114,10 @@
 		3260A6AE17709B3F0042ED68 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		3260A6B017709B580042ED68 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32678568177C67D80087D677 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		326FB40017E8029D00E21084 /* PocketReaderSavedTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderSavedTextViewController.h; sourceTree = "<group>"; };
+		326FB40117E8029D00E21084 /* PocketReaderSavedTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderSavedTextViewController.m; sourceTree = "<group>"; };
+		326FB40317E805F900E21084 /* PocketReaderSavedTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderSavedTextCell.h; sourceTree = "<group>"; };
+		326FB40417E805FA00E21084 /* PocketReaderSavedTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderSavedTextCell.m; sourceTree = "<group>"; };
 		3273F258175BC4DE00BC273D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3273F25A175BC4E600BC273D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		327519A817E3F7F9009CABFF /* spanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spanner.png; sourceTree = "<group>"; };
@@ -347,8 +353,8 @@
 		3249B3C5172D7FA7009F4D84 = {
 			isa = PBXGroup;
 			children = (
-				3249B3D7172D7FA7009F4D84 /* Pocket Reader */,
 				3249B3D0172D7FA7009F4D84 /* Frameworks */,
+				3249B3D7172D7FA7009F4D84 /* Pocket Reader */,
 				3249B3CF172D7FA7009F4D84 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -392,6 +398,10 @@
 				3249B3EA172D7FA8009F4D84 /* ViewController.mm */,
 				32DFDF3F17D3F43400D76809 /* PocketReaderConfigViewController.h */,
 				32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */,
+				326FB40017E8029D00E21084 /* PocketReaderSavedTextViewController.h */,
+				326FB40117E8029D00E21084 /* PocketReaderSavedTextViewController.m */,
+				326FB40317E805F900E21084 /* PocketReaderSavedTextCell.h */,
+				326FB40417E805FA00E21084 /* PocketReaderSavedTextCell.m */,
 				249D42D417DD1EBB007B139E /* Main.storyboard */,
 				3249B3D8172D7FA7009F4D84 /* Supporting Files */,
 			);
@@ -735,9 +745,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */,
+				326FB40217E8029D00E21084 /* PocketReaderSavedTextViewController.m in Sources */,
 				3249B3DE172D7FA7009F4D84 /* main.m in Sources */,
 				3249B3E2172D7FA8009F4D84 /* AppDelegate.m in Sources */,
 				325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */,
+				326FB40517E805FA00E21084 /* PocketReaderSavedTextCell.m in Sources */,
 				329B967E17762D6500846FA9 /* Tesseract.mm in Sources */,
 				32DFDF4617D4009F00D76809 /* PocketReaderDataClass.m in Sources */,
 				245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */,
