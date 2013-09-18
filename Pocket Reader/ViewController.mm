@@ -61,6 +61,11 @@
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     //[self.recordPreview setBounds:]
     dataClass.openCVMethodSelector = 0;
+    if (!UIAccessibilityIsVoiceOverRunning()) {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"VoiceOver inactive" message:@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [message show];
+    }
+    
     [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale]; //set camera and it view
     [captureSession startRunning]; //start the camera capturing
     
