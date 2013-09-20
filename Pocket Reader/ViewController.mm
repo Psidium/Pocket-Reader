@@ -56,7 +56,7 @@
     dataClass.binarizeSelector=0;
     dataClass.sheetErrorRange = 10;
     dataClass.tesseractLanguage = @"por";
-    dataClass.threshold = 230;
+    dataClass.threshold = 150;
     n_erode_dilate = 1;
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     //[self.recordPreview setBounds:]
@@ -93,8 +93,9 @@
 - (IBAction)apertouDois:(id)sender
 {
     [self.tesseract clear]; //clean the tesseract
+    self.tesseract=nil;
     Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
-            tesseract=tesseractHolder;
+            self.tesseract=tesseractHolder;
     NSLog(@"Mudou pra %@",dataClass.tesseractLanguage);
     recognize=YES;
 }
@@ -327,11 +328,8 @@
     // Detect faces
     cv::Rect sheet;
     // MARK: Here comes the OpenCV methods
-    if (dataClass.openCVMethodSelector == 0)
+    if (dataClass.openCVMethodSelector == 0) {
         sheet = [self contornObjectOnView:mat];
-    else if (dataClass.openCVMethodSelector == 1)
-        sheet = [self findSquares:mat];
-    
     mat.release();
     
     if (
@@ -350,6 +348,11 @@
           videoOrientation:AVCaptureVideoOrientationPortrait
                  withColor:[UIColor greenColor]];
     });
+    }
+    else if (dataClass.openCVMethodSelector == 1) {
+        [self findAndDrawSheet:mat];
+        mat.release();
+    }
 }
 
 - (cv::Rect) contornObjectOnView:(cv::Mat&)img {
@@ -426,8 +429,6 @@
     
     featureLayer.frame = faceRect;
     
-    [CATransaction commit];
-    
     if(!dataClass.isOpenCVOn){
         for (CALayer *layer in sublayers) {
             NSString *layerName = [layer name];
@@ -435,105 +436,38 @@
                 [layer setHidden:YES];
         }
     }
+    
+    [CATransaction commit];
+    
+   
 }
 
-double angle( cv::Point pt1, cv::Point pt2, cv::Point pt0 ) {
-    double dx1 = pt1.x - pt0.x;
-    double dy1 = pt1.y - pt0.y;
-    double dx2 = pt2.x - pt0.x;
-    double dy2 = pt2.y - pt0.y;
-    return (dx1*dx2 + dy1*dy2)/sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
+#pragma mark - Hough Transform Implementation
+-(void) findAndDrawSheet: (cv::Mat &)image {
+    CGContextRef context = UIGraphicsGetCurrentContext(); //erro de agora: não tem cotexto nenhum, tá desenhando no nada, tem que delgar uma CALayer do recordpreview. (como? no sei)
+    CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
+    CGContextSetLineWidth(context, 2.0);
+    
+    cv::cvtColor(image, image, CV_RGB2GRAY);
+    cv::Canny(image, image, 50, 250, 3);
+    std::vector<cv::Vec4i> lines;
+    cv::HoughLinesP(image, lines, 1, CV_PI/180, dataClass.threshold, 50, 10);
+    
+    std::vector<cv::Vec4i>::iterator it = lines.begin();
+    for(; it!=lines.end(); ++it) {
+        cv::Vec4i l = *it;
+        NSLog(@"inicio x: %d, y: %d, fim x: %d, y: %d",l[0],l[1],l[2],l[3]);
+        CGContextMoveToPoint(context, l[0]/1.0f, l[1]/1.0f);
+        CGContextAddLineToPoint(context, l[2]/1.0f, l[3]/1.0f);
+        //cv::line(work_img, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, CV_AA);
+    }
+    CGContextStrokePath(context);
+    
+    image.release();
+    return ;
+
 }
 
-#pragma mark - OpenCV (too much processing)
--(cv::Rect) findSquares:(cv::Mat &)image {
-    // blur will enhance edge detection
-    cv::Mat blurred(image);
-    cv::vector<cv::vector<cv::Point> > squares;
-    medianBlur(image, blurred, 9);
-    
-    cv::Mat gray0(blurred.size(), CV_8U), gray;
-    cv::vector<cv::vector<cv::Point> > contours;
-    
-    // find squares in every color plane of the image
-    for (int c = 0; c < 3; c++)
-    {
-        int ch[] = {c, 0};
-        mixChannels(&blurred, 1, &gray0, 1, ch, 1);
-        
-        // try several threshold levels
-        const int threshold_level = 2;
-        for (int l = 0; l < threshold_level; l++)
-        {
-            // Use Canny instead of zero threshold level!
-            // Canny helps to catch squares with gradient shading
-            if (l == 0)
-            {
-                Canny(gray0, gray, 10, 20, 3); //
-                
-                // Dilate helps to remove potential holes between edge segments
-                dilate(gray, gray, cv::Mat(), cv::Point(-1,-1));
-            }
-            else
-            {
-                gray = gray0 >= (l+1) * 255 / threshold_level;
-            }
-            
-            // Find contours and store them in a list
-            findContours(gray, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
-            
-            // Test contours
-            cv::vector<cv::Point> approx;
-            for (size_t i = 0; i < contours.size(); i++)
-            {
-                // approximate contour with accuracy proportional
-                // to the contour perimeter
-                approxPolyDP(cv::Mat(contours[i]), approx, arcLength(cv::Mat(contours[i]), true)*0.02, true);
-                
-                // Note: absolute value of an area is used because
-                // area may be positive or negative - in accordance with the
-                // contour orientation
-                if (approx.size() == 4 &&
-                    fabs(contourArea(cv::Mat(approx))) > 1000 &&
-                    isContourConvex(cv::Mat(approx)))
-                {
-                    double maxCosine = 0;
-                    
-                    for (int j = 2; j < 5; j++)
-                    {
-                        double cosine = fabs(angle(approx[j%4], approx[j-2], approx[j-1]));
-                        maxCosine = MAX(maxCosine, cosine);
-                    }
-                    
-                    if (maxCosine < 0.3)
-                        squares.push_back(approx);
-                }
-            }
-        }
-    }
-    
-    int max_width = 0;
-    int max_height = 0;
-    int max_square_idx = 0;
-    
-    for (size_t i = 0; i < squares.size(); i++)
-    {
-        // Convert a set of 4 unordered Points into a meaningful cv::Rect structure.
-        cv::Rect rectangle = boundingRect(cv::Mat(squares[i]));
-        
-        //        cout << "find_largest_square: #" << i << " rectangle x:" << rectangle.x << " y:" << rectangle.y << " " << rectangle.width << "x" << rectangle.height << endl;
-        
-        // Store the index position of the biggest square found
-        if ((rectangle.width >= max_width) && (rectangle.height >= max_height))
-        {
-            max_width = rectangle.width;
-            max_height = rectangle.height;
-            max_square_idx = i;
-        }
-    }
-    
-    return cv::boundingRect(cv::Mat(squares[max_square_idx]).reshape(2));
-}
 
 #pragma mark - Camera initialization:
 
