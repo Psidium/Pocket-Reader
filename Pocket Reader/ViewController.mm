@@ -17,9 +17,12 @@
 //
 #import "UIImage+OpenCV.h"
 #import "ViewController.h"
+#import "GPUImage.h"
 
 @interface ViewController () {
     cv::Rect padrao;
+    
+    std::vector<cv::Vec4i> lines;
 }
 @end
 
@@ -231,11 +234,18 @@
         
         UIImage *imageBebug = [UIImage imageWithCGImage:videoImage];
         CGImageRelease(videoImage);
+        
+        if(dataClass.openCVMethodSelector==0 || dataClass.openCVMethodSelector==1){
+            
         cv::Mat mat = [imageBebug CVMat];
+        
         
         [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
         
-        mat.release();
+            mat.release();
+        } else if (dataClass.openCVMethodSelector==2){
+            [self detectSheeetWithGPUImage:imageBebug];
+        }
         
     } else {
         NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
@@ -273,7 +283,8 @@
             NSLog(@"%@", [img description]);
             if (img!=nil) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];});
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    });
                 NSLog(@"saiu uimage");                [self.tesseract setImage:img];
                 NSLog(@"começa a reconhecer");
                 NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
@@ -337,8 +348,13 @@
         sheet==padrao
         )
     {
+        recognize=YES;
         // TODO: Wait for autofocus to take the picture
-        recognize=YES; // TODO: Depois de detectar a folha mentir e aproximar mais ainda
+        // TODO: Depois de detectar a folha mentir e aproximar mais ainda
+        // TODO: pegar a imagem do rolo da câmera
+        // TODO: tirar o autolock enquanto na aba da camera
+        // TODO: salvar em um arquivo os textos
+        // TODO: fazer o HUBprogress Ready
     }
     
     // Dispatch updating of face markers to main queue
@@ -375,6 +391,8 @@
     }
     return cv::boundingRect(cv::Mat(points).reshape(2));
 }
+
+
 
 
 // Update face markers given vector of face rectangles
@@ -441,33 +459,86 @@
     
    
 }
+#pragma mark - GPUImge implementation
+
+-(void) detectSheeetWithGPUImage:(UIImage *)image{
+    GPUImagePicture *stillImageSource = [[GPUImagePicture alloc] initWithImage:image];
+    GPUImageHoughTransformLineDetector *lineDetector = [GPUImageHoughTransformLineDetector new];
+    [lineDetector setLineDetectionThreshold:dataClass.threshold/255.0f];
+    [lineDetector setLinesDetectedBlock:^(GLfloat * lineArray, NSUInteger linesDetected, CMTime frameTime) {
+        NSLog(@"Linhas detectadas: %@, lineArray: %lu",lineArray,(unsigned long)linesDetected);
+    }];
+    [stillImageSource addTarget:lineDetector];
+    
+    [stillImageSource processImage];
+    
+    /*UIImage *currentFilteredVideoFrame = [lineDetector imageFromCurrentlyProcessedOutput];
+     self.imageView.image = currentFilteredVideoFrame;*/
+}
+
 
 #pragma mark - Hough Transform Implementation
 -(void) findAndDrawSheet: (cv::Mat &)image {
+
+    
+/*    UIGraphicsBeginImageContext(self.recordPreview.frame.size);
     CGContextRef context = UIGraphicsGetCurrentContext(); //erro de agora: não tem cotexto nenhum, tá desenhando no nada, tem que delgar uma CALayer do recordpreview. (como? no sei)
     CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
-    CGContextSetLineWidth(context, 2.0);
+    CGContextSetLineWidth(context, 2.0);*/
     
     cv::cvtColor(image, image, CV_RGB2GRAY);
     cv::Canny(image, image, 50, 250, 3);
-    std::vector<cv::Vec4i> lines;
+    lines.clear();
     cv::HoughLinesP(image, lines, 1, CV_PI/180, dataClass.threshold, 50, 10);
-    
-    std::vector<cv::Vec4i>::iterator it = lines.begin();
-    for(; it!=lines.end(); ++it) {
-        cv::Vec4i l = *it;
-        NSLog(@"inicio x: %d, y: %d, fim x: %d, y: %d",l[0],l[1],l[2],l[3]);
-        CGContextMoveToPoint(context, l[0]/1.0f, l[1]/1.0f);
-        CGContextAddLineToPoint(context, l[2]/1.0f, l[3]/1.0f);
-        //cv::line(work_img, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, CV_AA);
-    }
-    CGContextStrokePath(context);
-    
     image.release();
+    
+    CALayer *sheetLinesLayer = nil;
+    int currentSublayer = 0;
+    NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
+    while (!sheetLinesLayer && (currentSublayer < [sublayers count])) {
+        CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
+        if ([[currentLayer name] isEqualToString:@"sheetLinesLayer"]) {
+            sheetLinesLayer = nil;
+        }
+    }
+    
+    if(!sheetLinesLayer){
+        sheetLinesLayer = [CALayer new];
+        sheetLinesLayer.name = @"sheetLinesLayer";
+        sheetLinesLayer.frame = self.recordPreview.frame;
+        [self.recordPreview.layer addSublayer:sheetLinesLayer];
+        sheetLinesLayer.delegate = self;
+    }
+    
+    
     return ;
 
 }
 
+- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx {
+    // Check that the layer argument is yourLayer (if you are the
+    // delegate to more than one layer)
+    if ([[layer name] isEqualToString:@"sheetLinesLayer"]){
+        
+        CGContextRef context = UIGraphicsGetCurrentContext(); //erro de agora: não tem cotexto nenhum, tá desenhando no nada, tem que delgar uma CALayer do recordpreview. (como? no sei)
+        CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
+        CGContextSetLineWidth(context, 2.0);
+
+        
+        std::vector<cv::Vec4i>::iterator it = lines.begin();
+        for(; it!=lines.end(); ++it) {
+            cv::Vec4i l = *it;
+            NSLog(@"inicio x: %d, y: %d, fim x: %d, y: %d",l[0],l[1],l[2],l[3]);
+            CGContextMoveToPoint(context, l[0]/1.0f, l[1]/1.0f);
+            CGContextAddLineToPoint(context, l[2]/1.0f, l[3]/1.0f);
+            //cv::line(work_img, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, CV_AA);
+        }
+        CGContextStrokePath(context);
+
+    }
+    
+    // Use the context (second) argument to draw.
+}
 
 #pragma mark - Camera initialization:
 

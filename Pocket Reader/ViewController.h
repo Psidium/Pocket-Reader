@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "GPUImage.h"
 #import "Tesseract.h"
 #import "MBProgressHUD.h"
 #import "PocketReaderDataClass.h"

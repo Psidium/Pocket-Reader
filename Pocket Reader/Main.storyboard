@@ -252,8 +252,8 @@
                                         <constraints>
                                             <constraint firstItem="g9K-4A-57h" firstAttribute="centerY" secondItem="T8t-FA-RCO" secondAttribute="centerY" type="default" id="3J9-rm-YGd"/>
                                             <constraint firstItem="g9K-4A-57h" firstAttribute="leading" secondItem="zLH-9s-9Sp" secondAttribute="leading" constant="30" type="default" id="6F0-rN-Dby"/>
+                                            <constraint firstAttribute="trailing" secondItem="T8t-FA-RCO" secondAttribute="trailing" constant="30" type="default" id="g6X-DA-kHY"/>
                                             <constraint firstItem="T8t-FA-RCO" firstAttribute="centerY" secondItem="zLH-9s-9Sp" secondAttribute="centerY" constant="-0.5" type="default" id="iay-iv-11y"/>
-                                            <constraint firstAttribute="trailing" secondItem="T8t-FA-RCO" secondAttribute="trailing" constant="30" type="default" id="kCw-tT-MqP"/>
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="65" id="er5-0o-s67">
@@ -362,14 +362,15 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Glh-jz-uMb">
-                                                    <rect key="frame" x="10" y="49" width="280" height="44"/>
+                                                    <rect key="frame" x="50" y="49" width="200" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="280" id="Ala-GB-VSc"/>
+                                                        <constraint firstAttribute="width" constant="200" id="5D3-bY-vyb"/>
                                                     </constraints>
                                                     <segments>
-                                                        <segment title="contornObject"/>
-                                                        <segment title="SURF"/>
+                                                        <segment title="cO"/>
+                                                        <segment title="HTocv"/>
+                                                        <segment title="gpu"/>
                                                     </segments>
                                                     <connections>
                                                         <action selector="didChangedSegmentControl:" destination="vPL-gl-hKy" eventType="valueChanged" id="mJh-yl-4GS"/>
