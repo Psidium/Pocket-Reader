@@ -17,7 +17,6 @@
 //
 #import "UIImage+OpenCV.h"
 #import "ViewController.h"
-#import "GPUImage.h"
 
 @interface ViewController () {
     cv::Rect padrao;
@@ -174,7 +173,7 @@
     
     if(dataClass.isOpenCVOn) {
         
-        NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
+        if(dataClass.openCVMethodSelector==0){NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
         int sublayersCount = [sublayers count];
         int currentSublayer = 0;
         
@@ -219,7 +218,7 @@
         featureLayer.frame = faceRect;
         
         [CATransaction commit];
-        
+        }
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
         AVCaptureVideoOrientation videoOrientation = AVCaptureVideoOrientationPortrait;
@@ -230,7 +229,6 @@
         CGImageRef videoImage = [temporaryContext
                                  createCGImage:ciImage
                                  fromRect:videoRect];
-        
         
         UIImage *imageBebug = [UIImage imageWithCGImage:videoImage];
         CGImageRelease(videoImage);
@@ -244,16 +242,11 @@
         
             mat.release();
         } else if (dataClass.openCVMethodSelector==2){
-            [self detectSheeetWithGPUImage:imageBebug];
+            //if  there's a third method
         }
         
     } else {
         NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-        for (CALayer *layer in sublayers) {
-            NSString *layerName = [layer name];
-            if ([layerName isEqualToString:@"SheetLayer"])
-                [layer setHidden:YES];
-        }
         for (CALayer *layer in sublayers) {
             if ([[layer name] isEqualToString:@"DefaultLayer"])
                 [layer setHidden:YES];
@@ -292,6 +285,7 @@
                 NSLog(@"%@",[self.tesseract description]);
                 NSString *textoReconhecido = [self.tesseract recognizedText];
                 [self.tesseract clear];
+                
                 NSLog(@"%@", textoReconhecido);
                 NSLog(@"deveria ter mostrado");
                 if (UIAccessibilityIsVoiceOverRunning()) {
@@ -363,9 +357,20 @@
               forVideoRect:rect
           videoOrientation:AVCaptureVideoOrientationPortrait
                  withColor:[UIColor greenColor]];
+        [self.imageView setHidden:YES];
     });
+        
     }
     else if (dataClass.openCVMethodSelector == 1) {
+        dispatch_sync(dispatch_get_main_queue(),^{
+            NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
+        for (CALayer *layer in sublayers) {
+            if ([[layer name] isEqualToString:@"DefaultLayer"])
+                [layer setHidden:YES];
+            if ([[layer name] isEqualToString:@"SheetLayer"])
+                [layer setHidden:YES];
+        }
+            [self.imageView setHidden:NO];});
         [self findAndDrawSheet:mat];
         mat.release();
     }
@@ -376,7 +381,8 @@
     cv::Mat m = img.clone();
     cv::cvtColor(m, m, CV_RGB2GRAY);
     cv::blur(m, m, cv::Size(5,5));
-    cv::threshold(m, m, dataClass.threshold, 255,dataClass.binarizeSelector);   cv::erode(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
+    cv::threshold(m, m, dataClass.threshold, 255,dataClass.binarizeSelector);
+    cv::erode(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
     cv::dilate(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
     
     std::vector< std::vector<cv::Point> > contours;
@@ -459,22 +465,6 @@
     
    
 }
-#pragma mark - GPUImge implementation
-
--(void) detectSheeetWithGPUImage:(UIImage *)image{
-    GPUImagePicture *stillImageSource = [[GPUImagePicture alloc] initWithImage:image];
-    GPUImageHoughTransformLineDetector *lineDetector = [GPUImageHoughTransformLineDetector new];
-    [lineDetector setLineDetectionThreshold:dataClass.threshold/255.0f];
-    [lineDetector setLinesDetectedBlock:^(GLfloat * lineArray, NSUInteger linesDetected, CMTime frameTime) {
-        NSLog(@"Linhas detectadas: %@, lineArray: %lu",lineArray,(unsigned long)linesDetected);
-    }];
-    [stillImageSource addTarget:lineDetector];
-    
-    [stillImageSource processImage];
-    
-    /*UIImage *currentFilteredVideoFrame = [lineDetector imageFromCurrentlyProcessedOutput];
-     self.imageView.image = currentFilteredVideoFrame;*/
-}
 
 
 #pragma mark - Hough Transform Implementation
@@ -485,12 +475,56 @@
     CGContextRef context = UIGraphicsGetCurrentContext(); //erro de agora: não tem cotexto nenhum, tá desenhando no nada, tem que delgar uma CALayer do recordpreview. (como? no sei)
     CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
     CGContextSetLineWidth(context, 2.0);*/
-    
+    self.imageView.image =nil;
     cv::cvtColor(image, image, CV_RGB2GRAY);
     cv::Canny(image, image, 50, 250, 3);
     lines.clear();
     cv::HoughLinesP(image, lines, 1, CV_PI/180, dataClass.threshold, 50, 10);
+    std::vector<cv::Vec4i>::iterator it = lines.begin();
+    for(; it!=lines.end(); ++it) {
+        cv::Vec4i l = *it;
+        //NSLog(@"inicio x: %d, y: %d, fim x: %d, y: %d",l[0],l[1],l[2],l[3]);
+        
+        cv::line(image, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, CV_AA); //<----- usa essa função e cria uma cv::Mat com fundo transparente, bota uma UIImageView em cima da recordPreview e fica jogando essa cv::Mat lá, tomara qiue fique transparente
+    }
+    //image.inv();
+    image = 255- image;
+    
+    
+    NSData *data = [NSData dataWithBytes:image.data length:image.elemSize() * image.total()];
+    
+    CGColorSpaceRef colorSpace;
+    
+    if (image.elemSize() == 1) {
+        colorSpace = CGColorSpaceCreateDeviceGray();
+    } else {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    
+    CGImageRef imageRef = CGImageCreate(image.cols,                                     // Width
+                                        image.rows,                                     // Height
+                                        8,                                              // Bits per component
+                                        8 * image.elemSize(),                           // Bits per pixel
+                                        image.step[0],                                  // Bytes per row
+                                        colorSpace,                                     // Colorspace
+                                        kCGImageAlphaNone | kCGBitmapByteOrderDefault,  // Bitmap info flags
+                                        provider,                                       // CGDataProviderRef
+                                        NULL,                                           // Decode
+                                        false,                                          // Should interpolate
+                                        kCGRenderingIntentDefault);
     image.release();
+    const float whiteMask[6] = { 255,255,255, 255,255,255 };
+    CGImageRef myColorMaskedImage = CGImageCreateWithMaskingColors(imageRef, whiteMask);
+    CGImageRelease(imageRef);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.imageView setImage:[UIImage imageWithCGImage:myColorMaskedImage]];
+        CGImageRelease(myColorMaskedImage); });
+    
+    // dataClass.isOpenCVOn = NO;
+    
+    /*
     
     CALayer *sheetLinesLayer = nil;
     int currentSublayer = 0;
@@ -510,7 +544,7 @@
         sheetLinesLayer.delegate = self;
     }
     
-    
+    */
     return ;
 
 }

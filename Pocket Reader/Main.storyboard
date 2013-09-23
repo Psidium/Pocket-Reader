@@ -17,7 +17,19 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tmP-Yg-R3V">
                                 <rect key="frame" x="0.0" y="44" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AhG-or-GAJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="AhG-or-GAJ" secondAttribute="trailing" type="default" id="PAh-MU-h2U"/>
+                                    <constraint firstItem="AhG-or-GAJ" firstAttribute="top" secondItem="tmP-Yg-R3V" secondAttribute="top" type="default" id="kvZ-gT-Lfm"/>
+                                    <constraint firstItem="AhG-or-GAJ" firstAttribute="leading" secondItem="tmP-Yg-R3V" secondAttribute="leading" type="default" id="qJX-hY-VK8"/>
+                                    <constraint firstAttribute="bottom" secondItem="AhG-or-GAJ" secondAttribute="bottom" type="default" id="qv4-hI-C6S"/>
+                                </constraints>
                             </view>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z2h-Af-Jjd">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -53,6 +65,7 @@
                     <navigationItem key="navigationItem" id="f2L-Sg-kW0"/>
                     <connections>
                         <outlet property="dois" destination="Iav-yR-YjZ" id="Aq1-jJ-oRJ"/>
+                        <outlet property="imageView" destination="AhG-or-GAJ" id="c6T-Mn-Ipc"/>
                         <outlet property="recordPreview" destination="tmP-Yg-R3V" id="Rw6-Pr-OfC"/>
                         <outlet property="um" destination="PKk-HD-7GP" id="iVD-sg-hbG"/>
                     </connections>
@@ -370,7 +383,6 @@
                                                     <segments>
                                                         <segment title="cO"/>
                                                         <segment title="HTocv"/>
-                                                        <segment title="gpu"/>
                                                     </segments>
                                                     <connections>
                                                         <action selector="didChangedSegmentControl:" destination="vPL-gl-hKy" eventType="valueChanged" id="mJh-yl-4GS"/>

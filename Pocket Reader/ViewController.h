@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "GPUImage.h"
 #import "Tesseract.h"
 #import "MBProgressHUD.h"
 #import "PocketReaderDataClass.h"
@@ -33,6 +32,7 @@
 }
 
 @property (strong, nonatomic) IBOutlet UIView *recordPreview;
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureLayer;
 @property (strong, nonatomic) AVCaptureDevice *captureDevice;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *videoOutput;
