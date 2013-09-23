@@ -1,0 +1,90 @@
+
+/* Class = "IBUISegmentedControl"; 1iH-Xp-iLz.segmentTitles[0] = "Normal"; ObjectID = "1iH-Xp-iLz"; */
+"1iH-Xp-iLz.segmentTitles[0]" = "Normal";
+
+/* Class = "IBUISegmentedControl"; 1iH-Xp-iLz.segmentTitles[1] = "Invertido"; ObjectID = "1iH-Xp-iLz"; */
+"1iH-Xp-iLz.segmentTitles[1]" = "Invertido";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Qualquer mudança nessas configurações será aplicada no reconhecimento de imagem."; ObjectID = "2IP-1J-7ra"; */
+"2IP-1J-7ra.footerTitle" = "Qualquer mudança nessas configurações será aplicada no reconhecimento de imagem.";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Processamento de Imagem"; ObjectID = "2IP-1J-7ra"; */
+"2IP-1J-7ra.headerTitle" = "Processamento de Imagem";
+
+/* Class = "IBUITabBarItem"; title = "Ajustes"; ObjectID = "46b-dd-G02"; */
+"46b-dd-G02.title" = "Ajustes";
+
+/* Class = "IBUILabel"; text = "Histerese:"; ObjectID = "6Lf-yB-5OX"; */
+"6Lf-yB-5OX.text" = "Histerese:";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Depuração"; ObjectID = "DcK-Jq-C0m"; */
+"DcK-Jq-C0m.footerTitle" = "Depuração";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Depuração"; ObjectID = "DcK-Jq-C0m"; */
+"DcK-Jq-C0m.headerTitle" = "Depuração";
+
+/* Class = "IBUISegmentedControl"; Glh-jz-uMb.segmentTitles[0] = "cO"; ObjectID = "Glh-jz-uMb"; */
+"Glh-jz-uMb.segmentTitles[0]" = "cO";
+
+/* Class = "IBUISegmentedControl"; Glh-jz-uMb.segmentTitles[1] = "HTocv"; ObjectID = "Glh-jz-uMb"; */
+"Glh-jz-uMb.segmentTitles[1]" = "HTocv";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "IMO-i2-gWj"; */
+"IMO-i2-gWj.text" = "Label";
+
+/* Class = "IBUIBarButtonItem"; title = "Foto"; ObjectID = "Iav-yR-YjZ"; */
+"Iav-yR-YjZ.title" = "Foto";
+
+/* Class = "IBUILabel"; text = "Seletor de Idioma"; ObjectID = "KbK-gT-K7a"; */
+"KbK-gT-K7a.text" = "Seletor de Idioma";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Seleciona o idioma a ser utilizado na conversão de imagem em texto"; ObjectID = "NLb-HZ-jLI"; */
+"NLb-HZ-jLI.footerTitle" = "Seleciona o idioma a ser utilizado na conversão de imagem em texto";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Idioma"; ObjectID = "NLb-HZ-jLI"; */
+"NLb-HZ-jLI.headerTitle" = "Idioma";
+
+/* Class = "IBUIBarButtonItem"; title = "Flash"; ObjectID = "PKk-HD-7GP"; */
+"PKk-HD-7GP.title" = "Flash";
+
+/* Class = "IBUITabBarItem"; title = "Câmera"; ObjectID = "QLM-Ew-3KO"; */
+"QLM-Ew-3KO.title" = "Câmera";
+
+/* Class = "IBUITabBarItem"; title = "Ajustes"; ObjectID = "ZQS-NT-DSO"; */
+"ZQS-NT-DSO.title" = "Ajustes";
+
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[0] = "Por"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[0]" = "Por";
+
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[1] = "Ing"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[1]" = "Ing";
+
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[2] = "Esp"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[2]" = "Esp";
+
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[3] = "Ale"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[3]" = "Ale";
+
+/* Class = "IBUINavigationItem"; title = "Ajustes"; ObjectID = "e47-QX-hN9"; */
+"e47-QX-hN9.title" = "Ajustes";
+
+/* Class = "IBUILabel"; text = "OpenCV"; ObjectID = "g9K-4A-57h"; */
+"g9K-4A-57h.text" = "OpenCV";
+
+/* Class = "IBUINavigationItem"; title = "Documentos Recentes"; ObjectID = "k8z-P1-lnn"; */
+"k8z-P1-lnn.title" = "Documentos Recentes";
+
+/* Class = "IBUIViewController"; title = "storyboardOne"; ObjectID = "oYx-kR-ddB"; */
+"oYx-kR-ddB.title" = "storyboardOne";
+
+/* Class = "IBUINavigationItem"; title = "Câmera"; ObjectID = "opx-H0-aig"; */
+"opx-H0-aig.title" = "Câmera";
+
+/* Class = "IBUILabel"; text = "Seletor de método:"; ObjectID = "rk3-p4-vWk"; */
+"rk3-p4-vWk.text" = "Seletor de método:";
+
+/* Class = "IBUILabel"; text = "Binarize"; ObjectID = "tgb-Ty-fXB"; */
+"tgb-Ty-fXB.text" = "Binarize";
+
+/* Class = "IBUILabel"; text = "Tolerância no enquadramento"; ObjectID = "weU-cV-4lG"; */
+"weU-cV-4lG.text" = "Tolerância no enquadramento";

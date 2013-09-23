@@ -1,0 +1,90 @@
+
+/* Class = "IBUISegmentedControl"; 1iH-Xp-iLz.segmentTitles[0] = "Normale"; ObjectID = "1iH-Xp-iLz"; */
+"1iH-Xp-iLz.segmentTitles[0]" = "Normale";
+
+/* Class = "IBUISegmentedControl"; 1iH-Xp-iLz.segmentTitles[1] = "Inverted"; ObjectID = "1iH-Xp-iLz"; */
+"1iH-Xp-iLz.segmentTitles[1]" = "Inverted";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Jede Änderung an diesen Einstellungen können in dem Blatt recognizer gelten."; ObjectID = "2IP-1J-7ra"; */
+"2IP-1J-7ra.footerTitle" = "Jede Änderung an diesen Einstellungen können in dem Blatt recognizer gelten.";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Bildverarbeitung"; ObjectID = "2IP-1J-7ra"; */
+"2IP-1J-7ra.headerTitle" = "Bildverarbeitung";
+
+/* Class = "IBUITabBarItem"; title = "Einstellungen"; ObjectID = "46b-dd-G02"; */
+"46b-dd-G02.title" = "Einstellungen";
+
+/* Class = "IBUILabel"; text = "Hysterese:"; ObjectID = "6Lf-yB-5OX"; */
+"6Lf-yB-5OX.text" = "Hysterese:";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Debug"; ObjectID = "DcK-Jq-C0m"; */
+"DcK-Jq-C0m.footerTitle" = "Debug";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Debug"; ObjectID = "DcK-Jq-C0m"; */
+"DcK-Jq-C0m.headerTitle" = "Debug";
+
+/* Class = "IBUISegmentedControl"; Glh-jz-uMb.segmentTitles[0] = "cO"; ObjectID = "Glh-jz-uMb"; */
+"Glh-jz-uMb.segmentTitles[0]" = "cO";
+
+/* Class = "IBUISegmentedControl"; Glh-jz-uMb.segmentTitles[1] = "HTocv"; ObjectID = "Glh-jz-uMb"; */
+"Glh-jz-uMb.segmentTitles[1]" = "HTocv";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "IMO-i2-gWj"; */
+"IMO-i2-gWj.text" = "Label";
+
+/* Class = "IBUIBarButtonItem"; title = "Foto"; ObjectID = "Iav-yR-YjZ"; */
+"Iav-yR-YjZ.title" = "Foto";
+
+/* Class = "IBUILabel"; text = "Sprachauswahl"; ObjectID = "KbK-gT-K7a"; */
+"KbK-gT-K7a.text" = "Sprachauswahl";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Wählen Sie die Sprache in der Umwandlung von Bild zu Text verwendet werden."; ObjectID = "NLb-HZ-jLI"; */
+"NLb-HZ-jLI.footerTitle" = "Wählen Sie die Sprache in der Umwandlung von Bild zu Text verwendet werden.";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Sprache"; ObjectID = "NLb-HZ-jLI"; */
+"NLb-HZ-jLI.headerTitle" = "Sprache";
+
+/* Class = "IBUIBarButtonItem"; title = "Flash"; ObjectID = "PKk-HD-7GP"; */
+"PKk-HD-7GP.title" = "Flash";
+
+/* Class = "IBUITabBarItem"; title = "Kamera"; ObjectID = "QLM-Ew-3KO"; */
+"QLM-Ew-3KO.title" = "Kamera";
+
+/* Class = "IBUITabBarItem"; title = "Einstellungen"; ObjectID = "ZQS-NT-DSO"; */
+"ZQS-NT-DSO.title" = "Einstellungen";
+
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[0] = "Por"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[0]" = "Por";
+
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[1] = "Eng"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[1]" = "Eng";
+
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[2] = "Spa"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[2]" = "Spa";
+
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[3] = "Deu"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[3]" = "Deu";
+
+/* Class = "IBUINavigationItem"; title = "Einstellungen"; ObjectID = "e47-QX-hN9"; */
+"e47-QX-hN9.title" = "Einstellungen";
+
+/* Class = "IBUILabel"; text = "OpenCV"; ObjectID = "g9K-4A-57h"; */
+"g9K-4A-57h.text" = "OpenCV";
+
+/* Class = "IBUINavigationItem"; title = "Zuletzt verwendete Dokumente"; ObjectID = "k8z-P1-lnn"; */
+"k8z-P1-lnn.title" = "Zuletzt verwendete Dokumente";
+
+/* Class = "IBUIViewController"; title = "storyboardOne"; ObjectID = "oYx-kR-ddB"; */
+"oYx-kR-ddB.title" = "storyboardOne";
+
+/* Class = "IBUINavigationItem"; title = "Kamera"; ObjectID = "opx-H0-aig"; */
+"opx-H0-aig.title" = "Kamera";
+
+/* Class = "IBUILabel"; text = "Methode Selektor:"; ObjectID = "rk3-p4-vWk"; */
+"rk3-p4-vWk.text" = "Methode Selektor:";
+
+/* Class = "IBUILabel"; text = "Binarize"; ObjectID = "tgb-Ty-fXB"; */
+"tgb-Ty-fXB.text" = "Binarize";
+
+/* Class = "IBUILabel"; text = "Sheet framming tolerance"; ObjectID = "weU-cV-4lG"; */
+"weU-cV-4lG.text" = "Sheet framming tolerance";
