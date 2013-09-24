@@ -32,15 +32,15 @@
 		2413668017E209A7004225C2 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2413666A17E209A7004225C2 /* iTunesArtwork@2x.png */; };
 		245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 245F11A917C5279600114E66 /* UIImage+OpenCV.mm */; };
 		3207A76D17945CC900360D43 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3207A76C17945CC900360D43 /* opencv2.framework */; };
+		320E267D17F1277000BC8BF5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 320E267A17F1277000BC8BF5 /* Default.png */; };
+		320E267E17F1277000BC8BF5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 320E267B17F1277000BC8BF5 /* Default@2x.png */; };
+		320E267F17F1277000BC8BF5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 320E267C17F1277000BC8BF5 /* Default-568h@2x.png */; };
 		3239DC7017EE60E5002F0ED2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3239DC6F17EE60E5002F0ED2 /* OpenGLES.framework */; };
 		3249B3D2172D7FA7009F4D84 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D1172D7FA7009F4D84 /* UIKit.framework */; };
 		3249B3D4172D7FA7009F4D84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D3172D7FA7009F4D84 /* Foundation.framework */; };
 		3249B3D6172D7FA7009F4D84 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D5172D7FA7009F4D84 /* CoreGraphics.framework */; };
 		3249B3DE172D7FA7009F4D84 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3DD172D7FA7009F4D84 /* main.m */; };
 		3249B3E2172D7FA8009F4D84 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3E1172D7FA8009F4D84 /* AppDelegate.m */; };
-		3249B3E4172D7FA8009F4D84 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3E3172D7FA8009F4D84 /* Default.png */; };
-		3249B3E6172D7FA8009F4D84 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3E5172D7FA8009F4D84 /* Default@2x.png */; };
-		3249B3E8172D7FA8009F4D84 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3249B3E7172D7FA8009F4D84 /* Default-568h@2x.png */; };
 		3249B3EB172D7FA8009F4D84 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3EA172D7FA8009F4D84 /* ViewController.mm */; };
 		325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 325422EA179728D7008A6204 /* MBProgressHUD.m */; };
 		3254F4481765098C00573DF3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3254F4471765098C00573DF3 /* Accelerate.framework */; };
@@ -97,6 +97,9 @@
 		24A8E2CD17F0FD6C00F287A4 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		24A8E2CE17F0FD7100F287A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		3207A76C17945CC900360D43 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		320E267A17F1277000BC8BF5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		320E267B17F1277000BC8BF5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		320E267C17F1277000BC8BF5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3239DC6F17EE60E5002F0ED2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		3249B3CE172D7FA7009F4D84 /* Pocket Reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket Reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3249B3D1172D7FA7009F4D84 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -107,9 +110,6 @@
 		3249B3DF172D7FA7009F4D84 /* Pocket Reader-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pocket Reader-Prefix.pch"; sourceTree = "<group>"; };
 		3249B3E0172D7FA7009F4D84 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3249B3E1172D7FA8009F4D84 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		3249B3E3172D7FA8009F4D84 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		3249B3E5172D7FA8009F4D84 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		3249B3E7172D7FA8009F4D84 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3249B3E9172D7FA8009F4D84 /* ViewController.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ViewController.h; sourceTree = "<group>"; };
 		3249B3EA172D7FA8009F4D84 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		325422E9179728D7008A6204 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
@@ -420,11 +420,11 @@
 				327519A617E3F7DF009CABFF /* images */,
 				2413665217E209A7004225C2 /* Icon2 */,
 				3249B3D9172D7FA7009F4D84 /* Pocket Reader-Info.plist */,
+				320E267A17F1277000BC8BF5 /* Default.png */,
+				320E267B17F1277000BC8BF5 /* Default@2x.png */,
+				320E267C17F1277000BC8BF5 /* Default-568h@2x.png */,
 				3249B3DD172D7FA7009F4D84 /* main.m */,
 				3249B3DF172D7FA7009F4D84 /* Pocket Reader-Prefix.pch */,
-				3249B3E3172D7FA8009F4D84 /* Default.png */,
-				3249B3E5172D7FA8009F4D84 /* Default@2x.png */,
-				3249B3E7172D7FA8009F4D84 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -710,6 +710,7 @@
 				327519AB17E3F7F9009CABFF /* spanner.png in Resources */,
 				2413667517E209A7004225C2 /* Icon-40.png in Resources */,
 				2413667D17E209A7004225C2 /* Icon.png in Resources */,
+				320E267D17F1277000BC8BF5 /* Default.png in Resources */,
 				2413667817E209A7004225C2 /* Icon-72@2x.png in Resources */,
 				2413666F17E209A7004225C2 /* Icon-Small.png in Resources */,
 				2413667617E209A7004225C2 /* Icon-40@2x.png in Resources */,
@@ -721,23 +722,22 @@
 				2413666C17E209A7004225C2 /* Icon-72@2x.png in Resources */,
 				2413666D17E209A7004225C2 /* Icon-Small-50.png in Resources */,
 				327519B117E3F80C009CABFF /* photo.png in Resources */,
+				320E267E17F1277000BC8BF5 /* Default@2x.png in Resources */,
 				2410547B17F0D5880055A40A /* Main.storyboard in Resources */,
 				2413667117E209A7004225C2 /* Icon.png in Resources */,
 				327519B717E401D4009CABFF /* gear@2x.png in Resources */,
 				2413667F17E209A7004225C2 /* iTunesArtwork.png in Resources */,
 				2413667717E209A7004225C2 /* Icon-72.png in Resources */,
-				3249B3E4172D7FA8009F4D84 /* Default.png in Resources */,
 				327519AC17E3F7F9009CABFF /* spanner@2x.png in Resources */,
+				320E267F17F1277000BC8BF5 /* Default-568h@2x.png in Resources */,
 				2413667217E209A7004225C2 /* Icon@2x.png in Resources */,
 				2413667A17E209A7004225C2 /* Icon-76@2x.png in Resources */,
-				3249B3E6172D7FA8009F4D84 /* Default@2x.png in Resources */,
 				2413667917E209A7004225C2 /* Icon-76.png in Resources */,
 				2413667017E209A7004225C2 /* Icon-Small@2x.png in Resources */,
 				2413668017E209A7004225C2 /* iTunesArtwork@2x.png in Resources */,
 				2413666B17E209A7004225C2 /* Icon-72.png in Resources */,
 				327519B217E3F80C009CABFF /* photo@2x.png in Resources */,
 				2413667C17E209A7004225C2 /* Icon-Small@2x.png in Resources */,
-				3249B3E8172D7FA8009F4D84 /* Default-568h@2x.png in Resources */,
 				2413667B17E209A7004225C2 /* Icon-Small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -850,7 +850,7 @@
 				GCC_PREFIX_HEADER = "Pocket Reader/Pocket Reader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/GPUImage/Source/**";
 				INFOPLIST_FILE = "Pocket Reader/Pocket Reader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/lib",
@@ -877,7 +877,7 @@
 				GCC_PREFIX_HEADER = "Pocket Reader/Pocket Reader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/GPUImage/Source/**";
 				INFOPLIST_FILE = "Pocket Reader/Pocket Reader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/lib",

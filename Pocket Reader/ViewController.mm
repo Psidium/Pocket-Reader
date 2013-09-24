@@ -62,7 +62,7 @@
     n_erode_dilate = 1;
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     //[self.recordPreview setBounds:]
-    dataClass.openCVMethodSelector = 0;
+    dataClass.openCVMethodSelector = 1;
     if (!UIAccessibilityIsVoiceOverRunning()) {
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"VoiceOver inactive" message:@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [message show];
@@ -99,6 +99,7 @@
     Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
             self.tesseract=tesseractHolder;
     NSLog(@"Mudou pra %@",dataClass.tesseractLanguage);
+    while([captureDevice isAdjustingFocus]);
     recognize=YES;
 }
 
@@ -278,7 +279,8 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                     });
-                NSLog(@"saiu uimage");                [self.tesseract setImage:img];
+                NSLog(@"saiu uimage");
+                [self.tesseract setImage:img];
                 NSLog(@"começa a reconhecer");
                 NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
                 NSLog(@"terminou");
@@ -299,6 +301,14 @@
         }];
         recognize=false;
     }
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 
@@ -342,13 +352,11 @@
         sheet==padrao
         )
     {
+        while([captureDevice isAdjustingFocus]);
         recognize=YES;
-        // TODO: Wait for autofocus to take the picture
-        // TODO: Depois de detectar a folha mentir e aproximar mais ainda
+        // TODO: Depois de detectar a folha cortar ela da foto
         // TODO: pegar a imagem do rolo da câmera
-        // TODO: tirar o autolock enquanto na aba da camera
         // TODO: salvar em um arquivo os textos
-        // TODO: fazer o HUBprogress Ready
     }
     
     // Dispatch updating of face markers to main queue

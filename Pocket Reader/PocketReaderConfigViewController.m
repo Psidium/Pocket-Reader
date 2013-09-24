@@ -34,6 +34,7 @@
     [self.switchOpenCVOn  setOn:YES animated:YES];
     [self.segmentControlMethodSelector setSelectedSegmentIndex:dataClass.openCVMethodSelector];
     [self.languageSelectorOne setSelectedSegmentIndex:dataClass.tesseractLanguageSelector];
+    [self.segmentControlMethodSelector setSelectedSegmentIndex:dataClass.openCVMethodSelector];
     // Do any additional setup after loading the view from its nib.
 }
 
