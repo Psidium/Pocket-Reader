@@ -345,17 +345,25 @@
 - (void) usePicker {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     [picker setDelegate:self];
-    picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    [picker setAllowsEditing:YES];
+    [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
     
     [self presentViewController:picker animated:YES completion:nil];
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     // Dismiss the picker
-    [[picker parentViewController] dismissViewControllerAnimated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    });
     
     // Get the image from the result
     [self recognizeText:[info valueForKey:@"UIImagePickerControllerOriginalImage"]];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Implementation of FaceTracker:
@@ -541,6 +549,14 @@
         
         cv::line(image, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, CV_AA); //<----- usa essa função e cria uma cv::Mat com fundo transparente, bota uma UIImageView em cima da recordPreview e fica jogando essa cv::Mat lá, tomara qiue fique transparente
     }
+    cv::erode(image, image, cv::Mat(),cv::Point(-1,-1),0.5);
+    cv::dilate(image, image, cv::Mat(),cv::Point(-1,-1),0.5);//remove smaller part of image
+
+    
+    
+    
+    
+    
     //image.inv();
     image = 255- image;
     
