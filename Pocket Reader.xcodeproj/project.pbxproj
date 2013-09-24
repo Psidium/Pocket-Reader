@@ -92,10 +92,10 @@
 		2413666A17E209A7004225C2 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		245F11A817C5279600114E66 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
 		245F11A917C5279600114E66 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
-		24A8E2CB17F0FCAC00F287A4 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Main.strings; sourceTree = "<group>"; };
-		24A8E2CC17F0FD6800F287A4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
-		24A8E2CD17F0FD6C00F287A4 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
-		24A8E2CE17F0FD7100F287A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		24FD5F3517F11946003B472B /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Main.strings; sourceTree = "<group>"; };
+		24FD5F3617F11B91003B472B /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Main.strings"; sourceTree = "<group>"; };
+		24FD5F3717F11B9C003B472B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		24FD5F3817F11BAD003B472B /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		3207A76C17945CC900360D43 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		320E267A17F1277000BC8BF5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		320E267B17F1277000BC8BF5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -769,10 +769,10 @@
 			isa = PBXVariantGroup;
 			children = (
 				2410547E17F0D5AD0055A40A /* Base */,
-				24A8E2CB17F0FCAC00F287A4 /* pt */,
-				24A8E2CC17F0FD6800F287A4 /* de */,
-				24A8E2CD17F0FD6C00F287A4 /* es */,
-				24A8E2CE17F0FD7100F287A4 /* en */,
+				24FD5F3517F11946003B472B /* pt */,
+				24FD5F3617F11B91003B472B /* pt-PT */,
+				24FD5F3717F11B9C003B472B /* de */,
+				24FD5F3817F11BAD003B472B /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
