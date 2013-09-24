@@ -276,9 +276,6 @@
             
             NSLog(@"%@", [img description]);
             if (img!=nil) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    });
                 NSLog(@"saiu uimage");
                 [self.tesseract setImage:img];
                 NSLog(@"começa a reconhecer");
@@ -290,6 +287,9 @@
                 
                 NSLog(@"%@", textoReconhecido);
                 NSLog(@"deveria ter mostrado");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                });
                 if (UIAccessibilityIsVoiceOverRunning()) {
                     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
                                                     textoReconhecido);
@@ -303,6 +303,37 @@
     }
 }
 
+-(void) recognizeText:(UIImage*)img {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];});
+    img=[self gs_convert_image:img];
+    
+    if (img!=nil) {
+
+        NSLog(@"saiu uimage");
+        [self.tesseract setImage:img];
+        NSLog(@"começa a reconhecer");
+        NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
+        NSLog(@"terminou");
+        NSLog(@"%@",[self.tesseract description]);
+        NSString *textoReconhecido = [self.tesseract recognizedText];
+        [self.tesseract clear];
+        
+        NSLog(@"%@", textoReconhecido);
+        NSLog(@"deveria ter mostrado");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+        if (UIAccessibilityIsVoiceOverRunning()) {
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
+                                            textoReconhecido);
+        }
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Texto reconhecido:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [message show];
+    }
+
+}
+
 -(void) viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
@@ -311,6 +342,21 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
+- (void) usePicker {
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    [picker setDelegate:self];
+    picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    // Dismiss the picker
+    [[picker parentViewController] dismissViewControllerAnimated:YES completion:nil];
+    
+    // Get the image from the result
+    [self recognizeText:[info valueForKey:@"UIImagePickerControllerOriginalImage"]];
+}
 
 #pragma mark - Implementation of FaceTracker:
 - (void)processFrame:(cv::Mat &)mat videoRect:(CGRect)rect videoOrientation:(AVCaptureVideoOrientation)videOrientation

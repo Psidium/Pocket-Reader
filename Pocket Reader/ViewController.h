@@ -13,7 +13,7 @@
 #import "PocketReaderDataClass.h"
 #import "PocketReaderConfigViewController.h"
 
-@interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate, UIAlertViewDelegate> {
+@interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     
 	AVCaptureSession *captureSession;
     AVCaptureDevice *captureDevice;
