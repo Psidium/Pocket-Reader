@@ -31,7 +31,7 @@ public:
 	/* getters */
 	Mat& getDetection();
 
-	vector<Rect>& getBoundingBoxes(Mat& image);
+	vector<cv::Rect>& getBoundingBoxes(Mat& image);
 
 	vector<string>& getWords();
 
@@ -105,8 +105,8 @@ private:
 	 * searchDirection: 1 for along gradient, -1 for opposite
 	 * purpose: 1 for compute, 2 for refine
 	 */
-	void updateStrokeWidth(Mat &swtmap, vector<Point> &startPoints,
-				vector<Point> &strokePoints,
+	void updateStrokeWidth(Mat &swtmap, vector<cv::Point> &startPoints,
+				vector<cv::Point> &strokePoints,
 				int searchDirection, Purpose purpose);
 
 	int connectComponentAnalysis(const Mat& swtmap, Mat& ccmap);
@@ -117,17 +117,17 @@ private:
 
 	void chainPairs(Mat& ccmap);
 	
-	void filterBoundingBoxes(vector<Rect>& boundingBoxes, Mat& ccmap, 
+	void filterBoundingBoxes(vector<cv::Rect>& boundingBoxes, Mat& ccmap, 
 				int rejectRatio);
 	
 	void chainToBox(vector< vector<int> >& chain,
-			vector<Rect>& boundingBox);
+			vector<cv::Rect>& boundingBox);
 	
-	void overlapBoundingBoxes(vector<Rect>& boundingBoxes);
+	void overlapBoundingBoxes(vector<cv::Rect>& boundingBoxes);
 
-	void overlayText(vector<Rect>& box, vector<string>& text);
+	void overlayText(vector<cv::Rect>& box, vector<string>& text);
 
-	void ocrRead(vector<Rect>& boundingBoxes);
+	void ocrRead(vector<cv::Rect>& boundingBoxes);
 
 	float ocrRead(const Mat& imagePatch, string& output);
 
@@ -143,11 +143,11 @@ private:
 
 	int countInnerLetterCandidates(bool* array);
 	
-	float getMeanIntensity(const Mat& ccmap, const Rect& rect, 
+	float getMeanIntensity(const Mat& ccmap, const cv::Rect& rect, 
 							int element);
 	
 	float getMedianStrokeWidth(const Mat& ccmap, const Mat& swtmap,	
-				const Rect& rect, int element);
+				const cv::Rect& rect, int element);
 	
 	void mergePairs(const vector<Pair>& groups,
 			vector< vector<int> >& chains);
@@ -171,7 +171,7 @@ private:
 
 	string& trim(string& str);
 
-	static bool spaticalOrder(Rect a, Rect b);
+	static bool spaticalOrder(cv::Rect a, cv::Rect b);
 
 	// display intermidate results
 	void showEdgeMap();
@@ -184,11 +184,11 @@ private:
 	
 	void showLetterGroup();
 	
-	void showBoundingBoxes(vector<Rect>& boxes);
+	void showBoundingBoxes(vector<cv::Rect>& boxes);
 	
-	void showBoundingBoxes(vector<Rect>& boxes, vector<bool>& text);
+	void showBoundingBoxes(vector<cv::Rect>& boxes, vector<bool>& text);
 	// tests
-	void testEdgePoints(vector<Point> &edgepoints);
+	void testEdgePoints(vector<cv::Point> &edgepoints);
 	
 	/***** variables *******/
 	
@@ -201,13 +201,13 @@ private:
 	Mat edgemap_;
 	Mat theta_;
 	bool firstPass_; //  white: 1, black : 0 
-	vector<Point> edgepoints_;
+	vector<cv::Point> edgepoints_;
 
 	Mat correlation_;	// read from arg[1]
 	vector<string> wordList_; // read from arg[2]
 	Mode mode_; // streaming or images
 
-	vector<Rect> boxesBothSides_;
+	vector<cv::Rect> boxesBothSides_;
 	vector<string> wordsBothSides_;
 	vector<float> boxesScores_;
 
@@ -216,7 +216,7 @@ private:
 	FontColor fontColor_;
 	Result result_;
 	// these variables should be cleaned between calculations
-	vector<Rect> componentsRoi_;
+	vector<cv::Rect> componentsRoi_;
 	bool *isLetterComponects_;
 	bool *isGrouped_;
 	vector<bool*> innerComponents_;
@@ -226,7 +226,7 @@ private:
 	vector< vector<int> > horizontalChains_; 
 	vector< vector<int> > verticalChains_; 
 
-	vector<Rect> boundingBoxes_;
+	vector<cv::Rect> boundingBoxes_;
 	
 	float *componentsMeanIntensity_;
 	float *componentsMedianStrokeWidth_;

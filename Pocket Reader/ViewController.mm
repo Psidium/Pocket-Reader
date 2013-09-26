@@ -235,17 +235,16 @@
         UIImage *imageBebug = [UIImage imageWithCGImage:videoImage];
         CGImageRelease(videoImage);
         
-        if(dataClass.openCVMethodSelector==0 || dataClass.openCVMethodSelector==1){
             
         cv::Mat mat = [imageBebug CVMat];
         
         
         [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
-        
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.imageView setHidden:YES];
+            });
             mat.release();
-        } else if (dataClass.openCVMethodSelector==2){
-            //if  there's a third method
-        }
+        
         
     } else {
         NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
@@ -397,10 +396,14 @@
     
     // Detect faces
     cv::Rect sheet;
+    cv::vector<cv::Rect> vectorText;
     // MARK: Here comes the OpenCV methods
-    if (dataClass.openCVMethodSelector == 0) {
-        sheet = [self contornObjectOnView:mat];
-    mat.release();
+    if (dataClass.openCVMethodSelector == 0 || dataClass.openCVMethodSelector == 2) {
+        if (dataClass.openCVMethodSelector == 0)
+            sheet = [self contornObjectOnView:mat];
+        else if (dataClass.openCVMethodSelector == 2)
+            vectorText = [self detectTextWrapper:mat];
+        mat.release();
     
     if (
         //     (padrao.x - dataClass.sheetErrorRange) < sheet.x < (padrao.x + dataClass.sheetErrorRange) && (padrao.y - dataClass.sheetErrorRange) < sheet.y < (padrao.y + dataClass.sheetErrorRange) && (padrao.width - dataClass.sheetErrorRange) < sheet.width < (padrao.width + dataClass.sheetErrorRange) && (padrao.height - dataClass.sheetErrorRange) < sheet.height < (padrao.height + dataClass.sheetErrorRange)
@@ -416,10 +419,10 @@
     
     // Dispatch updating of face markers to main queue
     dispatch_sync(dispatch_get_main_queue(), ^{
-        [self displaySheet:sheet
-              forVideoRect:rect
-          videoOrientation:AVCaptureVideoOrientationPortrait
-                 withColor:[UIColor greenColor]];
+        
+        if (dataClass.openCVMethodSelector == 0)[self displaySheet:sheet forVideoRect:rect videoOrientation:AVCaptureVideoOrientationPortrait withColor:[UIColor greenColor]];
+        else if (dataClass.openCVMethodSelector == 2)
+            [self displayFaces:vectorText forVideoRect:rect videoOrientation:AVCaptureVideoOrientationPortrait];
         [self.imageView setHidden:YES];
     });
         
@@ -461,6 +464,63 @@
     return cv::boundingRect(cv::Mat(points).reshape(2));
 }
 
+
+// Poliformism method to use vectors
+- (void)displayFaces:(const std::vector<cv::Rect> &)faces
+        forVideoRect:(CGRect)rect
+    videoOrientation:(AVCaptureVideoOrientation)videoOrientation
+{
+    NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
+    int sublayersCount = [sublayers count];
+    int currentSublayer = 0;
+    
+	[CATransaction begin];
+	[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+	
+	// hide all the face layers
+	for (CALayer *layer in sublayers) {
+        NSString *layerName = [layer name];
+		if ([layerName isEqualToString:@"FaceLayer"])
+			[layer setHidden:YES];
+	}
+    
+    // Create transform to convert from vide frame coordinate space to view coordinate space
+    CGAffineTransform t = [self affineTransformForVideoFrame:rect orientation:videoOrientation];
+    
+    for (int i = 0; i < faces.size(); i++) {
+        
+        CGRect faceRect;
+        faceRect.origin.x = faces[i].x;
+        faceRect.origin.y = faces[i].y;
+        faceRect.size.width = faces[i].width;
+        faceRect.size.height = faces[i].height;
+        
+        faceRect = CGRectApplyAffineTransform(faceRect, t);
+        
+        CALayer *featureLayer = nil;
+        
+        while (!featureLayer && (currentSublayer < sublayersCount)) {
+			CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
+			if ([[currentLayer name] isEqualToString:@"FaceLayer"]) {
+				featureLayer = currentLayer;
+				[currentLayer setHidden:NO];
+			}
+		}
+        
+        if (!featureLayer) {
+            // Create a new feature marker layer
+			featureLayer = [[CALayer alloc] init];
+            featureLayer.name = @"FaceLayer";
+            featureLayer.borderColor = [[UIColor greenColor] CGColor];
+            featureLayer.borderWidth = 3.0f;
+			[self.recordPreview.layer addSublayer:featureLayer];
+		}
+        
+        featureLayer.frame = faceRect;
+    }
+    
+    [CATransaction commit];
+}
 
 
 
@@ -527,6 +587,17 @@
     [CATransaction commit];
     
    
+}
+
+#pragma mark - C++ wrapper
+
+-(cv::vector<cv::Rect>) detectTextWrapper:(cv::Mat &) image {
+    DetectText detector = DetectText();
+    vector <cv::Rect> texts;
+    texts = detector.getBoundingBoxes(image);
+    image.release();
+    NSLog(@"Passou method objc");
+    return texts;
 }
 
 

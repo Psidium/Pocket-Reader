@@ -383,6 +383,7 @@
                                                     <segments>
                                                         <segment title="cO"/>
                                                         <segment title="HTocv"/>
+                                                        <segment title="C++"/>
                                                     </segments>
                                                     <connections>
                                                         <action selector="didChangedSegmentControl:" destination="vPL-gl-hKy" eventType="valueChanged" id="mJh-yl-4GS"/>

@@ -95,7 +95,7 @@ imwrite(outputPrefix_ + "_detection.jpg",detection_);
 
 }
 
-	vector<Rect>&
+	vector<cv::Rect>&
 DetectText::getBoundingBoxes(Mat& image) {
 
 	filename_ = string("streaming.jpg");
@@ -235,13 +235,13 @@ void DetectText::strokeWidthTransform(const Mat& image, Mat& swtmap,
 				if (edgemap_.at<unsigned char>(y, x) == 255) {
 					theta_.at<float>(y, x) = atan2(dy.at<float>(y, x),
 							dx.at<float>(y, x));
-					edgepoints_.push_back(Point(x, y));
+					edgepoints_.push_back(cv::Point(x, y));
 				}
 			}
 		}
 	}
 
-	vector < Point > strokePoints;
+	vector < cv::Point > strokePoints;
 	updateStrokeWidth(swtmap, edgepoints_, strokePoints, searchDirection,
 			UPDATE);
 
@@ -250,11 +250,11 @@ void DetectText::strokeWidthTransform(const Mat& image, Mat& swtmap,
 
 }
 
-void DetectText::updateStrokeWidth(Mat& swtmap, vector<Point>& startPoints,
-		vector<Point>& strokePoints, int searchDirection, Purpose purpose) {
+void DetectText::updateStrokeWidth(Mat& swtmap, vector<cv::Point>& startPoints,
+		vector<cv::Point>& strokePoints, int searchDirection, Purpose purpose) {
 	//loop through all edgepoints, compute stroke width
-	vector<Point>::iterator itr = startPoints.begin();
-	vector < Point > pointStack;
+	vector<cv::Point>::iterator itr = startPoints.begin();
+	vector < cv::Point > pointStack;
 	vector<float> SwtValues;
 	for (; itr != startPoints.end(); ++itr) {
 		pointStack.clear();
@@ -266,7 +266,7 @@ void DetectText::updateStrokeWidth(Mat& swtmap, vector<Point>& startPoints,
 		float currX = ix;
 		bool isStroke = false;
 		float iTheta = theta_.at<float>(*itr);
-		pointStack.push_back(Point(currX, currY));
+		pointStack.push_back(cv::Point(currX, currY));
 		SwtValues.push_back(swtmap.at<float>(currY, currX));
 		while (step < maxStrokeWidth_) {
 			float nextY = round(iy + sin(iTheta) * searchDirection * step);
@@ -283,7 +283,7 @@ void DetectText::updateStrokeWidth(Mat& swtmap, vector<Point>& startPoints,
 			currY = nextY;
 			currX = nextX;
 
-			pointStack.push_back(Point(currX, currY));
+			pointStack.push_back(cv::Point(currX, currY));
 			SwtValues.push_back(swtmap.at<float>(currY, currX));
 
 			if (edgemap_.at<unsigned char>(currY, currX) == 255) {
@@ -291,7 +291,7 @@ void DetectText::updateStrokeWidth(Mat& swtmap, vector<Point>& startPoints,
 				if (abs(abs(iTheta - jTheta) - 3.14) < 3.14 / 2) {
 					isStroke = true;
 					if (purpose == UPDATE) {
-						strokePoints.push_back(Point(ix, iy));
+						strokePoints.push_back(cv::Point(ix, iy));
 					}
 				}
 				break;
@@ -414,7 +414,7 @@ int DetectText::connectComponentAnalysis(const Mat& swtmap, Mat& ccmap) {
 					}
 					width = maxX - minX + 1;
 					height = maxY - minY + 1;
-					Rect letterRoi(minX, minY, width, height);
+					cv::Rect letterRoi(minX, minY, width, height);
 					componentsRoi_.push_back(letterRoi);
 					//assert(label == componentsRoi_.size()-1);
 
@@ -445,7 +445,7 @@ void DetectText::identifyLetters(const Mat& swtmap, const Mat& ccmap) {
 		float currentStrokeWidth;
 		bool isLetter = true;
 
-		Rect *itr = &componentsRoi_[i];
+		cv::Rect *itr = &componentsRoi_[i];
 		if (itr->height > maxLetterHeight_ || itr->height < minLetterHeight_) {
 			isLetterComponects_[i] = false;
 			continue;
@@ -532,7 +532,7 @@ void DetectText::groupLetters(const Mat& swtmap, const Mat& ccmap) {
 		if (!isLetterComponects_[i])
 			continue;
 
-		Rect iRect = componentsRoi_[i];
+		cv::Rect iRect = componentsRoi_[i];
 
 		float iMeanIntensity = getMeanIntensity(ccmap, iRect,
 				static_cast<int>(i));
@@ -543,7 +543,7 @@ void DetectText::groupLetters(const Mat& swtmap, const Mat& ccmap) {
 			if (!isLetterComponects_[j])
 				continue;
 
-			Rect jRect = componentsRoi_[j];
+			cv::Rect jRect = componentsRoi_[j];
 
 			// check if horizontal
 			bool horizontal = !(iRect.y > jRect.y + jRect.height
@@ -630,7 +630,7 @@ void DetectText::chainPairs(Mat& ccmap) {
 	mergePairs(horizontalLetterGroups_, horizontalChains_);
 
 	// horizontalChains
-	vector < Rect > initialHorizontalBoxes;
+	vector < cv::Rect > initialHorizontalBoxes;
 	chainToBox(horizontalChains_, initialHorizontalBoxes);
 
 	filterBoundingBoxes(initialHorizontalBoxes, ccmap, 4);
@@ -640,7 +640,7 @@ void DetectText::chainPairs(Mat& ccmap) {
 }
 
 void DetectText::chainToBox(vector<vector<int> >& chain,
-		vector<Rect>& boundingBox) {
+		vector<cv::Rect>& boundingBox) {
 	for (size_t i = 0; i < chain.size(); i++) {
 		if (chain[i].size() < 3)
 			continue;
@@ -649,7 +649,7 @@ void DetectText::chainToBox(vector<vector<int> >& chain,
 		int padding = 5;
 
 		for (size_t j = 0; j < chain[i].size(); j++) {
-			Rect *itr = &componentsRoi_[chain[i][j]];
+			cv::Rect *itr = &componentsRoi_[chain[i][j]];
 			letterAreaSum += itr->width * itr->height;
 			minX = min(minX, itr->x);
 			minY = min(minY, itr->y);
@@ -663,25 +663,25 @@ void DetectText::chainToBox(vector<vector<int> >& chain,
 		maxX = min(image_.cols, maxX + padding);
 		maxY = min(image_.rows, maxY + padding);
 
-		boundingBox.push_back(Rect(minX, minY, maxX - minX, maxY - minY));
+		boundingBox.push_back(cv::Rect(minX, minY, maxX - minX, maxY - minY));
 	}
 
 }
 
-bool DetectText::spaticalOrder(Rect a, Rect b) {
+bool DetectText::spaticalOrder(cv::Rect a, cv::Rect b) {
 	return a.y < b.y;
 }
 
-void DetectText::filterBoundingBoxes(vector<Rect>& boundingBoxes, Mat& ccmap,
+void DetectText::filterBoundingBoxes(vector<cv::Rect>& boundingBoxes, Mat& ccmap,
 		int rejectRatio) {
-	vector < Rect > qualifiedBoxes;
+	vector < cv::Rect > qualifiedBoxes;
 	vector<int> components;
 
 	for (size_t i = 0; i < boundingBoxes.size(); i++) {
 		int isLetterCount = 0;
 		int letterArea = 0;
 		int nonLetterArea = 0;
-		Rect *rect = &boundingBoxes[i];
+		cv::Rect *rect = &boundingBoxes[i];
 
 		float width = static_cast<float>(rect->width);
 		float height = static_cast<float>(rect->height);
@@ -721,12 +721,12 @@ void DetectText::filterBoundingBoxes(vector<Rect>& boundingBoxes, Mat& ccmap,
 	boundingBoxes = qualifiedBoxes;
 }
 
-void DetectText::overlapBoundingBoxes(vector<Rect>& boundingBoxes) {
-	vector < Rect > bigBoxes;
+void DetectText::overlapBoundingBoxes(vector<cv::Rect>& boundingBoxes) {
+	vector < cv::Rect > bigBoxes;
 
 	Mat tempMap(image_.size(), CV_32FC1, Scalar(0));
 	for (size_t i = 0; i < boundingBoxes.size(); i++) {
-		Rect *rect = &boundingBoxes[i];
+		cv::Rect *rect = &boundingBoxes[i];
 		for (int y = rect->y; y < rect->y + rect->height; y++)
 			for (int x = rect->x; x < rect->x + rect->width; x++) {
 				tempMap.at<float>(y, x) = 50;
@@ -738,8 +738,8 @@ void DetectText::overlapBoundingBoxes(vector<Rect>& boundingBoxes) {
 				!= 50)
 			continue;
 
-		Rect rect;
-		floodFill(tempMap, Point(boundingBoxes[i].x, boundingBoxes[i].y),
+		cv::Rect rect;
+		floodFill(tempMap, cv::Point(boundingBoxes[i].x, boundingBoxes[i].y),
 				i + 100, &rect);
 
 		int padding = 5;
@@ -750,13 +750,13 @@ void DetectText::overlapBoundingBoxes(vector<Rect>& boundingBoxes) {
 		int maxX = min(image_.cols, rect.x + rect.width + padding);
 		int maxY = min(image_.rows, rect.y + rect.height + padding);
 
-		bigBoxes.push_back(Rect(minX, minY, maxX - minX, maxY - minY));
+		bigBoxes.push_back(cv::Rect(minX, minY, maxX - minX, maxY - minY));
 	}
 
 	boundingBoxes = bigBoxes;
 }
 
-void DetectText::overlayText(vector<Rect>& box, vector<string>& text) {
+void DetectText::overlayText(vector<cv::Rect>& box, vector<string>& text) {
 	assert(box.size() == text.size());
 	Scalar color(0, 255, 0);
 	size_t lineWidth = 25;
@@ -775,25 +775,25 @@ void DetectText::overlayText(vector<Rect>& box, vector<string>& text) {
 		string prefix = "[";
 		prefix = prefix + out.str() + "]";
 		putText(detection_, prefix,
-				Point(box[i].x + box[i].width, box[i].y + box[i].height),
+				cv::Point(box[i].x + box[i].width, box[i].y + box[i].height),
 				FONT_HERSHEY_DUPLEX, 1, color, 2);
-		putText(detection_, prefix, Point(image_.cols, textDisplayOffset_ * 35),
+		putText(detection_, prefix, cv::Point(image_.cols, textDisplayOffset_ * 35),
 				FONT_HERSHEY_DUPLEX, 1, color, 2);
 		while (output.length() > lineWidth) {
 			putText(detection_, output.substr(0, lineWidth),
-					Point(image_.cols + indent, textDisplayOffset_ * 35),
+					cv::Point(image_.cols + indent, textDisplayOffset_ * 35),
 					FONT_HERSHEY_DUPLEX, 1, color, 2);
 			output = output.substr(lineWidth);
 			textDisplayOffset_++;
 		}
 		putText(detection_, output,
-				Point(image_.cols + indent, textDisplayOffset_ * 35),
+				cv::Point(image_.cols + indent, textDisplayOffset_ * 35),
 				FONT_HERSHEY_DUPLEX, 1, color, 2);
 		textDisplayOffset_ += 2;
 	}
 }
 
-void DetectText::ocrRead(vector<Rect>& boundingBoxes) {
+void DetectText::ocrRead(vector<cv::Rect>& boundingBoxes) {
 	sort(boundingBoxes.begin(), boundingBoxes.end(), DetectText::spaticalOrder);
 	for (size_t i = 0; i < boundingBoxes.size(); i++) {
 		string result;
@@ -812,7 +812,7 @@ float DetectText::ocrRead(const Mat& imagePatch, string& output) {
 //	if (imagePatch.rows < 30)
 //	{
 //		double scale = 1.5;
-//		resize(imagePatch, scaledImage, Size(0,0),
+//		resize(imagePatch, scaledImage, cv::Size(0,0),
 //			scale, scale, INTER_LANCZOS4);
 //
 //		//imwrite("patch.tiff", scaledImage);
@@ -984,7 +984,7 @@ float DetectText::spellCheck(string& str, string& output, int method) {
 Mat DetectText::filterPatch(const Mat& patch) {
 	Mat result;
 	Mat element = getStructuringElement(MORPH_ELLIPSE,
-			Size(patch.cols / 3, patch.rows / 3));
+                                        cv::Size(patch.cols / 3, patch.rows / 3));
 	morphologyEx(patch, result, MORPH_TOPHAT, element);
 	return result;
 }
@@ -1139,9 +1139,9 @@ void DetectText::showCcmap(Mat& ccmap) {
 
 	Mat ccmapLetters = ccmap * (1.0 / static_cast<float>(nComponent_));
 	for (size_t i = 0; i < nComponent_; ++i) {
-		Rect *itr = &componentsRoi_[i];
-		rectangle(ccmapLetters, Point(itr->x, itr->y),
-				Point(itr->x + itr->width, itr->y + itr->height), Scalar(0.5));
+		cv::Rect *itr = &componentsRoi_[i];
+		rectangle(ccmapLetters, cv::Point(itr->x, itr->y),
+				cv::Point(itr->x + itr->width, itr->y + itr->height), Scalar(0.5));
 	}
 	if (firstPass_)
 		imwrite("ccmap1.jpg", ccmapLetters * nComponent_);
@@ -1166,9 +1166,9 @@ void DetectText::showLetterDetection() {
 
 	for (size_t i = 0; i < nComponent_; ++i) {
 		if (isLetterComponects_[i]) {
-			Rect *itr = &componentsRoi_[i];
-			rectangle(output, Point(itr->x, itr->y),
-					Point(itr->x + itr->width, itr->y + itr->height), scalar,
+			cv::Rect *itr = &componentsRoi_[i];
+			rectangle(output, cv::Point(itr->x, itr->y),
+					cv::Point(itr->x + itr->width, itr->y + itr->height), scalar,
 					2);
 			stringstream ss;
 			string s;
@@ -1193,9 +1193,9 @@ void DetectText::showLetterGroup() {
 
 	for (size_t i = 0; i < nComponent_; ++i) {
 		if (isGrouped_[i]) {
-			Rect *itr = &componentsRoi_[i];
-			rectangle(output, Point(itr->x, itr->y),
-					Point(itr->x + itr->width, itr->y + itr->height), scalar,
+			cv::Rect *itr = &componentsRoi_[i];
+			rectangle(output, cv::Point(itr->x, itr->y),
+					cv::Point(itr->x + itr->width, itr->y + itr->height), scalar,
 					2);
 		}
 	}
@@ -1205,18 +1205,18 @@ void DetectText::showLetterGroup() {
 		imwrite(outputPrefix_ + "_group2.jpg", output);
 }
 
-void DetectText::showBoundingBoxes(vector<Rect>& boundingBoxes) {
+void DetectText::showBoundingBoxes(vector<cv::Rect>& boundingBoxes) {
 	Scalar scalar(0, 0, 255);
 
 	for (size_t i = 0; i < boundingBoxes.size(); i++) {
-		Rect *rect = &boundingBoxes[i];
-		rectangle(detection_, Point(rect->x, rect->y),
-				Point(rect->x + rect->width, rect->y + rect->height), scalar,
+		cv::Rect *rect = &boundingBoxes[i];
+		rectangle(detection_, cv::Point(rect->x, rect->y),
+				cv::Point(rect->x + rect->width, rect->y + rect->height), scalar,
 				3);
 	}
 }
 
-void DetectText::showBoundingBoxes(vector<Rect>& boundingBoxes,
+void DetectText::showBoundingBoxes(vector<cv::Rect>& boundingBoxes,
 		vector<bool>& boxInbox) {
 	assert(boundingBoxes.size() == boxInbox.size());
 	Scalar scalar;
@@ -1225,9 +1225,9 @@ void DetectText::showBoundingBoxes(vector<Rect>& boundingBoxes,
 	for (size_t i = 0; i < boundingBoxes.size(); i++) {
 		if (boxInbox[i] == true)
 			continue;
-		Rect *rect = &boundingBoxes[i];
-		rectangle(detection_, Point(rect->x, rect->y),
-				Point(rect->x + rect->width, rect->y + rect->height), scalar,
+		cv::Rect *rect = &boundingBoxes[i];
+		rectangle(detection_, cv::Point(rect->x, rect->y),
+				cv::Point(rect->x + rect->width, rect->y + rect->height), scalar,
 				3);
 	}
 }
@@ -1242,7 +1242,7 @@ inline int DetectText::countInnerLetterCandidates(bool* array) {
 	return count;
 }
 
-float DetectText::getMeanIntensity(const Mat& ccmap, const Rect& rect,
+float DetectText::getMeanIntensity(const Mat& ccmap, const cv::Rect& rect,
 		int element) {
 	assert(element >= 0);
 	if (componentsMeanIntensity_[element] == 0) {
@@ -1263,7 +1263,7 @@ float DetectText::getMeanIntensity(const Mat& ccmap, const Rect& rect,
 }
 
 float DetectText::getMedianStrokeWidth(const Mat& ccmap, const Mat& swtmap,
-		const Rect& rect, int element) {
+		const cv::Rect& rect, int element) {
 
 	assert(element >= 0);
 	assert(isLetterComponects_[element]);
@@ -1534,9 +1534,9 @@ void DetectText::testMergePairs() {
 
 }
 
-void DetectText::testEdgePoints(vector<Point>& edgepoints) {
+void DetectText::testEdgePoints(vector<cv::Point>& edgepoints) {
 	Mat temp(edgemap_.size(), CV_8UC1);
-	vector<Point>::iterator itr = edgepoints.begin();
+	vector<cv::Point>::iterator itr = edgepoints.begin();
 	for (; itr != edgepoints.end(); ++itr) {
 		temp.at<unsigned char>(*itr) = 255;
 	}
