@@ -62,6 +62,7 @@
 		329B971517762DBA00846FA9 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971317762DBA00846FA9 /* liblept.a */; };
 		329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971417762DBA00846FA9 /* libtesseract_all.a */; };
 		32C2825F17A5982900926FC6 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 32C2825E17A5982900926FC6 /* tessdata */; };
+		32D1CAD117F47C3100202BC8 /* text_detect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 32D1CACF17F47C3100202BC8 /* text_detect.mm */; };
 		32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */; };
 		32DFDF4617D4009F00D76809 /* PocketReaderDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */; };
 /* End PBXBuildFile section */
@@ -279,6 +280,8 @@
 		329B971317762DBA00846FA9 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
 		329B971417762DBA00846FA9 /* libtesseract_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract_all.a; sourceTree = "<group>"; };
 		32C2825E17A5982900926FC6 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
+		32D1CACF17F47C3100202BC8 /* text_detect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = text_detect.mm; sourceTree = "<group>"; };
+		32D1CAD017F47C3100202BC8 /* text_detect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text_detect.h; sourceTree = "<group>"; };
 		32DFDF3F17D3F43400D76809 /* PocketReaderConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderConfigViewController.h; sourceTree = "<group>"; };
 		32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderConfigViewController.m; sourceTree = "<group>"; };
 		32DFDF4417D4009F00D76809 /* PocketReaderDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderDataClass.h; sourceTree = "<group>"; };
@@ -453,6 +456,8 @@
 		329B967B17762D5200846FA9 /* Aditionals */ = {
 			isa = PBXGroup;
 			children = (
+				32D1CACF17F47C3100202BC8 /* text_detect.mm */,
+				32D1CAD017F47C3100202BC8 /* text_detect.h */,
 				245F11A817C5279600114E66 /* UIImage+OpenCV.h */,
 				245F11A917C5279600114E66 /* UIImage+OpenCV.mm */,
 				325422E9179728D7008A6204 /* MBProgressHUD.h */,
@@ -749,6 +754,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32D1CAD117F47C3100202BC8 /* text_detect.mm in Sources */,
 				32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */,
 				326FB40217E8029D00E21084 /* PocketReaderSavedTextViewController.m in Sources */,
 				3249B3DE172D7FA7009F4D84 /* main.m in Sources */,

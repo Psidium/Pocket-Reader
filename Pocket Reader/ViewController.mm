@@ -17,6 +17,7 @@
 //
 #import "UIImage+OpenCV.h"
 #import "ViewController.h"
+#import "text_detect.h"
 
 @interface ViewController () {
     cv::Rect padrao;
@@ -443,7 +444,7 @@
     cv::Mat m = img.clone();
     cv::cvtColor(m, m, CV_RGB2GRAY);
     cv::blur(m, m, cv::Size(5,5));
-    cv::threshold(m, m, dataClass.threshold, 255,dataClass.binarizeSelector);
+    cv::threshold(m, m, dataClass.threshold, 255,dataClass.binarizeSelector | CV_THRESH_OTSU);
     cv::erode(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
     cv::dilate(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
     
