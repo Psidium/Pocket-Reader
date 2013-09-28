@@ -63,7 +63,7 @@
     n_erode_dilate = 1;
     self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     //[self.recordPreview setBounds:]
-    dataClass.openCVMethodSelector = 1;
+    dataClass.openCVMethodSelector = 2;
     if (!UIAccessibilityIsVoiceOverRunning()) {
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"VoiceOver inactive" message:@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [message show];
@@ -240,6 +240,7 @@
         
         
         [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
+            if (![self.imageView isHidden] && dataClass.openCVMethodSelector != 1)
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.imageView setHidden:YES];
             });
@@ -401,8 +402,29 @@
     if (dataClass.openCVMethodSelector == 0 || dataClass.openCVMethodSelector == 2) {
         if (dataClass.openCVMethodSelector == 0)
             sheet = [self contornObjectOnView:mat];
-        else if (dataClass.openCVMethodSelector == 2)
+        else if (dataClass.openCVMethodSelector == 2){
+            //commented: Turn the image by 90 degrees because when the text is taken turned it is better recognized
+            /*double angle = 90;  // or 270
+            cv::Size src_sz = mat.size();
+            cv::Size dst_sz(src_sz.height, src_sz.width);
+            
+            int len = std::max(mat.cols, mat.rows);
+            Point2f center(len/2., len/2.);
+            Mat rot_mat = cv::getRotationMatrix2D(center, angle, 1.0);
+            warpAffine(mat, mat, rot_mat, dst_sz);
+            cv::Mat image = mat.clone();*/
             vectorText = [self detectTextWrapper:mat];
+            /*int  holderSize, holderCoordinate; //after the rotated mat is returned, rotate the cv::Rect back to show it right
+            for (int i=0;i<vectorText.size();i++) {
+                NSLog(@"[%d vectortext] x: %d y: %d Weight %d Height %d row: %d col %d",i,vectorText[i].x,vectorText[i].y,vectorText[i].width,vectorText[i].height, image.rows, image.cols);
+                holderCoordinate = vectorText[i].x;
+                vectorText[i].x = image.rows - vectorText[i].y + vectorText[i].height*2;
+                vectorText[i].y = holderCoordinate;
+                holderSize = vectorText[i].width;
+                vectorText[i].width = vectorText[i].height;
+                vectorText[i].height = holderSize;
+            }*/
+        }
         mat.release();
     
     if (
@@ -410,7 +432,6 @@
         sheet==padrao
         )
     {
-        while([captureDevice isAdjustingFocus]);
         recognize=YES;
         // TODO: Depois de detectar a folha cortar ela da foto
         // TODO: pegar a imagem do rolo da câmera
@@ -465,7 +486,7 @@
 }
 
 
-// Poliformism method to use vectors
+// Polimorfism method to use vectors
 - (void)displayFaces:(const std::vector<cv::Rect> &)faces
         forVideoRect:(CGRect)rect
     videoOrientation:(AVCaptureVideoOrientation)videoOrientation
@@ -587,6 +608,112 @@
     [CATransaction commit];
     
    
+}
+
+#pragma mark - 4th implementation
+/*
+ import cv, cv2, numpy as np
+ import sys
+ 
+ def get_new(old):
+ new = np.ones(old.shape, np.uint8)
+ cv2.bitwise_not(new,new)
+ return new
+ 
+ if __name__ == '__main__':
+ orig = cv2.imread(sys.argv[1])
+ 
+ # these constants are carefully picked
+ MORPH = 9
+ CANNY = 84
+ HOUGH = 25
+ 
+ img = cv2.cvtColor(orig, cv2.COLOR_BGR2GRAY)
+ cv2.GaussianBlur(img, (3,3), 0, img)
+ 
+ 
+ # this is to recognize white on white
+ kernel = cv2.getStructuringElement(cv2.MORPH_RECT,(MORPH,MORPH))
+ dilated = cv2.dilate(img, kernel)
+ 
+ edges = cv2.Canny(dilated, 0, CANNY, apertureSize=3)
+ 
+ lines = cv2.HoughLinesP(edges, 1,  3.14/180, HOUGH)
+ for line in lines[0]:
+ cv2.line(edges, (line[0], line[1]), (line[2], line[3]),
+ (255,0,0), 2, 8)
+ 
+ # finding contours
+ contours, _ = cv2.findContours(edges.copy(), cv.CV_RETR_EXTERNAL,
+ cv.CV_CHAIN_APPROX_TC89_KCOS)
+ contours = filter(lambda cont: cv2.arcLength(cont, False) > 100, contours)
+ contours = filter(lambda cont: cv2.contourArea(cont) > 10000, contours)
+ 
+ # simplify contours down to polygons
+ rects = []
+ for cont in contours:
+ rect = cv2.approxPolyDP(cont, 40, True).copy().reshape(-1, 2)
+ rects.append(rect)
+  <---- acabou aqui
+ # that's basically it
+ cv2.drawContours(orig, rects,-1,(0,255,0),1)
+ 
+ # show only contours
+ new = get_new(img)
+ cv2.drawContours(new, rects,-1,(0,255,0),1)
+ cv2.GaussianBlur(new, (9,9), 0, new)
+ new = cv2.Canny(new, 0, CANNY, apertureSize=3)
+ 
+ cv2.namedWindow('result', cv2.WINDOW_NORMAL)
+ cv2.imshow('result', orig)
+ cv2.waitKey(0)
+ cv2.imshow('result', dilated)
+ cv2.waitKey(0)
+ cv2.imshow('result', edges)
+ cv2.waitKey(0)
+ cv2.imshow('result', new)
+ cv2.waitKey(0)
+ 
+ cv2.destroyAllWindows()*/
+
+- (void) findAndDrawSheetByAutoCorrelation: (cv::Mat &) mat {
+    cv::cvtColor(mat, mat, CV_BGR2GRAY);
+    cv::GaussianBlur(mat, mat, cv::Size(3,3), 0);
+    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Point(9,9));
+    cv::Mat dilated;
+    cv::dilate(mat, dilated, kernel);
+    
+    cv::Mat edges;
+    cv::Canny(dilated, edges, 84, 3);
+    
+    lines.clear();
+    cv::HoughLinesP(edges, lines, 1, CV_PI/180, 25);
+    std::vector<cv::Vec4i>::iterator it = lines.begin();
+    for(; it!=lines.end(); ++it) {
+        cv::Vec4i l = *it;
+        cv::line(edges, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, 8);
+    }
+    std::vector< std::vector<cv::Point> > contours;
+    cv::findContours(edges, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_TC89_KCOS);
+    std::vector< std::vector<cv::Point> > contoursCleaned;
+    int j=0;
+    for (int i=0; i < contours.size(); i++) {
+        if (cv::arcLength(contours[i], false) > 100)
+            contoursCleaned[j++] = contours[i];
+    }
+    contours = contoursCleaned;
+    contoursCleaned.clear();
+    j=0;
+    for (int i=0; i < contours.size(); i++) {
+        if (cv::contourArea(contours[i]) > 10000)
+            contoursCleaned[j++] = contours[i];
+    }
+    contours = contoursCleaned;
+    for (int i=0; i < contours.size(); i++)
+    cv::approxPolyDP(Mat(contours[i]), contoursCleaned[i], 40, true);
+    
+    //drawContours(<#InputOutputArray image#>, <#InputArrayOfArrays contours#>, -1, cv::Scalar(0,255,0),1);
+    
 }
 
 #pragma mark - C++ wrapper
