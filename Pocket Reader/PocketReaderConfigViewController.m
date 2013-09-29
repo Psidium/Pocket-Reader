@@ -52,6 +52,25 @@
     dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
 }
 
+- (IBAction)didChangeSpeechOnSwitch:(UISwitch *)sender {
+    dataClass.speechAfterPhotoIsTaken = [sender isOn];
+}
+
+- (IBAction)didChangeSpeechRateValue:(UISlider *)sender {
+    sender.value = round(sender.value);
+    switch ((int)sender.value) {
+        case 1:
+            dataClass.speechRateValue = AVSpeechUtteranceMinimumSpeechRate;
+            break;
+        case 2:
+            dataClass.speechRateValue = AVSpeechUtteranceDefaultSpeechRate;
+            break;
+        case 3:
+            dataClass.speechRateValue = AVSpeechUtteranceMaximumSpeechRate;
+            break;
+    }
+}
+
 - (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender {    
     dataClass.openCVMethodSelector = sender.selectedSegmentIndex;
 }

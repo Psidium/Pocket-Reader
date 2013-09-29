@@ -35,7 +35,6 @@
 		320E267D17F1277000BC8BF5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 320E267A17F1277000BC8BF5 /* Default.png */; };
 		320E267E17F1277000BC8BF5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 320E267B17F1277000BC8BF5 /* Default@2x.png */; };
 		320E267F17F1277000BC8BF5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 320E267C17F1277000BC8BF5 /* Default-568h@2x.png */; };
-		3239DC7017EE60E5002F0ED2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3239DC6F17EE60E5002F0ED2 /* OpenGLES.framework */; };
 		3249B3D2172D7FA7009F4D84 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D1172D7FA7009F4D84 /* UIKit.framework */; };
 		3249B3D4172D7FA7009F4D84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D3172D7FA7009F4D84 /* Foundation.framework */; };
 		3249B3D6172D7FA7009F4D84 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3249B3D5172D7FA7009F4D84 /* CoreGraphics.framework */; };
@@ -65,6 +64,8 @@
 		32D1CAD117F47C3100202BC8 /* text_detect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 32D1CACF17F47C3100202BC8 /* text_detect.mm */; };
 		32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */; };
 		32DFDF4617D4009F00D76809 /* PocketReaderDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */; };
+		32F126B717F7AFB1001DD76B /* Default_7-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F126B517F7AFB1001DD76B /* Default_7-568h@2x.png */; };
+		32F126B817F7AFB1001DD76B /* Default_7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F126B617F7AFB1001DD76B /* Default_7@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,10 +94,6 @@
 		2413666A17E209A7004225C2 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		245F11A817C5279600114E66 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
 		245F11A917C5279600114E66 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
-		24FD5F3517F11946003B472B /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Main.strings; sourceTree = "<group>"; };
-		24FD5F3617F11B91003B472B /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Main.strings"; sourceTree = "<group>"; };
-		24FD5F3717F11B9C003B472B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
-		24FD5F3817F11BAD003B472B /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		3207A76C17945CC900360D43 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		320E267A17F1277000BC8BF5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		320E267B17F1277000BC8BF5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -280,12 +277,18 @@
 		329B971317762DBA00846FA9 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
 		329B971417762DBA00846FA9 /* libtesseract_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract_all.a; sourceTree = "<group>"; };
 		32C2825E17A5982900926FC6 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
+		32C8D47117F8B00C00A5BBAF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Main.strings"; sourceTree = "<group>"; };
+		32C8D47217F8B01100A5BBAF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		32C8D47317F8B01700A5BBAF /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		32C8D47517F8B08600A5BBAF /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Main.strings; sourceTree = "<group>"; };
 		32D1CACF17F47C3100202BC8 /* text_detect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = text_detect.mm; sourceTree = "<group>"; };
 		32D1CAD017F47C3100202BC8 /* text_detect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text_detect.h; sourceTree = "<group>"; };
 		32DFDF3F17D3F43400D76809 /* PocketReaderConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderConfigViewController.h; sourceTree = "<group>"; };
 		32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderConfigViewController.m; sourceTree = "<group>"; };
 		32DFDF4417D4009F00D76809 /* PocketReaderDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderDataClass.h; sourceTree = "<group>"; };
 		32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderDataClass.m; sourceTree = "<group>"; };
+		32F126B517F7AFB1001DD76B /* Default_7-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default_7-568h@2x.png"; sourceTree = "<group>"; };
+		32F126B617F7AFB1001DD76B /* Default_7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default_7@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,7 +296,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3239DC7017EE60E5002F0ED2 /* OpenGLES.framework in Frameworks */,
 				3207A76D17945CC900360D43 /* opencv2.framework in Frameworks */,
 				32678569177C67D80087D677 /* CoreImage.framework in Frameworks */,
 				329B967A17762D0000846FA9 /* QuartzCore.framework in Frameworks */,
@@ -426,6 +428,8 @@
 				320E267A17F1277000BC8BF5 /* Default.png */,
 				320E267B17F1277000BC8BF5 /* Default@2x.png */,
 				320E267C17F1277000BC8BF5 /* Default-568h@2x.png */,
+				32F126B517F7AFB1001DD76B /* Default_7-568h@2x.png */,
+				32F126B617F7AFB1001DD76B /* Default_7@2x.png */,
 				3249B3DD172D7FA7009F4D84 /* main.m */,
 				3249B3DF172D7FA7009F4D84 /* Pocket Reader-Prefix.pch */,
 			);
@@ -723,6 +727,7 @@
 				2413667417E209A7004225C2 /* iTunesArtwork@2x.png in Resources */,
 				2413667317E209A7004225C2 /* iTunesArtwork.png in Resources */,
 				2413666E17E209A7004225C2 /* Icon-Small-50@2x.png in Resources */,
+				32F126B817F7AFB1001DD76B /* Default_7@2x.png in Resources */,
 				327519B617E401D4009CABFF /* gear.png in Resources */,
 				2413666C17E209A7004225C2 /* Icon-72@2x.png in Resources */,
 				2413666D17E209A7004225C2 /* Icon-Small-50.png in Resources */,
@@ -744,6 +749,7 @@
 				327519B217E3F80C009CABFF /* photo@2x.png in Resources */,
 				2413667C17E209A7004225C2 /* Icon-Small@2x.png in Resources */,
 				2413667B17E209A7004225C2 /* Icon-Small.png in Resources */,
+				32F126B717F7AFB1001DD76B /* Default_7-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,10 +781,10 @@
 			isa = PBXVariantGroup;
 			children = (
 				2410547E17F0D5AD0055A40A /* Base */,
-				24FD5F3517F11946003B472B /* pt */,
-				24FD5F3617F11B91003B472B /* pt-PT */,
-				24FD5F3717F11B9C003B472B /* de */,
-				24FD5F3817F11BAD003B472B /* es */,
+				32C8D47117F8B00C00A5BBAF /* pt-PT */,
+				32C8D47217F8B01100A5BBAF /* de */,
+				32C8D47317F8B01700A5BBAF /* es */,
+				32C8D47517F8B08600A5BBAF /* pt */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

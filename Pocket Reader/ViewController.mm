@@ -61,9 +61,8 @@
     dataClass.tesseractLanguage = @"por";
     dataClass.threshold = 150;
     n_erode_dilate = 1;
-    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
-    //[self.recordPreview setBounds:]
-    dataClass.openCVMethodSelector = 2;
+    dataClass.openCVMethodSelector = 3;
+    dataClass.speechRateValue = AVSpeechUtteranceDefaultSpeechRate;
     if (!UIAccessibilityIsVoiceOverRunning()) {
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"VoiceOver inactive" message:@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [message show];
@@ -98,7 +97,7 @@
     [self.tesseract clear]; //clean the tesseract
     self.tesseract=nil;
     Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
-            self.tesseract=tesseractHolder;
+    self.tesseract=tesseractHolder;
     NSLog(@"Mudou pra %@",dataClass.tesseractLanguage);
     while([captureDevice isAdjustingFocus]);
     recognize=YES;
@@ -176,50 +175,50 @@
     if(dataClass.isOpenCVOn) {
         
         if(dataClass.openCVMethodSelector==0){NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-        int sublayersCount = [sublayers count];
-        int currentSublayer = 0;
-        
-        [CATransaction begin];
-        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-        
-        // hide all the face layers
-        for (CALayer *layer in sublayers) {
-            NSString *layerName = [layer name];
-            if ([layerName isEqualToString:@"DefaultLayer"])
-                [layer setHidden:YES];
-        }
-        
-        // Create transform to convert from vide frame coordinate space to view coordinate space
-        CGAffineTransform t = [self affineTransformForVideoFrame:self.recordPreview.bounds orientation:AVCaptureVideoOrientationPortrait];
-        
-        CGRect faceRect = CGRectMake(padrao.x/1.0f, padrao.y/1.0f, padrao.width/1.0f, padrao.height/1.0f);
-        
-        faceRect = CGRectApplyAffineTransform(faceRect, t);
-        
-        CALayer *featureLayer = nil;
-        
-        while (!featureLayer && (currentSublayer < sublayersCount)) {
-            CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
-            if ([[currentLayer name] isEqualToString:@"DefaultLayer"]) {
-                featureLayer = currentLayer;
-                [currentLayer setHidden:NO];
+            int sublayersCount = [sublayers count];
+            int currentSublayer = 0;
+            
+            [CATransaction begin];
+            [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+            
+            // hide all the face layers
+            for (CALayer *layer in sublayers) {
+                NSString *layerName = [layer name];
+                if ([layerName isEqualToString:@"DefaultLayer"])
+                    [layer setHidden:YES];
             }
-        }
-        
-        if (!featureLayer) {
-            // Create a new feature marker layer
-            featureLayer = [[CALayer alloc] init];
-            featureLayer.name = @"DefaultLayer";
-            featureLayer.borderColor = [[UIColor redColor] CGColor];
-            featureLayer.borderWidth = 1.0f;
-            [self.recordPreview.layer addSublayer:featureLayer];
-        }
-        
-        
-        
-        featureLayer.frame = faceRect;
-        
-        [CATransaction commit];
+            
+            // Create transform to convert from vide frame coordinate space to view coordinate space
+            CGAffineTransform t = [self affineTransformForVideoFrame:self.recordPreview.bounds orientation:AVCaptureVideoOrientationPortrait];
+            
+            CGRect faceRect = CGRectMake(padrao.x/1.0f, padrao.y/1.0f, padrao.width/1.0f, padrao.height/1.0f);
+            
+            faceRect = CGRectApplyAffineTransform(faceRect, t);
+            
+            CALayer *featureLayer = nil;
+            
+            while (!featureLayer && (currentSublayer < sublayersCount)) {
+                CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
+                if ([[currentLayer name] isEqualToString:@"DefaultLayer"]) {
+                    featureLayer = currentLayer;
+                    [currentLayer setHidden:NO];
+                }
+            }
+            
+            if (!featureLayer) {
+                // Create a new feature marker layer
+                featureLayer = [[CALayer alloc] init];
+                featureLayer.name = @"DefaultLayer";
+                featureLayer.borderColor = [[UIColor redColor] CGColor];
+                featureLayer.borderWidth = 1.0f;
+                [self.recordPreview.layer addSublayer:featureLayer];
+            }
+            
+            
+            
+            featureLayer.frame = faceRect;
+            
+            [CATransaction commit];
         }
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
@@ -235,16 +234,13 @@
         UIImage *imageBebug = [UIImage imageWithCGImage:videoImage];
         CGImageRelease(videoImage);
         
-            
+        
         cv::Mat mat = [imageBebug CVMat];
         
         
         [self processFrame:mat videoRect:videoRect videoOrientation:videoOrientation];
-            if (![self.imageView isHidden] && dataClass.openCVMethodSelector != 1)
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.imageView setHidden:YES];
-            });
-            mat.release();
+        
+        mat.release();
         
         
     } else {
@@ -255,9 +251,6 @@
             if ([[layer name] isEqualToString:@"SheetLayer"])
                 [layer setHidden:YES];
         }
-        
-        
-        
     }
     
     if(recognize){
@@ -268,32 +261,28 @@
         AVCaptureConnection *vc = [stillImage connectionWithMediaType:AVMediaTypeVideo];
         [stillImage captureStillImageAsynchronouslyFromConnection:vc completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
             [self setTorch:NO];
-            NSLog(@"bloco de AVCaptureStillImageOutput capturestillimageassuybncaslopdfaslfgrofmcoennction");
-            NSLog(@"%@",error);
-            NSLog(@"%@", imageDataSampleBuffer);
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
             UIImage *img = [[UIImage alloc] initWithData:imageData];
             img=[self gs_convert_image:img];
-            
-            NSLog(@"%@", [img description]);
             if (img!=nil) {
-                NSLog(@"saiu uimage");
                 [self.tesseract setImage:img];
-                NSLog(@"começa a reconhecer");
-                NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
-                NSLog(@"terminou");
-                NSLog(@"%@",[self.tesseract description]);
+                [self.tesseract recognize];
                 NSString *textoReconhecido = [self.tesseract recognizedText];
                 [self.tesseract clear];
-                
                 NSLog(@"%@", textoReconhecido);
-                NSLog(@"deveria ter mostrado");
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                 });
                 if (UIAccessibilityIsVoiceOverRunning()) {
                     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
                                                     textoReconhecido);
+                } else if (dataClass.speechAfterPhotoIsTaken){
+                    if ([[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] intValue] >= 7){
+                        AVSpeechSynthesizer *synthesizer = [AVSpeechSynthesizer new];
+                        AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:textoReconhecido];
+                        utterance.rate = dataClass.speechRateValue;
+                        [synthesizer speakUtterance:utterance];
+                    }
                 }
                 UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Texto reconhecido:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [message show];
@@ -310,7 +299,7 @@
     img=[self gs_convert_image:img];
     
     if (img!=nil) {
-
+        
         NSLog(@"saiu uimage");
         [self.tesseract setImage:img];
         NSLog(@"começa a reconhecer");
@@ -332,7 +321,7 @@
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Texto reconhecido:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [message show];
     }
-
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -405,60 +394,59 @@
         else if (dataClass.openCVMethodSelector == 2){
             //commented: Turn the image by 90 degrees because when the text is taken turned it is better recognized
             /*double angle = 90;  // or 270
-            cv::Size src_sz = mat.size();
-            cv::Size dst_sz(src_sz.height, src_sz.width);
-            
-            int len = std::max(mat.cols, mat.rows);
-            Point2f center(len/2., len/2.);
-            Mat rot_mat = cv::getRotationMatrix2D(center, angle, 1.0);
-            warpAffine(mat, mat, rot_mat, dst_sz);
-            cv::Mat image = mat.clone();*/
+             cv::Size src_sz = mat.size();
+             cv::Size dst_sz(src_sz.height, src_sz.width);
+             
+             int len = std::max(mat.cols, mat.rows);
+             Point2f center(len/2., len/2.);
+             Mat rot_mat = cv::getRotationMatrix2D(center, angle, 1.0);
+             warpAffine(mat, mat, rot_mat, dst_sz);
+             cv::Mat image = mat.clone();*/
             vectorText = [self detectTextWrapper:mat];
             /*int  holderSize, holderCoordinate; //after the rotated mat is returned, rotate the cv::Rect back to show it right
-            for (int i=0;i<vectorText.size();i++) {
-                NSLog(@"[%d vectortext] x: %d y: %d Weight %d Height %d row: %d col %d",i,vectorText[i].x,vectorText[i].y,vectorText[i].width,vectorText[i].height, image.rows, image.cols);
-                holderCoordinate = vectorText[i].x;
-                vectorText[i].x = image.rows - vectorText[i].y + vectorText[i].height*2;
-                vectorText[i].y = holderCoordinate;
-                holderSize = vectorText[i].width;
-                vectorText[i].width = vectorText[i].height;
-                vectorText[i].height = holderSize;
-            }*/
+             for (int i=0;i<vectorText.size();i++) {
+             NSLog(@"[%d vectortext] x: %d y: %d Weight %d Height %d row: %d col %d",i,vectorText[i].x,vectorText[i].y,vectorText[i].width,vectorText[i].height, image.rows, image.cols);
+             holderCoordinate = vectorText[i].x;
+             vectorText[i].x = image.rows - vectorText[i].y + vectorText[i].height*2;
+             vectorText[i].y = holderCoordinate;
+             holderSize = vectorText[i].width;
+             vectorText[i].width = vectorText[i].height;
+             vectorText[i].height = holderSize;
+             }*/
         }
         mat.release();
-    
-    if (
-        //     (padrao.x - dataClass.sheetErrorRange) < sheet.x < (padrao.x + dataClass.sheetErrorRange) && (padrao.y - dataClass.sheetErrorRange) < sheet.y < (padrao.y + dataClass.sheetErrorRange) && (padrao.width - dataClass.sheetErrorRange) < sheet.width < (padrao.width + dataClass.sheetErrorRange) && (padrao.height - dataClass.sheetErrorRange) < sheet.height < (padrao.height + dataClass.sheetErrorRange)
-        sheet==padrao
-        )
-    {
-        recognize=YES;
-        // TODO: Depois de detectar a folha cortar ela da foto
-        // TODO: pegar a imagem do rolo da câmera
-        // TODO: salvar em um arquivo os textos
-    }
-    
-    // Dispatch updating of face markers to main queue
-    dispatch_sync(dispatch_get_main_queue(), ^{
         
-        if (dataClass.openCVMethodSelector == 0)[self displaySheet:sheet forVideoRect:rect videoOrientation:AVCaptureVideoOrientationPortrait withColor:[UIColor greenColor]];
-        else if (dataClass.openCVMethodSelector == 2)
-            [self displayFaces:vectorText forVideoRect:rect videoOrientation:AVCaptureVideoOrientationPortrait];
-        [self.imageView setHidden:YES];
-    });
+        if (sheet==padrao) {
+            recognize=YES;
+            // TODO: Depois de detectar a folha cortar ela da foto
+            // TODO: pegar a imagem do rolo da câmera
+            // TODO: salvar em um arquivo os textos
+        }
+        
+        // Dispatch updating of face markers to main queue
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            
+            if (dataClass.openCVMethodSelector == 0)[self displaySheet:sheet forVideoRect:rect videoOrientation:AVCaptureVideoOrientationPortrait withColor:[UIColor greenColor]];
+            else if (dataClass.openCVMethodSelector == 2)
+                [self displayFaces:vectorText forVideoRect:rect videoOrientation:AVCaptureVideoOrientationPortrait];
+            [self.imageView setHidden:YES];
+        });
         
     }
-    else if (dataClass.openCVMethodSelector == 1) {
+    else if (dataClass.openCVMethodSelector == 1 || dataClass.openCVMethodSelector == 3) {
         dispatch_sync(dispatch_get_main_queue(),^{
             NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-        for (CALayer *layer in sublayers) {
-            if ([[layer name] isEqualToString:@"DefaultLayer"])
-                [layer setHidden:YES];
-            if ([[layer name] isEqualToString:@"SheetLayer"])
-                [layer setHidden:YES];
-        }
+            for (CALayer *layer in sublayers) {
+                if ([[layer name] isEqualToString:@"DefaultLayer"])
+                    [layer setHidden:YES];
+                if ([[layer name] isEqualToString:@"SheetLayer"])
+                    [layer setHidden:YES];
+            }
             [self.imageView setHidden:NO];});
-        [self findAndDrawSheet:mat];
+        if (dataClass.openCVMethodSelector == 1)
+            [self findAndDrawSheet:mat];
+        else if (dataClass.openCVMethodSelector == 3)
+            [self findAndDrawSheetByContours:mat];
         mat.release();
     }
 }
@@ -607,84 +595,27 @@
     
     [CATransaction commit];
     
-   
+    
 }
 
 #pragma mark - 4th implementation
-/*
- import cv, cv2, numpy as np
- import sys
- 
- def get_new(old):
- new = np.ones(old.shape, np.uint8)
- cv2.bitwise_not(new,new)
- return new
- 
- if __name__ == '__main__':
- orig = cv2.imread(sys.argv[1])
- 
- # these constants are carefully picked
- MORPH = 9
- CANNY = 84
- HOUGH = 25
- 
- img = cv2.cvtColor(orig, cv2.COLOR_BGR2GRAY)
- cv2.GaussianBlur(img, (3,3), 0, img)
- 
- 
- # this is to recognize white on white
- kernel = cv2.getStructuringElement(cv2.MORPH_RECT,(MORPH,MORPH))
- dilated = cv2.dilate(img, kernel)
- 
- edges = cv2.Canny(dilated, 0, CANNY, apertureSize=3)
- 
- lines = cv2.HoughLinesP(edges, 1,  3.14/180, HOUGH)
- for line in lines[0]:
- cv2.line(edges, (line[0], line[1]), (line[2], line[3]),
- (255,0,0), 2, 8)
- 
- # finding contours
- contours, _ = cv2.findContours(edges.copy(), cv.CV_RETR_EXTERNAL,
- cv.CV_CHAIN_APPROX_TC89_KCOS)
- contours = filter(lambda cont: cv2.arcLength(cont, False) > 100, contours)
- contours = filter(lambda cont: cv2.contourArea(cont) > 10000, contours)
- 
- # simplify contours down to polygons
- rects = []
- for cont in contours:
- rect = cv2.approxPolyDP(cont, 40, True).copy().reshape(-1, 2)
- rects.append(rect)
-  <---- acabou aqui
- # that's basically it
- cv2.drawContours(orig, rects,-1,(0,255,0),1)
- 
- # show only contours
- new = get_new(img)
- cv2.drawContours(new, rects,-1,(0,255,0),1)
- cv2.GaussianBlur(new, (9,9), 0, new)
- new = cv2.Canny(new, 0, CANNY, apertureSize=3)
- 
- cv2.namedWindow('result', cv2.WINDOW_NORMAL)
- cv2.imshow('result', orig)
- cv2.waitKey(0)
- cv2.imshow('result', dilated)
- cv2.waitKey(0)
- cv2.imshow('result', edges)
- cv2.waitKey(0)
- cv2.imshow('result', new)
- cv2.waitKey(0)
- 
- cv2.destroyAllWindows()*/
 
-- (void) findAndDrawSheetByAutoCorrelation: (cv::Mat &) mat {
+
+- (void) findAndDrawSheetByContours: (cv::Mat &) mat {
+    cv::Mat output = mat.clone();
     cv::cvtColor(mat, mat, CV_BGR2GRAY);
+    //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
     cv::GaussianBlur(mat, mat, cv::Size(3,3), 0);
+    //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
     cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Point(9,9));
+    //  UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:kernel], nil, nil, nil);
     cv::Mat dilated;
     cv::dilate(mat, dilated, kernel);
+    //    UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:dilated], nil, nil, nil);
     
     cv::Mat edges;
     cv::Canny(dilated, edges, 84, 3);
+    //   UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:edges], nil, nil, nil);
     
     lines.clear();
     cv::HoughLinesP(edges, lines, 1, CV_PI/180, 25);
@@ -693,27 +624,64 @@
         cv::Vec4i l = *it;
         cv::line(edges, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, 8);
     }
+    //   UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:edges], nil, nil, nil);
     std::vector< std::vector<cv::Point> > contours;
     cv::findContours(edges, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_TC89_KCOS);
     std::vector< std::vector<cv::Point> > contoursCleaned;
-    int j=0;
     for (int i=0; i < contours.size(); i++) {
         if (cv::arcLength(contours[i], false) > 100)
-            contoursCleaned[j++] = contours[i];
+            contoursCleaned.push_back(contours[i]);
     }
-    contours = contoursCleaned;
-    contoursCleaned.clear();
-    j=0;
-    for (int i=0; i < contours.size(); i++) {
-        if (cv::contourArea(contours[i]) > 10000)
-            contoursCleaned[j++] = contours[i];
+    std::vector<std::vector<cv::Point> > contoursArea;
+    
+    for (int i=0; i < contoursCleaned.size(); i++) {
+        if (cv::contourArea(contoursCleaned[i]) > 10000){
+            contoursArea.push_back(contoursCleaned[i]);
+            NSLog(@"ASUHEUASHE ");
+        }
     }
-    contours = contoursCleaned;
-    for (int i=0; i < contours.size(); i++)
-    cv::approxPolyDP(Mat(contours[i]), contoursCleaned[i], 40, true);
+    NSLog(@"tamanho countours %lu",contoursArea.size());
+    std::vector<std::vector<cv::Point> > contoursDraw (contoursCleaned.size());
+    for (int i=0; i < contoursArea.size(); i++){
+        cv::approxPolyDP(Mat(contoursArea[i]), contoursDraw[i], 40, true);
+    }
+    Mat drawing = Mat::zeros( mat.size(), CV_8UC3 );
+    cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
+    //   NSLog(@"tamanho countours %lu",contoursCleaned.size());
+    //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:drawing], nil, nil, nil);
     
-    //drawContours(<#InputOutputArray image#>, <#InputArrayOfArrays contours#>, -1, cv::Scalar(0,255,0),1);
+    NSData *data = [NSData dataWithBytes:drawing.data length:drawing.elemSize() * drawing.total()];
     
+    CGColorSpaceRef colorSpace;
+    
+    if (drawing.elemSize() == 1) {
+        colorSpace = CGColorSpaceCreateDeviceGray();
+    } else {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    
+    CGImageRef imageRef = CGImageCreate(drawing.cols,                                     // Width
+                                        drawing.rows,                                     // Height
+                                        8,                                              // Bits per component
+                                        8 * drawing.elemSize(),                           // Bits per pixel
+                                        drawing.step[0],                                  // Bytes per row
+                                        colorSpace,                                     // Colorspace
+                                        kCGImageAlphaNone | kCGBitmapByteOrderDefault,  // Bitmap info flags
+                                        provider,                                       // CGDataProviderRef
+                                        NULL,                                           // Decode
+                                        false,                                          // Should interpolate
+                                        kCGRenderingIntentDefault);
+    drawing.release();
+    const float blackMask[6] = { 0,0,0, 0,0,0 };
+    CGImageRef myColorMaskedImage = CGImageCreateWithMaskingColors(imageRef, blackMask);
+    CGImageRelease(imageRef);
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.imageView setHidden:NO];
+        [self.imageView setImage:[UIImage imageWithCGImage:myColorMaskedImage]];
+    });
 }
 
 #pragma mark - C++ wrapper
@@ -730,12 +698,12 @@
 
 #pragma mark - Hough Transform Implementation
 -(void) findAndDrawSheet: (cv::Mat &)image {
-
     
-/*    UIGraphicsBeginImageContext(self.recordPreview.frame.size);
-    CGContextRef context = UIGraphicsGetCurrentContext(); //erro de agora: não tem cotexto nenhum, tá desenhando no nada, tem que delgar uma CALayer do recordpreview. (como? no sei)
-    CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
-    CGContextSetLineWidth(context, 2.0);*/
+    
+    /*    UIGraphicsBeginImageContext(self.recordPreview.frame.size);
+     CGContextRef context = UIGraphicsGetCurrentContext(); //erro de agora: não tem cotexto nenhum, tá desenhando no nada, tem que delgar uma CALayer do recordpreview. (como? no sei)
+     CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
+     CGContextSetLineWidth(context, 2.0);*/
     self.imageView.image =nil;
     cv::cvtColor(image, image, CV_RGB2GRAY);
     cv::Canny(image, image, 50, 250, 3);
@@ -750,7 +718,7 @@
     }
     cv::erode(image, image, cv::Mat(),cv::Point(-1,-1),0.5);
     cv::dilate(image, image, cv::Mat(),cv::Point(-1,-1),0.5);//remove smaller part of image
-
+    
     
     
     
@@ -789,33 +757,34 @@
     CGImageRelease(imageRef);
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.imageView setImage:[UIImage imageWithCGImage:myColorMaskedImage]];
-        CGImageRelease(myColorMaskedImage); });
+        CGImageRelease(myColorMaskedImage);
+    });
     
     // dataClass.isOpenCVOn = NO;
     
     /*
-    
-    CALayer *sheetLinesLayer = nil;
-    int currentSublayer = 0;
-    NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-    while (!sheetLinesLayer && (currentSublayer < [sublayers count])) {
-        CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
-        if ([[currentLayer name] isEqualToString:@"sheetLinesLayer"]) {
-            sheetLinesLayer = nil;
-        }
-    }
-    
-    if(!sheetLinesLayer){
-        sheetLinesLayer = [CALayer new];
-        sheetLinesLayer.name = @"sheetLinesLayer";
-        sheetLinesLayer.frame = self.recordPreview.frame;
-        [self.recordPreview.layer addSublayer:sheetLinesLayer];
-        sheetLinesLayer.delegate = self;
-    }
-    
-    */
+     
+     CALayer *sheetLinesLayer = nil;
+     int currentSublayer = 0;
+     NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
+     while (!sheetLinesLayer && (currentSublayer < [sublayers count])) {
+     CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
+     if ([[currentLayer name] isEqualToString:@"sheetLinesLayer"]) {
+     sheetLinesLayer = nil;
+     }
+     }
+     
+     if(!sheetLinesLayer){
+     sheetLinesLayer = [CALayer new];
+     sheetLinesLayer.name = @"sheetLinesLayer";
+     sheetLinesLayer.frame = self.recordPreview.frame;
+     [self.recordPreview.layer addSublayer:sheetLinesLayer];
+     sheetLinesLayer.delegate = self;
+     }
+     
+     */
     return ;
-
+    
 }
 
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx {
@@ -826,7 +795,7 @@
         CGContextRef context = UIGraphicsGetCurrentContext(); //erro de agora: não tem cotexto nenhum, tá desenhando no nada, tem que delgar uma CALayer do recordpreview. (como? no sei)
         CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
         CGContextSetLineWidth(context, 2.0);
-
+        
         
         std::vector<cv::Vec4i>::iterator it = lines.begin();
         for(; it!=lines.end(); ++it) {
@@ -837,7 +806,7 @@
             //cv::line(work_img, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, CV_AA);
         }
         CGContextStrokePath(context);
-
+        
     }
     
     // Use the context (second) argument to draw.
@@ -973,16 +942,20 @@
     stillImage.outputSettings = [NSDictionary dictionaryWithObject:AVVideoCodecJPEG
                                                             forKey:AVVideoCodecKey];
     
+    
     NSLog(@"canAddOutput: stillImage: %hhd",[captureSession canAddOutput:stillImage]);
     if ([captureSession canAddOutput:stillImage]){
         [captureSession addOutput:stillImage];
     }
     
-    // Create the preview layer
+    
+    // Create the preview layer real
     captureLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];
     [captureLayer setFrame:self.recordPreview.bounds];
     captureLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.recordPreview.layer insertSublayer:captureLayer atIndex:0];
+    
+    
     
     self.tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
     

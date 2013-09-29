@@ -24,6 +24,8 @@
 
 - (IBAction)didChngeThresholdValue:(UISlider *)sender;
 - (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender;
+- (IBAction)didChangeSpeechOnSwitch:(UISwitch *)sender;
+- (IBAction)didChangeSpeechRateValue:(UISlider *)sender;
 - (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender;
 - (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender;
 - (IBAction)didChangedBinarizeSegment:(UISegmentedControl *)sender;
