@@ -44,6 +44,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)pressedGuideFrameOn:(UISwitch *)sender {
+}
+
 - (IBAction)didChngeThresholdValue:(UISlider *)sender {
     dataClass.threshold = self.thresholdSlider.value;
 }
@@ -58,20 +61,22 @@
 
 - (IBAction)didChangeSpeechRateValue:(UISlider *)sender {
     sender.value = round(sender.value);
-    switch ((int)sender.value) {
-        case 1:
-            dataClass.speechRateValue = AVSpeechUtteranceMinimumSpeechRate;
-            break;
-        case 2:
-            dataClass.speechRateValue = AVSpeechUtteranceDefaultSpeechRate;
-            break;
-        case 3:
-            dataClass.speechRateValue = AVSpeechUtteranceMaximumSpeechRate;
-            break;
+    if ([AVSpeechSynthesizer class] != nil){
+        switch ((int)sender.value) {
+            case 1:
+                dataClass.speechRateValue = 0;
+                break;
+            case 2:
+                dataClass.speechRateValue = 0.5;
+                break;
+            case 3:
+                dataClass.speechRateValue = 1;
+                break;
+        }
     }
 }
 
-- (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender {    
+- (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender {
     dataClass.openCVMethodSelector = sender.selectedSegmentIndex;
 }
 

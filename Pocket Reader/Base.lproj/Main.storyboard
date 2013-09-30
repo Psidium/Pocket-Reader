@@ -211,7 +211,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Speech" footerTitle="Only to non-VoiceOver users." id="QEI-Zs-fm3">
+                            <tableViewSection headerTitle="Speech" footerTitle="Only to non-VoiceOver and iOS 7 users." id="QEI-Zs-fm3">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="54" id="9kA-fy-S7o">
                                         <rect key="frame" x="0.0" y="316" width="320" height="54"/>
@@ -290,6 +290,10 @@
                                                 </slider>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" label="thgreshold">
+                                            <accessibilityTraits key="traits" none="YES"/>
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstItem="6Lf-yB-5OX" firstAttribute="top" secondItem="LKo-wC-EZK" secondAttribute="top" constant="12" id="2j7-ee-qKH"/>
                                             <constraint firstItem="Rtu-hx-abw" firstAttribute="top" secondItem="6Lf-yB-5OX" secondAttribute="bottom" constant="8" symbolic="YES" id="9YM-Gr-slo"/>
@@ -307,18 +311,26 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OpenCV" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9K-4A-57h">
                                                     <rect key="frame" x="30" y="15" width="65" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <bool key="isElement" value="NO"/>
+                                                    </accessibility>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T8t-FA-RCO">
                                                     <rect key="frame" x="241" y="10" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <accessibility key="accessibilityConfiguration" hint="computer vision" label="OpenCV"/>
                                                     <connections>
                                                         <action selector="didChangeIsOpenCVOnValue:" destination="vPL-gl-hKy" eventType="valueChanged" id="hL8-eb-djL"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" label="OpenCV">
+                                            <accessibilityTraits key="traits" none="YES"/>
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstItem="g9K-4A-57h" firstAttribute="centerY" secondItem="T8t-FA-RCO" secondAttribute="centerY" id="EKb-Ov-1Xc"/>
                                             <constraint firstItem="g9K-4A-57h" firstAttribute="leading" secondItem="zLH-9s-9Sp" secondAttribute="leading" constant="30" id="XU1-Mx-NQq"/>
@@ -456,6 +468,38 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Framing guide" id="0xy-GK-yhY">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="51" id="BjW-Bh-sHO">
+                                        <rect key="frame" x="0.0" y="1045" width="320" height="51"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BjW-Bh-sHO" id="oG5-bO-0dy">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Guide sheet framming" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yo0-Ik-PQN">
+                                                    <rect key="frame" x="30" y="21" width="170" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zV8-EG-EfR">
+                                                    <rect key="frame" x="251" y="16" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="pressedGuideFrameOn:" destination="vPL-gl-hKy" eventType="valueChanged" id="J8H-uU-EGz"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="Yo0-Ik-PQN" firstAttribute="top" secondItem="BjW-Bh-sHO" secondAttribute="top" constant="21" id="Nat-rz-NOa"/>
+                                            <constraint firstItem="Yo0-Ik-PQN" firstAttribute="leading" secondItem="BjW-Bh-sHO" secondAttribute="leading" constant="30" id="W24-8Z-JZW"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="vPL-gl-hKy" id="As0-4Y-KRT"/>
@@ -466,6 +510,7 @@
                     <navigationItem key="navigationItem" title="Settings" id="e47-QX-hN9"/>
                     <connections>
                         <outlet property="binarizeHint" destination="eFF-5a-2mu" id="juP-E0-pSX"/>
+                        <outlet property="guideFrameSwitch" destination="zV8-EG-EfR" id="COt-ZO-qNP"/>
                         <outlet property="languageSelectorOne" destination="bug-bX-oq2" id="rec-hJ-St9"/>
                         <outlet property="segmentControlMethodSelector" destination="Glh-jz-uMb" id="hOc-ri-WQS"/>
                         <outlet property="switchOpenCVOn" destination="T8t-FA-RCO" id="rJG-vm-ntK"/>

@@ -17,14 +17,19 @@
     int binarizeSelector;
     int sheetErrorRange;
     BOOL speechfterPhotoIsTaken;
-    float speechRateValue;
+    float speechRateValue;    
+    BOOL isRunningiOS7;
+    BOOL guideFrameOn;
 }
+
 
 
 @property (nonatomic) NSString* tesseractLanguage;
 @property (nonatomic) double threshold;
+@property (nonatomic) BOOL guideFrameOn;
 @property (nonatomic) BOOL isOpenCVOn;
 @property (nonatomic) BOOL speechAfterPhotoIsTaken;
+@property (nonatomic) BOOL isRunningiOS7;
 @property (nonatomic) float speechRateValue;
 @property (nonatomic) int openCVMethodSelector;
 @property (nonatomic) int tesseractLanguageSelector;

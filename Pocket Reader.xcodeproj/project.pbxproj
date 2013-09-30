@@ -98,7 +98,6 @@
 		320E267A17F1277000BC8BF5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		320E267B17F1277000BC8BF5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		320E267C17F1277000BC8BF5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		3239DC6F17EE60E5002F0ED2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		3249B3CE172D7FA7009F4D84 /* Pocket Reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket Reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3249B3D1172D7FA7009F4D84 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3249B3D3172D7FA7009F4D84 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -380,7 +379,6 @@
 		3249B3D0172D7FA7009F4D84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3239DC6F17EE60E5002F0ED2 /* OpenGLES.framework */,
 				329B967F17762D8300846FA9 /* tesseract */,
 				3273F25A175BC4E600BC273D /* CoreMotion.framework */,
 				3273F258175BC4DE00BC273D /* AVFoundation.framework */,

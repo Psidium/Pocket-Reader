@@ -17,6 +17,9 @@
 @synthesize tesseractLanguageSelector;
 @synthesize binarizeSelector;
 @synthesize sheetErrorRange;
+@synthesize isRunningiOS7;
+@synthesize speechRateValue;
+@synthesize guideFrameOn;
 
 static PocketReaderDataClass *instance = nil;
 

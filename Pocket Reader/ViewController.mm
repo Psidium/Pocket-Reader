@@ -44,6 +44,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    dataClass.isRunningiOS7 = ([[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] intValue] >= 7); //don't know if work anymore
+    NSLog(dataClass.isRunningiOS7? @"is running iOS 7" : @"is not running ios 7");
     padrao.x = 50;
     padrao.y = 70;
     padrao.width = 233; //Create a rectangle for guide
@@ -58,13 +60,24 @@
     dataClass.isOpenCVOn = YES;
     dataClass.binarizeSelector=0;
     dataClass.sheetErrorRange = 10;
-    dataClass.tesseractLanguage = @"por";
+    dataClass.tesseractLanguage =  NSLocalizedString(@"por",nil);
     dataClass.threshold = 150;
     n_erode_dilate = 1;
     dataClass.openCVMethodSelector = 3;
-    dataClass.speechRateValue = AVSpeechUtteranceDefaultSpeechRate;
+    dataClass.speechRateValue = 0.5;
+    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+    [[NSNotificationCenter defaultCenter]
+     addObserverForName:UIAccessibilityAnnouncementDidFinishNotification
+     object:nil
+     queue:mainQueue
+     usingBlock:^(NSNotification *notification)
+     {
+         isTalking = NO;
+         NSDictionary *userInfo = notification.userInfo;
+         [userInfo objectForKey:UIAccessibilityAnnouncementKeyWasSuccessful];
+     }];
     if (!UIAccessibilityIsVoiceOverRunning()) {
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"VoiceOver inactive" message:@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"VoiceOver inactive",nil) message: NSLocalizedString(@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
         [message show];
     }
     
@@ -255,6 +268,8 @@
     
     if(recognize){
         BOOL torchPreviousState = [captureDevice isTorchActive];
+        BOOL openCVOnPreviousState = dataClass.isOpenCVOn;
+        dataClass.isOpenCVOn = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];});
         NSLog(@"%@",[stillImage description]);
@@ -274,19 +289,22 @@
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                 });
                 if (UIAccessibilityIsVoiceOverRunning()) {
+                    isTalking=YES;
                     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
                                                     textoReconhecido);
                 } else if (dataClass.speechAfterPhotoIsTaken){
-                    if ([[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] intValue] >= 7){
+                    if ([AVSpeechSynthesizer class] != nil){
                         AVSpeechSynthesizer *synthesizer = [AVSpeechSynthesizer new];
                         AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:textoReconhecido];
                         utterance.rate = dataClass.speechRateValue;
                         [synthesizer speakUtterance:utterance];
                     }
                 }
-                UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Texto reconhecido:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil)
+                                                        otherButtonTitles:nil];
                 [message show];
                 [self setTorch:torchPreviousState];
+                dataClass.isOpenCVOn =openCVOnPreviousState;
             }
         }];
         recognize=false;
@@ -318,7 +336,7 @@
             UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
                                             textoReconhecido);
         }
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Texto reconhecido:" message:textoReconhecido delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
         [message show];
     }
     
@@ -645,6 +663,48 @@
     for (int i=0; i < contoursArea.size(); i++){
         cv::approxPolyDP(Mat(contoursArea[i]), contoursDraw[i], 40, true);
     }
+    NSLog(@"iniciopoligonopontosetal");
+    for (int i=0; i < contoursArea.size();i++) {
+        for(int j=0; j< contoursArea[i].size();j++){
+            NSLog(@"ponto [%d][%d]: x: %d y: %d",i,j,contoursArea[i][j].x,contoursArea[i][j].y);
+        }
+    }
+    if (contoursArea.size() > 0 && UIAccessibilityIsVoiceOverRunning()){
+        float batata = cv::contourArea(contoursArea[0]);
+        if (batata == 0){
+            if (!isTalking){
+                isTalking=YES;
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova o aparelho um pouco para cima", nil));
+            }
+        }
+        else {
+            cv::Rect lugarAtual = cv::boundingRect(contoursArea[0]);
+            if (lugarAtual.x > mat.size().width - (lugarAtual.x + lugarAtual.width)){
+                if(lugarAtual.x - (mat.size().width - (lugarAtual.x + lugarAtual.width)) > 100){
+                    if (!isTalking){
+                        isTalking=YES;
+                        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para a esquerda", nil));
+                    }
+                }
+            } else if(lugarAtual.x - (mat.size().width - (lugarAtual.x + lugarAtual.width)) < 100){
+                if (!isTalking){
+                    isTalking=YES;
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para a direita", nil));
+                }
+            }
+            if (!isTalking){
+                isTalking=YES;
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Aproxime o aparelho da folha com cuidado", nil));
+            }
+            NSLog(@"tamhho %f", batata);
+            
+            if (batata > 112000){
+                recognize=YES;
+                isTalking=YES;
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Foto capturada com sucesso, iniciando conversão do texto impresso em voz", nil));
+            }
+        }
+    }
     Mat drawing = Mat::zeros( mat.size(), CV_8UC3 );
     cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
     //   NSLog(@"tamanho countours %lu",contoursCleaned.size());
@@ -957,7 +1017,7 @@
     
     
     
-    self.tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"por"];
+    self.tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language: NSLocalizedString(@"por",nil)];
     
     return YES;
 }

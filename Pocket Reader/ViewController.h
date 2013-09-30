@@ -26,6 +26,7 @@
     NSString *_qualityPreset;
     BOOL captureGrayscale;
     BOOL recognize;
+    BOOL isTalking;
     PocketReaderDataClass * dataClass;    
     int n_erode_dilate; // Precisa ajustar pro iPhone
    
