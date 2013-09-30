@@ -669,29 +669,38 @@
             NSLog(@"ponto [%d][%d]: x: %d y: %d",i,j,contoursArea[i][j].x,contoursArea[i][j].y);
         }
     }
-    if (contoursArea.size() > 0 && UIAccessibilityIsVoiceOverRunning()){
-        float batata = cv::contourArea(contoursArea[0]);
-        if (batata == 0){
-            if (!isTalking){
-                isTalking=YES;
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova o aparelho um pouco para cima", nil));
-            }
-        }
-        else {
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        if (contoursArea.size() > 0) {
+            float batata = cv::contourArea(contoursArea[0]);
             cv::Rect lugarAtual = cv::boundingRect(contoursArea[0]);
             if (lugarAtual.x > mat.size().width - (lugarAtual.x + lugarAtual.width)){
                 if(lugarAtual.x - (mat.size().width - (lugarAtual.x + lugarAtual.width)) > 100){
                     if (!isTalking){
                         isTalking=YES;
-                        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para a esquerda", nil));
+                        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para a direita", nil));
                     }
                 }
             } else if(lugarAtual.x - (mat.size().width - (lugarAtual.x + lugarAtual.width)) < 100){
                 if (!isTalking){
                     isTalking=YES;
-                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para a direita", nil));
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para a esquerda", nil));
                 }
             }
+            
+            if (lugarAtual.y > mat.size().height - (lugarAtual.y + lugarAtual.height)){
+                if(lugarAtual.y - (mat.size().height - (lugarAtual.y + lugarAtual.height)) > 100){
+                    if (!isTalking){
+                        isTalking=YES;
+                        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para trás", nil));
+                    }
+                }
+            } else if(lugarAtual.y - (mat.size().height - (lugarAtual.y + lugarAtual.height)) < 100){
+                if (!isTalking){
+                    isTalking=YES;
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para frente", nil));
+                }
+            }
+            
             if (!isTalking){
                 isTalking=YES;
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Aproxime o aparelho da folha com cuidado", nil));
@@ -703,8 +712,20 @@
                 isTalking=YES;
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Foto capturada com sucesso, iniciando conversão do texto impresso em voz", nil));
             }
+        } else {
+            if (!isTalking){
+                isTalking=YES;
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Nenhuma folha detectada", nil));
+            }
         }
     }
+    if (isTalking) {
+        if (++count == 50) {
+            isTalking=NO;
+        }
+        
+    } else
+        count=0;
     Mat drawing = Mat::zeros( mat.size(), CV_8UC3 );
     cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
     //   NSLog(@"tamanho countours %lu",contoursCleaned.size());

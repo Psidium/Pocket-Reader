@@ -20,7 +20,7 @@
     AVCaptureVideoDataOutput* videoOutput;
     AVCaptureVideoPreviewLayer *captureLayer;
     AVCaptureStillImageOutput *stillImage;
-    
+    double count;
     Tesseract* tesseract;
     int camera;
     NSString *_qualityPreset;
@@ -43,6 +43,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *um;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *dois;
 @property (nonatomic) int camera;
+@property (nonatomic) double count;
 @property (weak, nonatomic) NSString * const qualityPreset;
 @property (nonatomic) BOOL captureGrayscale;
 @property (nonatomic) PocketReaderDataClass * dataClass;
