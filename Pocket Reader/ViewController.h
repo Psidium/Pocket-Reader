@@ -20,12 +20,13 @@
     AVCaptureVideoDataOutput* videoOutput;
     AVCaptureVideoPreviewLayer *captureLayer;
     AVCaptureStillImageOutput *stillImage;
-    double count;
+    int count;
     Tesseract* tesseract;
     int camera;
     NSString *_qualityPreset;
     BOOL captureGrayscale;
     BOOL recognize;
+    BOOL isViewAppearing;
     BOOL isTalking;
     PocketReaderDataClass * dataClass;    
     int n_erode_dilate; // Precisa ajustar pro iPhone
@@ -43,7 +44,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *um;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *dois;
 @property (nonatomic) int camera;
-@property (nonatomic) double count;
+@property (nonatomic) int count;
 @property (weak, nonatomic) NSString * const qualityPreset;
 @property (nonatomic) BOOL captureGrayscale;
 @property (nonatomic) PocketReaderDataClass * dataClass;

@@ -28,6 +28,7 @@
 
 @implementation ViewController
 
+
 @synthesize camera;
 @synthesize captureGrayscale;
 @synthesize captureSession;
@@ -38,7 +39,7 @@
 @synthesize stillImage;
 @synthesize tesseract;
 @synthesize dataClass;
-
+@synthesize count;
 
 #pragma mark - Default:
 - (void)viewDidLoad
@@ -185,7 +186,7 @@
 {
     //MARK: Most Important Method
     
-    if(dataClass.isOpenCVOn) {
+    if(dataClass.isOpenCVOn && isViewAppearing) {
         
         if(dataClass.openCVMethodSelector==0){NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
             int sublayersCount = [sublayers count];
@@ -344,10 +345,13 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    isViewAppearing = YES;
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    isViewAppearing = NO;
+    
 }
 
 - (void) usePicker {
@@ -720,8 +724,9 @@
         }
     }
     if (isTalking) {
-        if (++count == 50) {
+        if (++self.count == 60) {
             isTalking=NO;
+            self.count=0;
         }
         
     } else
@@ -754,6 +759,9 @@
                                         NULL,                                           // Decode
                                         false,                                          // Should interpolate
                                         kCGRenderingIntentDefault);
+    CGColorSpaceRelease(colorSpace);
+    CGDataProviderRelease(provider);
+    
     drawing.release();
     const float blackMask[6] = { 0,0,0, 0,0,0 };
     CGImageRef myColorMaskedImage = CGImageCreateWithMaskingColors(imageRef, blackMask);
@@ -832,6 +840,8 @@
                                         NULL,                                           // Decode
                                         false,                                          // Should interpolate
                                         kCGRenderingIntentDefault);
+    CGColorSpaceRelease(colorSpace);
+    CGDataProviderRelease(provider);
     image.release();
     const float whiteMask[6] = { 255,255,255, 255,255,255 };
     CGImageRef myColorMaskedImage = CGImageCreateWithMaskingColors(imageRef, whiteMask);
