@@ -1,0 +1,21 @@
+/*
+ Localizable.strings
+ Pocket Reader
+ 
+ Created by Vinicius Weiler on 10/2/13.
+ Copyright (c) 2013 Gabriel Borges Fernandes. All rights reserved.
+ */
+"VoiceOver inactive" = "VoiceOver inactive";
+"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on." = "Achtung: VoiceOver ist derzeit abgeschaltet. Pocket Reader soll verwendet mit VoiceOver-Funktion eingeschaltet werden.";
+"first" = "ger";
+"Texto reconhecido:" = "Text erfolgreich erkannt:";
+"OK" = "OK";
+"Mova um pouco para a direita" = "Bewegen Sie ihn nach rechts";
+"Mova um pouco para a esquerda" = "Bewegen Sie ihn nach links";
+"Mova um pouco para trás" = "Bewegen Sie sie zu sich";
+"Mova um pouco para frente" = "Bewegen Sie es weg von Ihnen";
+"Aproxime o aparelho da folha com cuidado" = "Vorsichtig bewegen Sie sie nach unten";
+"Foto capturada com sucesso, iniciando conversão do texto impresso em voz" = "Foto erfolgreich gemacht. Initiieren Umwandlung von Text in Sprache";
+"Nenhuma folha detectada" = "Kein Bogen detektiert";
+"Higher threshold is better" = "Höhere Threshold ist besser";
+"Lower threshold is better" = "Untere Threshold ist besser";

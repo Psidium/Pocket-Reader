@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "PocketReaderDataClass.h"
 #import "PocketReaderConfigViewController.h"
+#import <CoreMotion/CoreMotion.h>
 
 @interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     
@@ -48,6 +49,7 @@
 @property (weak, nonatomic) NSString * const qualityPreset;
 @property (nonatomic) BOOL captureGrayscale;
 @property (nonatomic) PocketReaderDataClass * dataClass;
+@property (strong, nonatomic) CMMotionManager *motionManager;
 
 - (IBAction) apertouUm:(id)sender;
 - (IBAction) apertouDois:(id)sender;

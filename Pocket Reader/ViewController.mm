@@ -40,6 +40,7 @@
 @synthesize tesseract;
 @synthesize dataClass;
 @synthesize count;
+@synthesize motionManager;
 
 #pragma mark - Default:
 - (void)viewDidLoad
@@ -58,10 +59,10 @@
     [self timerFireMethod:nil]; // prints a red rectangle on the screen for DEBUG
     [self setTorch:NO]; //turn flash off
     dataClass = [PocketReaderDataClass getInstance];
-    dataClass.isOpenCVOn = YES;
+    dataClass.isOpenCVOn = NO;
     dataClass.binarizeSelector=0;
     dataClass.sheetErrorRange = 10;
-    dataClass.tesseractLanguage =  NSLocalizedString(@"por",nil);
+    dataClass.tesseractLanguage =  NSLocalizedString(@"first",nil);
     dataClass.threshold = 150;
     n_erode_dilate = 1;
     dataClass.openCVMethodSelector = 3;
@@ -109,7 +110,6 @@
         isTalking=NO;
     }
 }
-
 
 #pragma mark - Tesseract:
 
@@ -1057,7 +1057,8 @@
     
     
     
-    self.tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language: NSLocalizedString(@"por",nil)];
+    self.tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language: NSLocalizedString(@"first",nil)];
+    NSLog(@"Tesseratc language: %@",dataClass.tesseractLanguage);
     
     return YES;
 }

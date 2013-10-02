@@ -35,6 +35,9 @@
     [self.segmentControlMethodSelector setSelectedSegmentIndex:dataClass.openCVMethodSelector];
     [self.languageSelectorOne setSelectedSegmentIndex:dataClass.tesseractLanguageSelector];
     [self.segmentControlMethodSelector setSelectedSegmentIndex:dataClass.openCVMethodSelector];
+    [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Higher threshold is better",nil) attributes:@ {
+    NSFontAttributeName: [UIFont systemFontOfSize:10]
+    }]];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -96,14 +99,15 @@
 - (IBAction)didChangedBinarizeSegment:(UISegmentedControl *)sender {
     dataClass.binarizeSelector = sender.selectedSegmentIndex;
     
-    if (sender.selectedSegmentIndex == 0)
-        [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:@"Higher threshold is better" attributes:@ {
+    if (sender.selectedSegmentIndex == 0) {
+        [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Higher threshold is better",nil) attributes:@ {
         NSFontAttributeName: [UIFont systemFontOfSize:10]
         }]];
-    else if (sender.selectedSegmentIndex == 1)
-        [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:@"Lower threshold is better" attributes:@ {
+    }else if (sender.selectedSegmentIndex == 1) {
+        [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Lower threshold is better",nil) attributes:@ {
         NSFontAttributeName: [UIFont systemFontOfSize:10]
         }]];
+    }
 }
 
 @end
