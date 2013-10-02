@@ -66,17 +66,10 @@
     n_erode_dilate = 1;
     dataClass.openCVMethodSelector = 3;
     dataClass.speechRateValue = 0.5;
-    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
-    [[NSNotificationCenter defaultCenter]
-     addObserverForName:UIAccessibilityAnnouncementDidFinishNotification
-     object:nil
-     queue:mainQueue
-     usingBlock:^(NSNotification *notification)
-     {
-         isTalking = NO;
-         NSDictionary *userInfo = notification.userInfo;
-         [userInfo objectForKey:UIAccessibilityAnnouncementKeyWasSuccessful];
-     }];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(announcementFinished:)
+                                                 name:UIAccessibilityAnnouncementDidFinishNotification
+                                               object:nil];
     if (!UIAccessibilityIsVoiceOverRunning()) {
         UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"VoiceOver inactive",nil) message: NSLocalizedString(@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
         [message show];
@@ -103,6 +96,20 @@
 {
     [self setTorch:![captureDevice isTorchActive]]; //Invert the flash state
 }
+
+// When an announcement finishes this will get called.
+- (void)announcementFinished:(NSNotification *)notification {
+    // Get the text and if it succeded (read the entire thing) or not
+    //NSString *announcment = notification.userInfo[UIAccessibilityAnnouncementKeyStringValue];
+    BOOL wasSuccessful = [notification.userInfo[UIAccessibilityAnnouncementKeyWasSuccessful] boolValue];
+    
+    if (wasSuccessful) {
+        isTalking=NO;
+    } else {
+        isTalking=NO;
+    }
+}
+
 
 #pragma mark - Tesseract:
 
@@ -301,8 +308,7 @@
                         [synthesizer speakUtterance:utterance];
                     }
                 }
-                UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil)
-                                                        otherButtonTitles:nil];
+                UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
                 [message show];
                 [self setTorch:torchPreviousState];
                 dataClass.isOpenCVOn =openCVOnPreviousState;
@@ -625,6 +631,7 @@
 
 - (void) findAndDrawSheetByContours: (cv::Mat &) mat {
     cv::Mat output = mat.clone();
+    double imageSize = mat.rows * mat.cols;  //quando era literal n tinha ess alinha
     cv::cvtColor(mat, mat, CV_BGR2GRAY);
     //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
     cv::GaussianBlur(mat, mat, cv::Size(3,3), 0);
@@ -711,7 +718,7 @@
             }
             NSLog(@"tamhho %f", batata);
             
-            if (batata > 112000){
+            if (batata > (imageSize / 1.21) ){ // era 112000
                 recognize=YES;
                 isTalking=YES;
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Foto capturada com sucesso, iniciando conversão do texto impresso em voz", nil));
@@ -723,14 +730,16 @@
             }
         }
     }
-    if (isTalking) {
+    
+
+    /*if (isTalking) {
         if (++self.count == 60) {
             isTalking=NO;
             self.count=0;
         }
         
     } else
-        count=0;
+        count=0;*/
     Mat drawing = Mat::zeros( mat.size(), CV_8UC3 );
     cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
     //   NSLog(@"tamanho countours %lu",contoursCleaned.size());
