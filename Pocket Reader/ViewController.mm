@@ -120,7 +120,6 @@
     Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
     self.tesseract=tesseractHolder;
     NSLog(@"Mudou pra %@",dataClass.tesseractLanguage);
-    while([captureDevice isAdjustingFocus]);
     recognize=YES;
 }
 
@@ -308,8 +307,12 @@
                         [synthesizer speakUtterance:utterance];
                     }
                 }
-                UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-                [message show];
+                /* UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+                 [message show];*/
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"AddToHistory"
+                 object:textoReconhecido];
+                [self.tabBarController setSelectedIndex:1];
                 [self setTorch:torchPreviousState];
                 dataClass.isOpenCVOn =openCVOnPreviousState;
             }
@@ -338,13 +341,17 @@
         NSLog(@"deveria ter mostrado");
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-        });
+        }); /*
         if (UIAccessibilityIsVoiceOverRunning()) {
             UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
                                             textoReconhecido);
         }
         UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-        [message show];
+        [message show];*/
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"AddToHistory"
+         object:textoReconhecido];
+        [self.tabBarController setSelectedIndex:1];
     }
     
 }

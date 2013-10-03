@@ -10,7 +10,8 @@
 
 @implementation PocketReaderSavedTextCell
 
-@synthesize cellFirstLabel;
+@synthesize cellTitleLabel;
+@synthesize cellSubTitleLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

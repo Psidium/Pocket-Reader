@@ -108,28 +108,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="savedTextCell" rowHeight="62" id="aBL-kI-k5i" customClass="PocketReaderSavedTextCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="savedTextCell" editingAccessoryType="disclosureIndicator" textLabel="U15-md-1dv" detailTextLabel="vZR-RO-Gea" rowHeight="62" style="IBUITableViewCellStyleSubtitle" id="aBL-kI-k5i" customClass="PocketReaderSavedTextCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aBL-kI-k5i" id="w8q-Xm-Y0c">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IMO-i2-gWj">
-                                            <rect key="frame" x="20" y="5" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U15-md-1dv">
+                                            <rect key="frame" x="15" y="12" width="34" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vZR-RO-Gea">
+                                            <rect key="frame" x="15" y="34" width="43" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <constraints>
-                                    <constraint firstItem="IMO-i2-gWj" firstAttribute="top" secondItem="aBL-kI-k5i" secondAttribute="top" constant="5" id="Bfo-Ed-OCA"/>
-                                    <constraint firstItem="IMO-i2-gWj" firstAttribute="leading" secondItem="aBL-kI-k5i" secondAttribute="leading" constant="20" id="y1P-4a-Wmk"/>
-                                </constraints>
                                 <connections>
-                                    <outlet property="cellFirstLabel" destination="IMO-i2-gWj" id="w0R-1h-2O0"/>
+                                    <outlet property="cellSubTitleLabel" destination="vZR-RO-Gea" id="CVu-US-u5l"/>
+                                    <outlet property="cellTitleLabel" destination="U15-md-1dv" id="cdp-oU-4XY"/>
+                                    <segue destination="z9W-5L-Oz5" kind="push" id="19C-Cb-ejA"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -140,6 +145,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9MD-YK-vsu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2145" y="210"/>
+        </scene>
+        <!--Pocket Reader Show Text View Controller - Title-->
+        <scene sceneID="M5k-EV-agb">
+            <objects>
+                <viewController id="z9W-5L-Oz5" customClass="PocketReaderShowTextViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="owM-3e-YEq"/>
+                        <viewControllerLayoutGuide type="bottom" id="rzu-Wf-AGb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pcH-1a-zRz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iuf-6q-XOF">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="FVp-KV-BuK"/>
+                    <connections>
+                        <outlet property="navigationBarTitle" destination="FVp-KV-BuK" id="oxo-dU-v5Y"/>
+                        <outlet property="textView" destination="iuf-6q-XOF" id="9Qh-W4-9WC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f2k-oq-LOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2835" y="210"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tMi-If-VHV">
@@ -546,6 +584,8 @@
     </scenes>
     <resources>
         <image name="gear.png" width="24" height="24"/>
+        <image name="gear.png" width="24" height="24"/>
+        <image name="photo.png" width="24" height="24"/>
         <image name="photo.png" width="24" height="24"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

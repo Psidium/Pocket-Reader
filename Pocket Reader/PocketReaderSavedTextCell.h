@@ -10,6 +10,8 @@
 
 @interface PocketReaderSavedTextCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UILabel *cellFirstLabel;
+@property (strong, nonatomic) IBOutlet UILabel *cellTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *cellSubTitleLabel;
+
 
 @end

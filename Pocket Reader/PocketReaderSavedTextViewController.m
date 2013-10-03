@@ -13,6 +13,27 @@
 
 @end
 
+@implementation NSMutableArray(Plist)
+
+-(BOOL)writeToPlistFile:(NSString*)filename{
+    NSData * data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString * documentsDirectory = [paths objectAtIndex:0];
+    NSString * path = [documentsDirectory stringByAppendingPathComponent:filename];
+    BOOL didWriteSuccessfull = [data writeToFile:path atomically:YES];
+    return didWriteSuccessfull;
+}
+
++(NSMutableArray*)readFromPlistFile:(NSString*)filename{
+    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString * documentsDirectory = [paths objectAtIndex:0];
+    NSString * path = [documentsDirectory stringByAppendingPathComponent:filename];
+    NSData * data = [NSData dataWithContentsOfFile:path];
+    return  [NSKeyedUnarchiver unarchiveObjectWithData:data];
+}
+
+@end //needs to be set for implementation
+
 @implementation PocketReaderSavedTextViewController
 
 @synthesize savedText;
@@ -29,7 +50,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.savedText = [[NSArray alloc] initWithObjects:@"Olá isso é um texto reconhecido de teste", nil];
+    
+    self.savedText = [NSMutableArray readFromPlistFile:@"SavedText.plist"];
+    if (self.savedText == nil) {
+        self.savedText = [NSMutableArray
+                          arrayWithObjects:
+                          [NSArray arrayWithObjects:
+                           NSLocalizedString(@"Title of future text",nil),
+                           NSLocalizedString(@"Subtitle of  future texts",nil),
+                           NSLocalizedString(@"Contents of text",nil),nil],
+                          nil];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receiveTestNotification:)
+                                                 name:@"AddToHistory"
+                                               object:nil];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -37,6 +72,25 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+- (void) receiveTestNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"AddToHistory"]){
+        NSString *received = notification.object;
+        [self.savedText addObject:[NSArray arrayWithObjects:[received substringWithRange:NSMakeRange(0, 10)], [received substringWithRange:NSMakeRange(11, 30)], received, nil]];
+        [self.tableView reloadData];
+    }
+}
+
+
+-(void) viewDidDisappear:(BOOL)animated {
+    BOOL deuCerto = [self.savedText writeToPlistFile:@"SavedText.plist"];
+    NSLog(deuCerto ? @"Escreveu no arquivo" : @"nao escreveu no arquivo");
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+    [self.tableView reloadData];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -58,6 +112,19 @@
     return [self.savedText count];
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        //remove the deleted object from your data source.
+        [self.savedText removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"savedTextCell";
@@ -69,8 +136,8 @@
     
     
     // Configure the cell...
-    
-    cell.cellFirstLabel.text = [self.savedText objectAtIndex: [indexPath row]];
+    cell.cellTitleLabel.text = [[self.savedText objectAtIndex:indexPath.row] objectAtIndex:0];
+    cell.cellSubTitleLabel.text = [[self.savedText objectAtIndex:indexPath.row] objectAtIndex:1];
     return cell;
 }
 
@@ -116,13 +183,22 @@
 /*
 #pragma mark - Navigation
 
-// In a story board-based application, you will often want to do a little preparation before navigation
+ // In a story board-based application, you will often want to do a little preparation before navigation
+ */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    NSLog(@"%@ , %@", [segue identifier], [[segue destinationViewController] class]);
+    PocketReaderShowTextViewController *showViewController = [segue destinationViewController];
+    NSLog(@"prapara para segue");
+    NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+    [showViewController setTitleOfNavigationBar:[[self.savedText objectAtIndex:path.item] objectAtIndex:0]];
+    [showViewController setStringOnTextView:[[self.savedText objectAtIndex:path.item] objectAtIndex:2]];
+    NSLog(@"do segue das invejosas");
 }
 
- */
 
 @end
+
+

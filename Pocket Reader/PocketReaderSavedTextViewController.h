@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PocketReaderSavedTextCell.h"
+#import "PocketReaderShowTextViewController.h"
 
 @interface PocketReaderSavedTextViewController : UITableViewController
-@property (nonatomic, strong) NSArray *savedText;
+@property (nonatomic, strong) NSMutableArray *savedText;
 
 @end

@@ -42,6 +42,7 @@
 		3249B3DE172D7FA7009F4D84 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3DD172D7FA7009F4D84 /* main.m */; };
 		3249B3E2172D7FA8009F4D84 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3E1172D7FA8009F4D84 /* AppDelegate.m */; };
 		3249B3EB172D7FA8009F4D84 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3249B3EA172D7FA8009F4D84 /* ViewController.mm */; };
+		3252766F17FCFDDB008877BB /* PocketReaderShowTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3252766E17FCFDDB008877BB /* PocketReaderShowTextViewController.m */; };
 		325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 325422EA179728D7008A6204 /* MBProgressHUD.m */; };
 		3254F4481765098C00573DF3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3254F4471765098C00573DF3 /* Accelerate.framework */; };
 		3256EAD717FA76420007E157 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3256EAD617FA76420007E157 /* CoreAudio.framework */; };
@@ -120,6 +121,8 @@
 		3249B3E1172D7FA8009F4D84 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3249B3E9172D7FA8009F4D84 /* ViewController.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ViewController.h; sourceTree = "<group>"; };
 		3249B3EA172D7FA8009F4D84 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		3252766D17FCFDDB008877BB /* PocketReaderShowTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PocketReaderShowTextViewController.h; path = ../PocketReaderShowTextViewController.h; sourceTree = "<group>"; };
+		3252766E17FCFDDB008877BB /* PocketReaderShowTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PocketReaderShowTextViewController.m; path = ../PocketReaderShowTextViewController.m; sourceTree = "<group>"; };
 		325422E9179728D7008A6204 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		325422EA179728D7008A6204 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3254F4471765098C00573DF3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -424,6 +427,8 @@
 				326FB40117E8029D00E21084 /* PocketReaderSavedTextViewController.m */,
 				326FB40317E805F900E21084 /* PocketReaderSavedTextCell.h */,
 				326FB40417E805FA00E21084 /* PocketReaderSavedTextCell.m */,
+				3252766D17FCFDDB008877BB /* PocketReaderShowTextViewController.h */,
+				3252766E17FCFDDB008877BB /* PocketReaderShowTextViewController.m */,
 				2410547D17F0D5880055A40A /* Main.storyboard */,
 				3249B3D8172D7FA7009F4D84 /* Supporting Files */,
 			);
@@ -785,6 +790,7 @@
 				326FB40517E805FA00E21084 /* PocketReaderSavedTextCell.m in Sources */,
 				329B967E17762D6500846FA9 /* Tesseract.mm in Sources */,
 				32DFDF4617D4009F00D76809 /* PocketReaderDataClass.m in Sources */,
+				3252766F17FCFDDB008877BB /* PocketReaderShowTextViewController.m in Sources */,
 				245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */,
 				3249B3EB172D7FA8009F4D84 /* ViewController.mm in Sources */,
 			);
