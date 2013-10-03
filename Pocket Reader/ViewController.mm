@@ -59,7 +59,7 @@
     [self timerFireMethod:nil]; // prints a red rectangle on the screen for DEBUG
     [self setTorch:NO]; //turn flash off
     dataClass = [PocketReaderDataClass getInstance];
-    dataClass.isOpenCVOn = NO;
+    dataClass.isOpenCVOn = YES;
     dataClass.binarizeSelector=0;
     dataClass.sheetErrorRange = 10;
     dataClass.tesseractLanguage =  NSLocalizedString(@"first",nil);
