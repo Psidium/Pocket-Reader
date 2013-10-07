@@ -11,15 +11,11 @@
 @implementation PocketReaderDataClass
 
 @synthesize isOpenCVOn;
-@synthesize threshold;
-@synthesize openCVMethodSelector;
 @synthesize tesseractLanguage;
 @synthesize tesseractLanguageSelector;
-@synthesize binarizeSelector;
-@synthesize sheetErrorRange;
-@synthesize isRunningiOS7;
 @synthesize speechRateValue;
 @synthesize guideFrameOn;
+@synthesize tesseract;
 
 static PocketReaderDataClass *instance = nil;
 

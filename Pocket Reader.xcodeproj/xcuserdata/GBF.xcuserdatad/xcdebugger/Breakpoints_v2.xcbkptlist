@@ -21,5 +21,51 @@
             </Actions>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pocket Reader/ViewController.mm"
+            timestampString = "402848672.939359"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "472"
+            endingLineNumber = "472"
+            landmarkName = "getPaperAreaFromImage( cv::Mat image, std::vector&lt;cv::Point&gt; square )"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/opencv2.framework/Headers/core/mat.hpp"
+                  timestampString = "402848922.011585"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "335"
+                  endingLineNumber = "335"
+                  offsetFromSymbolStart = "38">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/opencv2.framework/Headers/core/mat.hpp"
+                  timestampString = "402848923.846219"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "38">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

@@ -30,14 +30,8 @@
 {
     [super viewDidLoad];
     dataClass = [PocketReaderDataClass getInstance];
-    [self.thresholdSlider setValue:dataClass.threshold animated:YES];
     [self.switchOpenCVOn  setOn:YES animated:YES];
-    [self.segmentControlMethodSelector setSelectedSegmentIndex:dataClass.openCVMethodSelector];
     [self.languageSelectorOne setSelectedSegmentIndex:dataClass.tesseractLanguageSelector];
-    [self.segmentControlMethodSelector setSelectedSegmentIndex:dataClass.openCVMethodSelector];
-    [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Higher threshold is better",nil) attributes:@ {
-    NSFontAttributeName: [UIFont systemFontOfSize:10]
-    }]];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -50,9 +44,7 @@
 - (IBAction)pressedGuideFrameOn:(UISwitch *)sender {
 }
 
-- (IBAction)didChngeThresholdValue:(UISlider *)sender {
-    dataClass.threshold = self.thresholdSlider.value;
-}
+
 
 - (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender {
     dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
@@ -79,10 +71,6 @@
     }
 }
 
-- (IBAction)didChangedSegmentControl:(UISegmentedControl *)sender {
-    dataClass.openCVMethodSelector = sender.selectedSegmentIndex;
-}
-
 - (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender {
     dataClass.tesseractLanguageSelector = sender.selectedSegmentIndex;
     if (sender.selectedSegmentIndex == 0) {
@@ -94,20 +82,13 @@
     }if (sender.selectedSegmentIndex == 3) {
         dataClass.tesseractLanguage = @"deu";
     }
+    [dataClass.tesseract clear]; //clean the tesseract
+    dataClass.tesseract=nil;
+    Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
+    dataClass.tesseract=tesseractHolder;
+    NSLog(@"Mudou pra %@",dataClass.tesseractLanguage);
+
 }
 
-- (IBAction)didChangedBinarizeSegment:(UISegmentedControl *)sender {
-    dataClass.binarizeSelector = sender.selectedSegmentIndex;
-    
-    if (sender.selectedSegmentIndex == 0) {
-        [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Higher threshold is better",nil) attributes:@ {
-        NSFontAttributeName: [UIFont systemFontOfSize:10]
-        }]];
-    }else if (sender.selectedSegmentIndex == 1) {
-        [self.binarizeHint setAttributedText:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Lower threshold is better",nil) attributes:@ {
-        NSFontAttributeName: [UIFont systemFontOfSize:10]
-        }]];
-    }
-}
 
 @end

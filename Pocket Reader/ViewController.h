@@ -22,7 +22,6 @@
     AVCaptureVideoPreviewLayer *captureLayer;
     AVCaptureStillImageOutput *stillImage;
     int count;
-    Tesseract* tesseract;
     int camera;
     NSString *_qualityPreset;
     BOOL captureGrayscale;
@@ -41,7 +40,6 @@
 @property (strong, nonatomic) AVCaptureVideoDataOutput *videoOutput;
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureStillImageOutput *stillImage;
-@property (strong, nonatomic) Tesseract* tesseract;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *um;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *dois;
 @property (nonatomic) int camera;

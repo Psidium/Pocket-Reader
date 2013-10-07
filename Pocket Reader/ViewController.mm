@@ -20,8 +20,6 @@
 #import "text_detect.h"
 
 @interface ViewController () {
-    cv::Rect padrao;
-    
     std::vector<cv::Vec4i> lines;
 }
 @end
@@ -37,7 +35,6 @@
 @synthesize captureLayer;
 @synthesize videoOutput;
 @synthesize stillImage;
-@synthesize tesseract;
 @synthesize dataClass;
 @synthesize count;
 @synthesize motionManager;
@@ -46,12 +43,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    dataClass.isRunningiOS7 = ([[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] intValue] >= 7); //don't know if work anymore
-    NSLog(dataClass.isRunningiOS7? @"is running iOS 7" : @"is not running ios 7");
-    padrao.x = 50;
-    padrao.y = 70;
-    padrao.width = 233; //Create a rectangle for guide
-    padrao.height = 319; // Note: "padrao" is portuguese for "default"
+    [self.tabBarController setSelectedIndex:1];
+    [self.tabBarController setSelectedIndex:0];
     self.qualityPreset = AVCaptureSessionPresetPhoto; //maximum quality
     captureGrayscale = NO; //Set color capture
     self.camera = -1; //Set back camera
@@ -60,12 +53,8 @@
     [self setTorch:NO]; //turn flash off
     dataClass = [PocketReaderDataClass getInstance];
     dataClass.isOpenCVOn = YES;
-    dataClass.binarizeSelector=0;
-    dataClass.sheetErrorRange = 10;
     dataClass.tesseractLanguage =  NSLocalizedString(@"first",nil);
-    dataClass.threshold = 150;
     n_erode_dilate = 1;
-    dataClass.openCVMethodSelector = 3;
     dataClass.speechRateValue = 0.5;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(announcementFinished:)
@@ -115,10 +104,10 @@
 
 - (IBAction)apertouDois:(id)sender
 {
-    [self.tesseract clear]; //clean the tesseract
-    self.tesseract=nil;
+    [dataClass.tesseract clear]; //clean the tesseract
+    dataClass.tesseract=nil;
     Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
-    self.tesseract=tesseractHolder;
+    dataClass.tesseract=tesseractHolder;
     NSLog(@"Mudou pra %@",dataClass.tesseractLanguage);
     recognize=YES;
 }
@@ -194,52 +183,6 @@
     
     if(dataClass.isOpenCVOn && isViewAppearing) {
         
-        if(dataClass.openCVMethodSelector==0){NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-            int sublayersCount = [sublayers count];
-            int currentSublayer = 0;
-            
-            [CATransaction begin];
-            [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-            
-            // hide all the face layers
-            for (CALayer *layer in sublayers) {
-                NSString *layerName = [layer name];
-                if ([layerName isEqualToString:@"DefaultLayer"])
-                    [layer setHidden:YES];
-            }
-            
-            // Create transform to convert from vide frame coordinate space to view coordinate space
-            CGAffineTransform t = [self affineTransformForVideoFrame:self.recordPreview.bounds orientation:AVCaptureVideoOrientationPortrait];
-            
-            CGRect faceRect = CGRectMake(padrao.x/1.0f, padrao.y/1.0f, padrao.width/1.0f, padrao.height/1.0f);
-            
-            faceRect = CGRectApplyAffineTransform(faceRect, t);
-            
-            CALayer *featureLayer = nil;
-            
-            while (!featureLayer && (currentSublayer < sublayersCount)) {
-                CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
-                if ([[currentLayer name] isEqualToString:@"DefaultLayer"]) {
-                    featureLayer = currentLayer;
-                    [currentLayer setHidden:NO];
-                }
-            }
-            
-            if (!featureLayer) {
-                // Create a new feature marker layer
-                featureLayer = [[CALayer alloc] init];
-                featureLayer.name = @"DefaultLayer";
-                featureLayer.borderColor = [[UIColor redColor] CGColor];
-                featureLayer.borderWidth = 1.0f;
-                [self.recordPreview.layer addSublayer:featureLayer];
-            }
-            
-            
-            
-            featureLayer.frame = faceRect;
-            
-            [CATransaction commit];
-        }
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
         AVCaptureVideoOrientation videoOrientation = AVCaptureVideoOrientationPortrait;
@@ -263,16 +206,9 @@
         mat.release();
         
         
-    } else {
-        NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-        for (CALayer *layer in sublayers) {
-            if ([[layer name] isEqualToString:@"DefaultLayer"])
-                [layer setHidden:YES];
-            if ([[layer name] isEqualToString:@"SheetLayer"])
-                [layer setHidden:YES];
-        }
     }
-    
+    // TODO: Depois de detectar a folha cortar ela da foto
+    // TODO: pegar a imagem do rolo da câmera
     if(recognize){
         BOOL torchPreviousState = [captureDevice isTorchActive];
         BOOL openCVOnPreviousState = dataClass.isOpenCVOn;
@@ -287,10 +223,10 @@
             UIImage *img = [[UIImage alloc] initWithData:imageData];
             img=[self gs_convert_image:img];
             if (img!=nil) {
-                [self.tesseract setImage:img];
-                [self.tesseract recognize];
-                NSString *textoReconhecido = [self.tesseract recognizedText];
-                [self.tesseract clear];
+                [dataClass.tesseract setImage:img];
+                [dataClass.tesseract recognize];
+                NSString *textoReconhecido = [dataClass.tesseract recognizedText];
+                [dataClass.tesseract clear];
                 NSLog(@"%@", textoReconhecido);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -307,12 +243,13 @@
                         [synthesizer speakUtterance:utterance];
                     }
                 }
-                /* UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-                 [message show];*/
+                [self.tabBarController setSelectedIndex:1];
+                UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+                [message show];
                 [[NSNotificationCenter defaultCenter]
                  postNotificationName:@"AddToHistory"
                  object:textoReconhecido];
-                [self.tabBarController setSelectedIndex:1];
+                
                 [self setTorch:torchPreviousState];
                 dataClass.isOpenCVOn =openCVOnPreviousState;
             }
@@ -329,13 +266,13 @@
     if (img!=nil) {
         
         NSLog(@"saiu uimage");
-        [self.tesseract setImage:img];
+        [dataClass.tesseract setImage:img];
         NSLog(@"começa a reconhecer");
-        NSLog([self.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
+        NSLog([dataClass.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
         NSLog(@"terminou");
-        NSLog(@"%@",[self.tesseract description]);
-        NSString *textoReconhecido = [self.tesseract recognizedText];
-        [self.tesseract clear];
+        NSLog(@"%@",[dataClass.tesseract description]);
+        NSString *textoReconhecido = [dataClass.tesseract recognizedText];
+        [dataClass.tesseract clear];
         
         NSLog(@"%@", textoReconhecido);
         NSLog(@"deveria ter mostrado");
@@ -423,215 +360,153 @@
     cv::Rect sheet;
     cv::vector<cv::Rect> vectorText;
     // MARK: Here comes the OpenCV methods
-    if (dataClass.openCVMethodSelector == 0 || dataClass.openCVMethodSelector == 2) {
-        if (dataClass.openCVMethodSelector == 0)
-            sheet = [self contornObjectOnView:mat];
-        else if (dataClass.openCVMethodSelector == 2){
-            //commented: Turn the image by 90 degrees because when the text is taken turned it is better recognized
-            /*double angle = 90;  // or 270
-             cv::Size src_sz = mat.size();
-             cv::Size dst_sz(src_sz.height, src_sz.width);
-             
-             int len = std::max(mat.cols, mat.rows);
-             Point2f center(len/2., len/2.);
-             Mat rot_mat = cv::getRotationMatrix2D(center, angle, 1.0);
-             warpAffine(mat, mat, rot_mat, dst_sz);
-             cv::Mat image = mat.clone();*/
-            vectorText = [self detectTextWrapper:mat];
-            /*int  holderSize, holderCoordinate; //after the rotated mat is returned, rotate the cv::Rect back to show it right
-             for (int i=0;i<vectorText.size();i++) {
-             NSLog(@"[%d vectortext] x: %d y: %d Weight %d Height %d row: %d col %d",i,vectorText[i].x,vectorText[i].y,vectorText[i].width,vectorText[i].height, image.rows, image.cols);
-             holderCoordinate = vectorText[i].x;
-             vectorText[i].x = image.rows - vectorText[i].y + vectorText[i].height*2;
-             vectorText[i].y = holderCoordinate;
-             holderSize = vectorText[i].width;
-             vectorText[i].width = vectorText[i].height;
-             vectorText[i].height = holderSize;
-             }*/
-        }
-        mat.release();
-        
-        if (sheet==padrao) {
-            recognize=YES;
-            // TODO: Depois de detectar a folha cortar ela da foto
-            // TODO: pegar a imagem do rolo da câmera
-            // TODO: salvar em um arquivo os textos
-        }
-        
-        // Dispatch updating of face markers to main queue
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            
-            if (dataClass.openCVMethodSelector == 0)[self displaySheet:sheet forVideoRect:rect videoOrientation:AVCaptureVideoOrientationPortrait withColor:[UIColor greenColor]];
-            else if (dataClass.openCVMethodSelector == 2)
-                [self displayFaces:vectorText forVideoRect:rect videoOrientation:AVCaptureVideoOrientationPortrait];
-            [self.imageView setHidden:YES];
-        });
-        
+
+    
+    [self findAndDrawSheetByContours:mat];
+    mat.release();
+    
+}
+
+#pragma mark - crop paper (pure C++)
+// Helper
+cv::Point getCenter( std::vector<cv::Point> points ) {
+    
+    cv::Point center = cv::Point( 0.0, 0.0 );
+    
+    for( size_t i = 0; i < points.size(); i++ ) {
+        center.x += points[ i ].x;
+        center.y += points[ i ].y;
     }
-    else if (dataClass.openCVMethodSelector == 1 || dataClass.openCVMethodSelector == 3) {
-        dispatch_sync(dispatch_get_main_queue(),^{
-            NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-            for (CALayer *layer in sublayers) {
-                if ([[layer name] isEqualToString:@"DefaultLayer"])
-                    [layer setHidden:YES];
-                if ([[layer name] isEqualToString:@"SheetLayer"])
-                    [layer setHidden:YES];
+    
+    center.x = center.x / points.size();
+    center.y = center.y / points.size();
+    
+    return center;
+    
+}
+
+// Helper;
+// 0----1
+// |    |
+// |    |
+// 3----2
+std::vector<cv::Point> sortSquarePointsClockwise( std::vector<cv::Point> square ) {
+    
+    cv::Point center = getCenter( square );
+    
+    std::vector<cv::Point> sorted_square;
+    for( size_t i = 0; i < square.size(); i++ ) {
+        if ( (square[i].x - center.x) < 0 && (square[i].y - center.y) < 0 ) {
+            switch( i ) {
+                case 0:
+                    sorted_square = square;
+                    break;
+                case 1:
+                    sorted_square.push_back( square[1] );
+                    sorted_square.push_back( square[2] );
+                    sorted_square.push_back( square[3] );
+                    sorted_square.push_back( square[0] );
+                    break;
+                case 2:
+                    sorted_square.push_back( square[2] );
+                    sorted_square.push_back( square[3] );
+                    sorted_square.push_back( square[0] );
+                    sorted_square.push_back( square[1] );
+                    break;
+                case 3:
+                    sorted_square.push_back( square[3] );
+                    sorted_square.push_back( square[0] );
+                    sorted_square.push_back( square[1] );
+                    sorted_square.push_back( square[2] );
+                    break;
             }
-            [self.imageView setHidden:NO];});
-        if (dataClass.openCVMethodSelector == 1)
-            [self findAndDrawSheet:mat];
-        else if (dataClass.openCVMethodSelector == 3)
-            [self findAndDrawSheetByContours:mat];
-        mat.release();
-    }
-}
-
-- (cv::Rect) contornObjectOnView:(cv::Mat&)img {
-    
-    cv::Mat m = img.clone();
-    cv::cvtColor(m, m, CV_RGB2GRAY);
-    cv::blur(m, m, cv::Size(5,5));
-    cv::threshold(m, m, dataClass.threshold, 255,dataClass.binarizeSelector | CV_THRESH_OTSU);
-    cv::erode(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
-    cv::dilate(m, m, cv::Mat(),cv::Point(-1,-1),n_erode_dilate);
-    
-    std::vector< std::vector<cv::Point> > contours;
-    std::vector<cv::Point> points;
-    cv::findContours(m, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
-    m.release();
-    for (size_t i=0; i<contours.size(); i++) {
-        for (size_t j = 0; j < contours[i].size(); j++) {
-            cv::Point p = contours[i][j];
-            points.push_back(p);
+            break;
         }
     }
-    return cv::boundingRect(cv::Mat(points).reshape(2));
+    
+    return sorted_square;
+    
 }
 
+// Helper
+float distanceBetweenPoints( cv::Point p1, cv::Point p2 ) {
+    
+    if( p1.x == p2.x ) {
+        return abs( p2.y - p1.y );
+    }
+    else if( p1.y == p2.y ) {
+        return abs( p2.x - p1.x );
+    }
+    else {
+        float dx = p2.x - p1.x;
+        float dy = p2.y - p1.y;
+        return sqrt( (dx*dx)+(dy*dy) );
+    }
+}
 
-// Polimorfism method to use vectors
-- (void)displayFaces:(const std::vector<cv::Rect> &)faces
-        forVideoRect:(CGRect)rect
-    videoOrientation:(AVCaptureVideoOrientation)videoOrientation
+cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
 {
-    NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-    int sublayersCount = [sublayers count];
-    int currentSublayer = 0;
     
-	[CATransaction begin];
-	[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-	
-	// hide all the face layers
-	for (CALayer *layer in sublayers) {
-        NSString *layerName = [layer name];
-		if ([layerName isEqualToString:@"FaceLayer"])
-			[layer setHidden:YES];
-	}
+    // declare used vars
+    int paperWidth  = 210; // in mm, because scale factor is taken into account
+    int paperHeight = 297; // in mm, because scale factor is taken into account
+    cv::Point2f imageVertices[4];
+    float distanceP1P2;
+    float distanceP1P3;
+    BOOL isLandscape = true;
+    int scaleFactor;
+    cv::Mat paperImage;
+    cv::Mat paperImageCorrected;
+    cv::Point2f paperVertices[4];
     
-    // Create transform to convert from vide frame coordinate space to view coordinate space
-    CGAffineTransform t = [self affineTransformForVideoFrame:rect orientation:videoOrientation];
+    // sort square corners for further operations
+    square = sortSquarePointsClockwise( square );
     
-    for (int i = 0; i < faces.size(); i++) {
-        
-        CGRect faceRect;
-        faceRect.origin.x = faces[i].x;
-        faceRect.origin.y = faces[i].y;
-        faceRect.size.width = faces[i].width;
-        faceRect.size.height = faces[i].height;
-        
-        faceRect = CGRectApplyAffineTransform(faceRect, t);
-        
-        CALayer *featureLayer = nil;
-        
-        while (!featureLayer && (currentSublayer < sublayersCount)) {
-			CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
-			if ([[currentLayer name] isEqualToString:@"FaceLayer"]) {
-				featureLayer = currentLayer;
-				[currentLayer setHidden:NO];
-			}
-		}
-        
-        if (!featureLayer) {
-            // Create a new feature marker layer
-			featureLayer = [[CALayer alloc] init];
-            featureLayer.name = @"FaceLayer";
-            featureLayer.borderColor = [[UIColor greenColor] CGColor];
-            featureLayer.borderWidth = 3.0f;
-			[self.recordPreview.layer addSublayer:featureLayer];
-		}
-        
-        featureLayer.frame = faceRect;
+    // rearrange to get proper order for getPerspectiveTransform()
+    imageVertices[0] = square[0];
+    imageVertices[1] = square[1];
+    imageVertices[2] = square[3];
+    imageVertices[3] = square[2];
+    NSLog(@"CANTOS SÃO: [0]x: %f y:%f [1]x: %f y:%f [2]x: %f y:%f [3]x: %f y:%f", imageVertices[0].x,imageVertices[0].y, imageVertices[1].x,imageVertices[1].y, imageVertices[2].x, imageVertices[2].y, imageVertices[3].x, imageVertices[3].y);
+    
+    // get distance between corner points for further operations
+    distanceP1P2 = distanceBetweenPoints( imageVertices[0], imageVertices[1] );
+    distanceP1P3 = distanceBetweenPoints( imageVertices[0], imageVertices[2] );
+    
+    // calc paper, paperVertices; take orientation into account
+    if ( distanceP1P2 > distanceP1P3 ) {
+        scaleFactor =  ceil( lroundf(distanceP1P2/paperHeight) ); // we always want to scale the image down to maintain the best quality possible
+        paperImage = cv::Mat( paperWidth*scaleFactor, paperHeight*scaleFactor, CV_8UC3 );
+        paperVertices[0] = cv::Point( 0, 0 );
+        paperVertices[1] = cv::Point( paperHeight*scaleFactor, 0 );
+        paperVertices[2] = cv::Point( 0, paperWidth*scaleFactor );
+        paperVertices[3] = cv::Point( paperHeight*scaleFactor, paperWidth*scaleFactor );
+    }
+    else {
+        isLandscape = false;
+        scaleFactor =  ceil( lroundf(distanceP1P3/paperHeight) ); // we always want to scale the image down to maintain the best quality possible
+        paperImage = cv::Mat( paperHeight*scaleFactor, paperWidth*scaleFactor, CV_8UC3 );
+        paperVertices[0] = cv::Point( 0, 0 );
+        paperVertices[1] = cv::Point( paperWidth*scaleFactor, 0 );
+        paperVertices[2] = cv::Point( 0, paperHeight*scaleFactor );
+        paperVertices[3] = cv::Point( paperWidth*scaleFactor, paperHeight*scaleFactor );
     }
     
-    [CATransaction commit];
+    cv::Mat warpMatrix = getPerspectiveTransform( imageVertices, paperVertices );
+    cv::warpPerspective(image, paperImage, warpMatrix, paperImage.size(), cv::INTER_LINEAR, cv::BORDER_CONSTANT );
+    
+    // we want portrait output
+    if ( isLandscape ) {
+        cv::transpose(paperImage, paperImageCorrected);
+        cv::flip(paperImageCorrected, paperImageCorrected, 1);
+        return paperImageCorrected;
+    }
+    
+    return paperImage;
+    
 }
 
 
-
-// Update face markers given vector of face rectangles
-- (void)displaySheet:(const cv::Rect &)squares
-        forVideoRect:(CGRect)rect
-    videoOrientation:(AVCaptureVideoOrientation)videoOrientation
-           withColor:(UIColor*) color
-{
-    NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-    int sublayersCount = [sublayers count];
-    int currentSublayer = 0;
-    
-	[CATransaction begin];
-	[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-	
-	// hide all the face layers
-	for (CALayer *layer in sublayers) {
-        NSString *layerName = [layer name];
-		if ([layerName isEqualToString:@"SheetLayer"])
-			[layer setHidden:YES];
-	}
-    
-    // Create transform to convert from vide frame coordinate space to view coordinate space
-    CGAffineTransform t = [self affineTransformForVideoFrame:rect orientation:videoOrientation];
-    
-    CGRect faceRect;
-    faceRect.origin.x = squares.x;
-    faceRect.origin.y = squares.y;
-    faceRect.size.width = squares.width;
-    faceRect.size.height = squares.height;
-    
-    faceRect = CGRectApplyAffineTransform(faceRect, t);
-    
-    CALayer *featureLayer = nil;
-    
-    while (!featureLayer && (currentSublayer < sublayersCount)) {
-        CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
-        if ([[currentLayer name] isEqualToString:@"SheetLayer"]) {
-            featureLayer = currentLayer;
-            [currentLayer setHidden:NO];
-        }
-    }
-    
-    if (!featureLayer) {
-        // Create a new feature marker layer
-        featureLayer = [[CALayer alloc] init];
-        featureLayer.name = @"SheetLayer";
-        featureLayer.borderColor = [color CGColor];
-        featureLayer.borderWidth = 1.0f;
-        [self.recordPreview.layer addSublayer:featureLayer];
-    }
-    
-    featureLayer.frame = faceRect;
-    
-    if(!dataClass.isOpenCVOn){
-        for (CALayer *layer in sublayers) {
-            NSString *layerName = [layer name];
-            if ([layerName isEqualToString:@"SheetLayer"])
-                [layer setHidden:YES];
-        }
-    }
-    
-    [CATransaction commit];
-    
-    
-}
 
 #pragma mark - 4th implementation
 
@@ -687,10 +562,11 @@
             NSLog(@"ponto [%d][%d]: x: %d y: %d",i,j,contoursArea[i][j].x,contoursArea[i][j].y);
         }
     }
+    cv::Rect lugarAtual;
     if (UIAccessibilityIsVoiceOverRunning()) {
         if (contoursArea.size() > 0) {
             float batata = cv::contourArea(contoursArea[0]);
-            cv::Rect lugarAtual = cv::boundingRect(contoursArea[0]);
+            lugarAtual = cv::boundingRect(Mat(contoursArea[0]));
             if (lugarAtual.x > mat.size().width - (lugarAtual.x + lugarAtual.width)){
                 if(lugarAtual.x - (mat.size().width - (lugarAtual.x + lugarAtual.width)) > 100){
                     if (!isTalking){
@@ -739,16 +615,23 @@
     }
     
 
-    /*if (isTalking) {
+    if (isTalking) {
         if (++self.count == 60) {
             isTalking=NO;
             self.count=0;
         }
         
     } else
-        count=0;*/
+        count=0;
+    
     Mat drawing = Mat::zeros( mat.size(), CV_8UC3 );
-    cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
+    if (contoursArea.size() > 0) {
+        cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
+        cv::circle(drawing, cv::Point(lugarAtual.x,lugarAtual.y), 10, cv::Scalar(255,0,0));
+        cv::rectangle(drawing, lugarAtual, cv::Scalar(255,255,0));
+
+    }
+    
     //   NSLog(@"tamanho countours %lu",contoursCleaned.size());
     //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:drawing], nil, nil, nil);
     
@@ -789,16 +672,6 @@
     });
 }
 
-#pragma mark - C++ wrapper
-
--(cv::vector<cv::Rect>) detectTextWrapper:(cv::Mat &) image {
-    DetectText detector = DetectText();
-    vector <cv::Rect> texts;
-    texts = detector.getBoundingBoxes(image);
-    image.release();
-    NSLog(@"Passou method objc");
-    return texts;
-}
 
 
 #pragma mark - Hough Transform Implementation
@@ -813,7 +686,7 @@
     cv::cvtColor(image, image, CV_RGB2GRAY);
     cv::Canny(image, image, 50, 250, 3);
     lines.clear();
-    cv::HoughLinesP(image, lines, 1, CV_PI/180, dataClass.threshold, 50, 10);
+    cv::HoughLinesP(image, lines, 1, CV_PI/180, 130, 50, 10);
     std::vector<cv::Vec4i>::iterator it = lines.begin();
     for(; it!=lines.end(); ++it) {
         cv::Vec4i l = *it;
@@ -866,114 +739,12 @@
         [self.imageView setImage:[UIImage imageWithCGImage:myColorMaskedImage]];
         CGImageRelease(myColorMaskedImage);
     });
-    
-    // dataClass.isOpenCVOn = NO;
-    
-    /*
-     
-     CALayer *sheetLinesLayer = nil;
-     int currentSublayer = 0;
-     NSArray *sublayers = [NSArray arrayWithArray:[self.recordPreview.layer sublayers]];
-     while (!sheetLinesLayer && (currentSublayer < [sublayers count])) {
-     CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
-     if ([[currentLayer name] isEqualToString:@"sheetLinesLayer"]) {
-     sheetLinesLayer = nil;
-     }
-     }
-     
-     if(!sheetLinesLayer){
-     sheetLinesLayer = [CALayer new];
-     sheetLinesLayer.name = @"sheetLinesLayer";
-     sheetLinesLayer.frame = self.recordPreview.frame;
-     [self.recordPreview.layer addSublayer:sheetLinesLayer];
-     sheetLinesLayer.delegate = self;
-     }
-     
-     */
+
     return ;
     
 }
 
-- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx {
-    // Check that the layer argument is yourLayer (if you are the
-    // delegate to more than one layer)
-    if ([[layer name] isEqualToString:@"sheetLinesLayer"]){
-        
-        CGContextRef context = UIGraphicsGetCurrentContext(); //erro de agora: não tem cotexto nenhum, tá desenhando no nada, tem que delgar uma CALayer do recordpreview. (como? no sei)
-        CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
-        CGContextSetLineWidth(context, 2.0);
-        
-        
-        std::vector<cv::Vec4i>::iterator it = lines.begin();
-        for(; it!=lines.end(); ++it) {
-            cv::Vec4i l = *it;
-            NSLog(@"inicio x: %d, y: %d, fim x: %d, y: %d",l[0],l[1],l[2],l[3]);
-            CGContextMoveToPoint(context, l[0]/1.0f, l[1]/1.0f);
-            CGContextAddLineToPoint(context, l[2]/1.0f, l[3]/1.0f);
-            //cv::line(work_img, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, CV_AA);
-        }
-        CGContextStrokePath(context);
-        
-    }
-    
-    // Use the context (second) argument to draw.
-}
-
 #pragma mark - Camera initialization:
-
-- (CGAffineTransform)affineTransformForVideoFrame:(CGRect)videoFrame orientation:(AVCaptureVideoOrientation)videoOrientation
-{
-    CGSize viewSize = self.recordPreview.bounds.size;
-    NSString * const videoGravity = captureLayer.videoGravity;
-    CGFloat widthScale = 1.0f;
-    CGFloat heightScale = 1.0f;
-    
-    // Move origin to center so rotation and scale are applied correctly
-    CGAffineTransform t = CGAffineTransformMakeTranslation(-videoFrame.size.width / 2.0f, -videoFrame.size.height / 2.0f);
-    
-    switch (videoOrientation) {
-        case AVCaptureVideoOrientationPortrait:
-            widthScale = viewSize.width / videoFrame.size.width;
-            heightScale = viewSize.height / videoFrame.size.height;
-            break;
-            
-        case AVCaptureVideoOrientationPortraitUpsideDown:
-            t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(M_PI));
-            widthScale = viewSize.width / videoFrame.size.width;
-            heightScale = viewSize.height / videoFrame.size.height;
-            break;
-            
-        case AVCaptureVideoOrientationLandscapeRight:
-            t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(M_PI_2));
-            widthScale = viewSize.width / videoFrame.size.height;
-            heightScale = viewSize.height / videoFrame.size.width;
-            break;
-            
-        case AVCaptureVideoOrientationLandscapeLeft:
-            t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(-M_PI_2));
-            widthScale = viewSize.width / videoFrame.size.height;
-            heightScale = viewSize.height / videoFrame.size.width;
-            break;
-    }
-    
-    // Adjust scaling to match video gravity mode of video preview
-    if (videoGravity == AVLayerVideoGravityResizeAspect) {
-        heightScale = MIN(heightScale, widthScale);
-        widthScale = heightScale;
-    }
-    else if (videoGravity == AVLayerVideoGravityResizeAspectFill) {
-        heightScale = MAX(heightScale, widthScale);
-        widthScale = heightScale;
-    }
-    
-    // Apply the scaling
-    t = CGAffineTransformConcat(t, CGAffineTransformMakeScale(widthScale, heightScale));
-    
-    // Move origin back from center
-    t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(viewSize.width / 2.0f, viewSize.height / 2.0f));
-    
-    return t;
-}
 
 - (BOOL)createCaptureSessionForCamera:(NSInteger)camera qualityPreset:(NSString *)qualityPreset grayscale:(BOOL)grayscale
 {
@@ -1064,7 +835,7 @@
     
     
     
-    self.tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language: NSLocalizedString(@"first",nil)];
+    dataClass.tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language: NSLocalizedString(@"first",nil)];
     NSLog(@"Tesseratc language: %@",dataClass.tesseractLanguage);
     
     return YES;
