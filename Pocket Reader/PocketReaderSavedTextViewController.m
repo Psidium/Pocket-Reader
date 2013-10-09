@@ -50,6 +50,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.tabBarController setSelectedIndex:0];
     
     self.savedText = [NSMutableArray readFromPlistFile:@"SavedText.plist"];
     if (self.savedText == nil) {
@@ -65,10 +66,20 @@
                                              selector:@selector(receiveTestNotification:)
                                                  name:@"AddToHistory"
                                                object:nil];
-
+    NSLog(@"%@",[[NSNotificationCenter defaultCenter] description]);
+    /* [[NSNotificationCenter defaultCenter] addObserverForName:@"AddToHistory" object:nil queue:[NSOperationQueue currentQueue] usingBlock:^(NSNotification *note) {
+     if ([[note name] isEqualToString:@"AddToHistory"]){
+     NSString *received = note.object;
+     NSLog(@"Entrou no metodo da notificação");
+     NSLog(@"Texto reconhecido: %@", received);
+     [self.savedText addObject:[NSArray arrayWithObjects:[received substringWithRange:NSMakeRange(0, 10)], [received substringWithRange:NSMakeRange(11, 30)], received, nil]];
+     [self.tableView reloadData];
+     }
+     }];*/
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -76,6 +87,8 @@
 - (void) receiveTestNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"AddToHistory"]){
         NSString *received = notification.object;
+        NSLog(@"Entrou no metodo da notificação");
+        NSLog(@"Texto reconhecido: %@", received);
         [self.savedText addObject:[NSArray arrayWithObjects:[received substringWithRange:NSMakeRange(0, 10)], [received substringWithRange:NSMakeRange(11, 30)], received, nil]];
         [self.tableView reloadData];
     }
@@ -142,47 +155,47 @@
 }
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 /*
-#pragma mark - Navigation
-
+ #pragma mark - Navigation
+ 
  // In a story board-based application, you will often want to do a little preparation before navigation
  */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

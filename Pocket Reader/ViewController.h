@@ -29,9 +29,9 @@
     BOOL recognize;
     BOOL isViewAppearing;
     BOOL isTalking;
-    PocketReaderDataClass * dataClass;    
+    PocketReaderDataClass * dataClass;
     int n_erode_dilate; // Precisa ajustar pro iPhone
-   
+    
 }
 
 @property (strong, nonatomic) IBOutlet UIView *recordPreview;

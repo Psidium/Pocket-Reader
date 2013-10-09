@@ -584,8 +584,6 @@
     </scenes>
     <resources>
         <image name="gear.png" width="24" height="24"/>
-        <image name="gear.png" width="24" height="24"/>
-        <image name="photo.png" width="24" height="24"/>
         <image name="photo.png" width="24" height="24"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

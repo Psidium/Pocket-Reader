@@ -17,7 +17,7 @@
     int binarizeSelector;
     int sheetErrorRange;
     BOOL speechfterPhotoIsTaken;
-    float speechRateValue;    
+    float speechRateValue;
     BOOL isRunningiOS7;
     BOOL guideFrameOn;
 }

@@ -46,6 +46,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.tabBarController setSelectedIndex:1];
     dataClass.isRunningiOS7 = ([[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] intValue] >= 7); //don't know if work anymore
     NSLog(dataClass.isRunningiOS7? @"is running iOS 7" : @"is not running ios 7");
     padrao.x = 50;
@@ -307,12 +308,13 @@
                         [synthesizer speakUtterance:utterance];
                     }
                 }
-                /* UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-                 [message show];*/
+                
+                [self.tabBarController setSelectedIndex:1];
+                UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+                [message show];
                 [[NSNotificationCenter defaultCenter]
                  postNotificationName:@"AddToHistory"
                  object:textoReconhecido];
-                [self.tabBarController setSelectedIndex:1];
                 [self setTorch:torchPreviousState];
                 dataClass.isOpenCVOn =openCVOnPreviousState;
             }
@@ -341,17 +343,18 @@
         NSLog(@"deveria ter mostrado");
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }); /*
+        });
         if (UIAccessibilityIsVoiceOverRunning()) {
             UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
                                             textoReconhecido);
         }
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-        [message show];*/
+        [self.tabBarController setSelectedIndex:1];
+        /*UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+         [message show];*/
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"AddToHistory"
          object:textoReconhecido];
-        [self.tabBarController setSelectedIndex:1];
+        
     }
     
 }
@@ -738,15 +741,15 @@
         }
     }
     
-
-    /*if (isTalking) {
+    
+    if (isTalking) {
         if (++self.count == 60) {
             isTalking=NO;
             self.count=0;
         }
         
     } else
-        count=0;*/
+        count=0;
     Mat drawing = Mat::zeros( mat.size(), CV_8UC3 );
     cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
     //   NSLog(@"tamanho countours %lu",contoursCleaned.size());
