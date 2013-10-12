@@ -30,8 +30,18 @@
 {
     [super viewDidLoad];
     dataClass = [PocketReaderDataClass getInstance];
-    [self.switchOpenCVOn  setOn:YES animated:YES];
-    [self.languageSelectorOne setSelectedSegmentIndex:dataClass.tesseractLanguageSelector];
+    [self.switchOpenCVOn setOn:YES animated:YES];
+    if ([dataClass.tesseractLanguage isEqualToString:@"por"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:0];
+    } else if ([dataClass.tesseractLanguage isEqualToString:@"eng"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:1];
+    } else if ([dataClass.tesseractLanguage isEqualToString:@"spa"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:2];
+    } else if ([dataClass.tesseractLanguage isEqualToString:@"deu"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:3];
+    } else if ([dataClass.tesseractLanguage isEqualToString:@"fra"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:4];
+    }
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -41,8 +51,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)pressedGuideFrameOn:(UISwitch *)sender {
-}
 
 
 
@@ -50,26 +58,6 @@
     dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
 }
 
-- (IBAction)didChangeSpeechOnSwitch:(UISwitch *)sender {
-    dataClass.speechAfterPhotoIsTaken = [sender isOn];
-}
-
-- (IBAction)didChangeSpeechRateValue:(UISlider *)sender {
-    sender.value = round(sender.value);
-    if ([AVSpeechSynthesizer class] != nil){
-        switch ((int)sender.value) {
-            case 1:
-                dataClass.speechRateValue = 0;
-                break;
-            case 2:
-                dataClass.speechRateValue = 0.5;
-                break;
-            case 3:
-                dataClass.speechRateValue = 1;
-                break;
-        }
-    }
-}
 
 - (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender {
     dataClass.tesseractLanguageSelector = sender.selectedSegmentIndex;
@@ -81,7 +69,10 @@
         dataClass.tesseractLanguage = @"spa";
     }if (sender.selectedSegmentIndex == 3) {
         dataClass.tesseractLanguage = @"deu";
+    }if (sender.selectedSegmentIndex == 4) {
+        dataClass.tesseractLanguage = @"fra";
     }
+    
     [dataClass.tesseract clear]; //clean the tesseract
     dataClass.tesseract=nil;
     Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];

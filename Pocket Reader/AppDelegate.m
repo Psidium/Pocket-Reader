@@ -14,6 +14,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        NSLog(@"iOS 6");
+    } else {
+        NSLog(@"iOS 7");
+        _window.tintColor = [UIColor redColor];
+    }
     return YES;
 }
 

@@ -38,6 +38,7 @@
 @synthesize dataClass;
 @synthesize count;
 @synthesize motionManager;
+@synthesize didOneSecondHasPassed;
 
 #pragma mark - Default:
 - (void)viewDidLoad
@@ -64,17 +65,21 @@
         UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"VoiceOver inactive",nil) message: NSLocalizedString(@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
         [message show];
     }
-    
+    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timeOut:) userInfo:nil repeats:YES];
     [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale]; //set camera and it view
     [captureSession startRunning]; //start the camera capturing
     
+    
 }
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     dataClass.isOpenCVOn = NO; //disable OpenCV processing and let ARC clean the memory
     [self performSelector:@selector(timerFireMethod:) withObject:nil afterDelay:2.0]; //after 2 seconds turn openCV on again
+    
+    
     
     // Dispose of any resources that can be recreated.
     
@@ -98,6 +103,11 @@
     } else {
         isTalking=NO;
     }
+}
+
+
+-(void)timeOut:(NSTimer *) timer {
+    didOneSecondHasPassed = YES;
 }
 
 #pragma mark - Tesseract:
@@ -177,26 +187,72 @@
     return convertedImage;
 }
 
+- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer
+{
+    // Get a CMSampleBuffer's Core Video image buffer for the media data
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    // Lock the base address of the pixel buffer
+    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    
+    // Get the number of bytes per row for the pixel buffer
+    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+    
+    // Get the number of bytes per row for the pixel buffer
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    // Get the pixel buffer width and height
+    size_t width = CVPixelBufferGetWidth(imageBuffer);
+    size_t height = CVPixelBufferGetHeight(imageBuffer);
+    
+    // Create a device-dependent RGB color space
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    // Create a bitmap graphics context with the sample buffer data
+    CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8,
+                                                 bytesPerRow, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    // Create a Quartz image from the pixel data in the bitmap graphics context
+    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
+    // Unlock the pixel buffer
+    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
+    
+    // Free up the context and color space
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    
+    // Create an image object from the Quartz image
+    UIImage *image = [UIImage imageWithCGImage:quartzImage];
+    
+    // Release the Quartz image
+    CGImageRelease(quartzImage);
+    
+    return (image);
+}
+
+
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
     //MARK: Most Important Method
     
-    if(dataClass.isOpenCVOn && isViewAppearing) {
+    if(dataClass.isOpenCVOn && isViewAppearing && didOneSecondHasPassed) {
+        
         
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
         AVCaptureVideoOrientation videoOrientation = AVCaptureVideoOrientationPortrait;
+        /*
+         
+         CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
+         
+         CIContext *temporaryContext = [CIContext contextWithOptions: nil];
+         CGImageRef videoImage = [temporaryContext
+         createCGImage:ciImage
+         fromRect:videoRect];
+         
+         
+         UIImage *imageBebug = [UIImage imageWithCGImage:videoImage];
+         
+         CGImageRelease(videoImage);*/
         
-        
-        CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
-        CIContext *temporaryContext = [CIContext contextWithOptions:nil];
-        CGImageRef videoImage = [temporaryContext
-                                 createCGImage:ciImage
-                                 fromRect:videoRect];
-        
-        UIImage *imageBebug = [UIImage imageWithCGImage:videoImage];
-        CGImageRelease(videoImage);
-        
+        UIImage *imageBebug = [self imageFromSampleBuffer:sampleBuffer];
         
         cv::Mat mat = [imageBebug CVMat];
         
@@ -205,7 +261,7 @@
         
         mat.release();
         
-        
+        didOneSecondHasPassed = NO;
     }
     // TODO: Depois de detectar a folha cortar ela da foto
     // TODO: pegar a imagem do rolo da câmera
@@ -224,9 +280,12 @@
             img=[self gs_convert_image:img];
             if (img!=nil) {
                 [dataClass.tesseract setImage:img];
+                img =nil;
+                
                 [dataClass.tesseract recognize];
                 NSString *textoReconhecido = [dataClass.tesseract recognizedText];
                 [dataClass.tesseract clear];
+                
                 NSLog(@"%@", textoReconhecido);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -279,12 +338,12 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }); /*
-        if (UIAccessibilityIsVoiceOverRunning()) {
-            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
-                                            textoReconhecido);
-        }
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-        [message show];*/
+             if (UIAccessibilityIsVoiceOverRunning()) {
+             UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
+             textoReconhecido);
+             }
+             UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+             [message show];*/
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"AddToHistory"
          object:textoReconhecido];
@@ -355,12 +414,8 @@
     }
     cv::flip(mat, mat, 1);
     
-    
-    // Detect faces
-    cv::Rect sheet;
-    cv::vector<cv::Rect> vectorText;
     // MARK: Here comes the OpenCV methods
-
+    
     
     [self findAndDrawSheetByContours:mat];
     mat.release();
@@ -512,7 +567,6 @@ cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
 
 
 - (void) findAndDrawSheetByContours: (cv::Mat &) mat {
-    cv::Mat output = mat.clone();
     double imageSize = mat.rows * mat.cols;  //quando era literal n tinha ess alinha
     cv::cvtColor(mat, mat, CV_BGR2GRAY);
     //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
@@ -522,10 +576,12 @@ cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
     //  UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:kernel], nil, nil, nil);
     cv::Mat dilated;
     cv::dilate(mat, dilated, kernel);
+    kernel.release();
     //    UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:dilated], nil, nil, nil);
     
     cv::Mat edges;
     cv::Canny(dilated, edges, 84, 3);
+    dilated.release();
     //   UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:edges], nil, nil, nil);
     
     lines.clear();
@@ -538,6 +594,7 @@ cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
     //   UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:edges], nil, nil, nil);
     std::vector< std::vector<cv::Point> > contours;
     cv::findContours(edges, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_TC89_KCOS);
+    edges.release();
     std::vector< std::vector<cv::Point> > contoursCleaned;
     for (int i=0; i < contours.size(); i++) {
         if (cv::arcLength(contours[i], false) > 100)
@@ -556,44 +613,77 @@ cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
     for (int i=0; i < contoursArea.size(); i++){
         cv::approxPolyDP(Mat(contoursArea[i]), contoursDraw[i], 40, true);
     }
-    NSLog(@"iniciopoligonopontosetal");
-    for (int i=0; i < contoursArea.size();i++) {
-        for(int j=0; j< contoursArea[i].size();j++){
-            NSLog(@"ponto [%d][%d]: x: %d y: %d",i,j,contoursArea[i][j].x,contoursArea[i][j].y);
-        }
-    }
+    //NSLog(@"iniciopoligonopontosetal");
+    cv::Point topRight, topLeft, bottomRight, bottomLeft;
+    /*for (int i=0; i < contoursArea.size();i++) {
+     for(int j=0; j< contoursArea[i].size();j++){
+     NSLog(@"ponto [%d][%d]: x: %d y: %d",i,j,contoursArea[i][j].x,contoursArea[i][j].y);
+     if (contoursArea[i][j].x > topLeft.x){
+     topLeft = contoursArea[i][j];
+     }
+     }
+     }*/
     cv::Rect lugarAtual;
+    cv::Point center;
+    cv::RotatedRect rotatedRectangle;
     if (UIAccessibilityIsVoiceOverRunning()) {
         if (contoursArea.size() > 0) {
             float batata = cv::contourArea(contoursArea[0]);
             lugarAtual = cv::boundingRect(Mat(contoursArea[0]));
-            if (lugarAtual.x > mat.size().width - (lugarAtual.x + lugarAtual.width)){
-                if(lugarAtual.x - (mat.size().width - (lugarAtual.x + lugarAtual.width)) > 100){
-                    if (!isTalking){
+            rotatedRectangle = minAreaRect(contoursArea[0]);
+            center = cv::Point(lugarAtual.x + (lugarAtual.width/2), lugarAtual.y + (lugarAtual.height/2) );
+            NSLog(@"angulation : %f", rotatedRectangle.angle);
+            NSLog(@"(center.x - mat.size().width/2)  = %d", (center.x - mat.size().width/2));
+            
+            NSLog(@"height rotated: %f ", rotatedRectangle.angle);
+            
+            if (rotatedRectangle.angle < -5 ) {
+                if ((rotatedRectangle.size.width < rotatedRectangle.size.height)) {
+                    if (!isTalking) {
                         isTalking=YES;
-                        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para a direita", nil));
+                        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Gire o aparelho no sentido anti-horário", nil));
+                        NSLog(@"Gire o aparelho no sentido anti-horário");
                     }
                 }
-            } else if(lugarAtual.x - (mat.size().width - (lugarAtual.x + lugarAtual.width)) < 100){
+            }
+            if (rotatedRectangle.angle > -85 ){
+                if ((rotatedRectangle.size.width > rotatedRectangle.size.height)){
+                    if (!isTalking) {
+                        isTalking=YES;
+                        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Gire o aparelho no sentido horário", nil));
+                        NSLog(@"Gire o aparelho no sentido horário");
+                    }
+                }
+            }
+            
+            
+            if((center.x - mat.size().width/2) > 5){
+                if (!isTalking){
+                    isTalking=YES;
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para a direita", nil));
+                }
+            } else if((mat.size().width/2 - center.x) > 5){
                 if (!isTalking){
                     isTalking=YES;
                     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para a esquerda", nil));
                 }
             }
             
-            if (lugarAtual.y > mat.size().height - (lugarAtual.y + lugarAtual.height)){
-                if(lugarAtual.y - (mat.size().height - (lugarAtual.y + lugarAtual.height)) > 100){
-                    if (!isTalking){
-                        isTalking=YES;
-                        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para trás", nil));
-                    }
+            
+            
+            NSLog(@"(center.y - mat.size().height/2)  = %d", (center.y - mat.size().height/2));
+            if((center.y - mat.size().height/2) > 5){
+                if (!isTalking){
+                    isTalking=YES;
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para trás", nil));
                 }
-            } else if(lugarAtual.y - (mat.size().height - (lugarAtual.y + lugarAtual.height)) < 100){
+            } else if((mat.size().height/2 - center.y) > 5){
                 if (!isTalking){
                     isTalking=YES;
                     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para frente", nil));
                 }
             }
+            
             
             if (!isTalking){
                 isTalking=YES;
@@ -614,7 +704,7 @@ cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
         }
     }
     
-
+    
     if (isTalking) {
         if (++self.count == 60) {
             isTalking=NO;
@@ -627,9 +717,13 @@ cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
     Mat drawing = Mat::zeros( mat.size(), CV_8UC3 );
     if (contoursArea.size() > 0) {
         cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
-        cv::circle(drawing, cv::Point(lugarAtual.x,lugarAtual.y), 10, cv::Scalar(255,0,0));
         cv::rectangle(drawing, lugarAtual, cv::Scalar(255,255,0));
-
+        cv::circle(drawing, center, 10, cv::Scalar(255,0,0));
+        cv::circle(drawing, cv::Point(mat.size().width/2,mat.size().height/2), 5, cv::Scalar(255,0,255));
+        Point2f rect_points[4]; rotatedRectangle.points( rect_points );
+        for( int j = 0; j < 4; j++ )
+            line( drawing, rect_points[j], rect_points[(j+1)%4], cv::Scalar(255,30,150), 1, 8 );
+        cv::putText(drawing, [[NSString stringWithFormat:@"%fº",rotatedRectangle.angle] UTF8String] , rotatedRectangle.center, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255,30,150));
     }
     
     //   NSLog(@"tamanho countours %lu",contoursCleaned.size());
@@ -669,6 +763,7 @@ cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.imageView setHidden:NO];
         [self.imageView setImage:[UIImage imageWithCGImage:myColorMaskedImage]];
+        CGImageRelease(myColorMaskedImage);
     });
 }
 
@@ -739,7 +834,7 @@ cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
         [self.imageView setImage:[UIImage imageWithCGImage:myColorMaskedImage]];
         CGImageRelease(myColorMaskedImage);
     });
-
+    
     return ;
     
 }

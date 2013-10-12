@@ -60,7 +60,6 @@
 		327519B217E3F80C009CABFF /* photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519AF17E3F80C009CABFF /* photo@2x.png */; };
 		327519B617E401D4009CABFF /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519B417E401D4009CABFF /* gear.png */; };
 		327519B717E401D4009CABFF /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519B517E401D4009CABFF /* gear@2x.png */; };
-		329B967A17762D0000846FA9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B967917762D0000846FA9 /* QuartzCore.framework */; };
 		329B967E17762D6500846FA9 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 329B967D17762D6500846FA9 /* Tesseract.mm */; };
 		329B971517762DBA00846FA9 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971317762DBA00846FA9 /* liblept.a */; };
 		329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971417762DBA00846FA9 /* libtesseract_all.a */; };
@@ -143,7 +142,6 @@
 		327519AF17E3F80C009CABFF /* photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo@2x.png"; sourceTree = "<group>"; };
 		327519B417E401D4009CABFF /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		327519B517E401D4009CABFF /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
-		329B967917762D0000846FA9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		329B967C17762D6500846FA9 /* Tesseract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tesseract.h; sourceTree = "<group>"; };
 		329B967D17762D6500846FA9 /* Tesseract.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tesseract.mm; sourceTree = "<group>"; };
 		329B968217762DBA00846FA9 /* allheaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = allheaders.h; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 				3256EAD717FA76420007E157 /* CoreAudio.framework in Frameworks */,
 				3207A76D17945CC900360D43 /* opencv2.framework in Frameworks */,
 				32678569177C67D80087D677 /* CoreImage.framework in Frameworks */,
-				329B967A17762D0000846FA9 /* QuartzCore.framework in Frameworks */,
 				3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */,
 				329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */,
 				3260A6AF17709B3F0042ED68 /* CoreVideo.framework in Frameworks */,
@@ -401,7 +398,6 @@
 				3207A76C17945CC900360D43 /* opencv2.framework */,
 				32678568177C67D80087D677 /* CoreImage.framework */,
 				3254F4471765098C00573DF3 /* Accelerate.framework */,
-				329B967917762D0000846FA9 /* QuartzCore.framework */,
 				3260A6B017709B580042ED68 /* CoreMedia.framework */,
 				3260A6AE17709B3F0042ED68 /* CoreVideo.framework */,
 				3249B3D1172D7FA7009F4D84 /* UIKit.framework */,

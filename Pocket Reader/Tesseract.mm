@@ -114,11 +114,15 @@ namespace tesseract {
 - (NSString *)recognizedText {
     //_tesseract->; TODO
     char* utf8Text = _tesseract->GetUTF8Text();
-    return [NSString stringWithUTF8String:utf8Text];
+    NSString *result = [NSString stringWithUTF8String:utf8Text];
+    delete [] utf8Text;
+    return result;
+    
 }
 
 - (void)clear
 {
+    free(_pixels);
     _tesseract->Clear();
     _tesseract->End();
 }
