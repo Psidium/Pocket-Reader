@@ -16,6 +16,8 @@
 /* Class = "IBUITableViewSection"; headerTitle = "Image processing"; ObjectID = "2IP-1J-7ra"; */
 "2IP-1J-7ra.headerTitle" = "Image processing";
 
+"g9K-4A-57h.text" = "Find sheet";
+
 /* Class = "IBUILabel"; text = "Speech rate"; ObjectID = "5sb-Nz-Ld7"; */
 "5sb-Nz-Ld7.text" = "Speech rate";
 
@@ -53,7 +55,7 @@
 "LKo-wC-EZK.accessibilityLabel" = "Threshold";
 
 /* Class = "IBUITableViewSection"; footerTitle = "Select the language to be used in the convertion from image to text."; ObjectID = "NLb-HZ-jLI"; */
-"NLb-HZ-jLI.footerTitle" = "Select the language to be used in the convertion from image to text.";
+"NLb-HZ-jLI.footerTitle" = "Select the language to be used in the conversion from image to text.";
 
 /* Class = "IBUITableViewSection"; headerTitle = "Language"; ObjectID = "NLb-HZ-jLI"; */
 "NLb-HZ-jLI.headerTitle" = "Language";

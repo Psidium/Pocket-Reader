@@ -19,3 +19,6 @@
 "Nenhuma folha detectada" = "No sheet detected";
 "Higher threshold is better" = "Higher threshold is better";
 "Lower threshold is better" = "Lower threshold is better";
+"Alinhe o aparelho na posição horizontal" = "Align the device horizontally";
+"Gire o aparelho no sentido anti-horário" = "Rotate the device anti-clockwise";
+"Gire o aparelho no sentido horário" = "Rotate the device clockwise";

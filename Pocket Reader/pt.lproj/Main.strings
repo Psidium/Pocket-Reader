@@ -10,6 +10,7 @@
 "2IP-1J-7ra.footerTitle" = "Qualquer mudança feita nessas configurações será aplicada no enquadramento.";
 /* Class = "IBUITableViewSection"; headerTitle = "Image processing"; ObjectID = "2IP-1J-7ra"; */
 "2IP-1J-7ra.headerTitle" = "Processamento de imagem";
+"g9K-4A-57h.text" = "Ajuda no enquadramento";
 /* Class = "IBUILabel"; text = "Speech rate"; ObjectID = "5sb-Nz-Ld7"; */
 "5sb-Nz-Ld7.text" = "Velocidade de fala";
 /* Class = "IBUILabel"; text = "Threshold:"; ObjectID = "6Lf-yB-5OX"; */
