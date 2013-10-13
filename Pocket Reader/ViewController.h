@@ -31,7 +31,7 @@
     BOOL didOneSecondHasPassed;
     PocketReaderDataClass * dataClass;    
     int n_erode_dilate; // Precisa ajustar pro iPhone
-   
+    
 }
 
 @property (strong, nonatomic) IBOutlet UIView *recordPreview;
