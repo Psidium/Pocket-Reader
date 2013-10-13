@@ -10,6 +10,7 @@
 "2IP-1J-7ra.footerTitle" = "Jede Änderung an diesen Einstellungen können in dem Blatt recognizer gelten.";
 /* Class = "IBUITableViewSection"; headerTitle = "Image processing"; ObjectID = "2IP-1J-7ra"; */
 "2IP-1J-7ra.headerTitle" = "Bildverarbeitung";
+"g9K-4A-57h.text" = "finden Blatt";
 /* Class = "IBUILabel"; text = "Speech rate"; ObjectID = "5sb-Nz-Ld7"; */
 "5sb-Nz-Ld7.text" = "Sprechgeschwindigkeit";
 /* Class = "IBUILabel"; text = "Threshold:"; ObjectID = "6Lf-yB-5OX"; */

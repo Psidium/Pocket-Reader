@@ -6,6 +6,7 @@
 "1iH-Xp-iLz.segmentTitles[0]" = "Normal";
 /* Class = "IBUISegmentedControl"; 1iH-Xp-iLz.segmentTitles[1] = "Inverted"; ObjectID = "1iH-Xp-iLz"; */
 "1iH-Xp-iLz.segmentTitles[1]" = "Invertido";
+"g9K-4A-57h.text" = "Ayuda de encuadre";
 /* Class = "IBUITableViewSection"; footerTitle = "Any change made to these settings may apply in the sheet recognizer."; ObjectID = "2IP-1J-7ra"; */
 "2IP-1J-7ra.footerTitle" = "Cualquier cambio realizado en esta configuración se puede aplicar en el reconocedor de hoja.";
 /* Class = "IBUITableViewSection"; headerTitle = "Image processing"; ObjectID = "2IP-1J-7ra"; */
