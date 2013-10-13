@@ -16,14 +16,11 @@
 
 @property (nonatomic) PocketReaderDataClass * dataClass;
 @property (strong, nonatomic) IBOutlet UISwitch *switchOpenCVOn;
-@property (strong, nonatomic) IBOutlet UISwitch *guideFrameSwitch;
-@property (strong, nonatomic) IBOutlet UINavigationItem *settingsNavigationItem;
+
 @property (strong, nonatomic) IBOutlet UISegmentedControl *languageSelectorOne;
 
-- (IBAction)pressedGuideFrameOn:(UISwitch *)sender;
+
 - (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender;
-- (IBAction)didChangeSpeechOnSwitch:(UISwitch *)sender;
-- (IBAction)didChangeSpeechRateValue:(UISlider *)sender;
 - (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender;
 
 @end

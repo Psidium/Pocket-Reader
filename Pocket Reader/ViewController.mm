@@ -68,8 +68,13 @@
     [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timeOut:) userInfo:nil repeats:YES];
     [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale]; //set camera and it view
     [captureSession startRunning]; //start the camera capturing
-    
-    
+    self.motionManager = [[CMMotionManager alloc] init];
+    if (self.motionManager.accelerometerAvailable) {
+        self.motionManager.accelerometerUpdateInterval = 0.1;
+        self.motionManager.deviceMotionUpdateInterval = 0.1;
+        [self.motionManager startDeviceMotionUpdates];
+        [self.motionManager startAccelerometerUpdates];
+    }
 }
 
 
@@ -284,7 +289,12 @@
                 
                 [dataClass.tesseract recognize];
                 NSString *textoReconhecido = [dataClass.tesseract recognizedText];
-                [dataClass.tesseract clear];
+                
+                [dataClass.tesseract clear]; //clean the tesseract
+                dataClass.tesseract=nil;
+                
+                Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
+                dataClass.tesseract=tesseractHolder;
                 
                 NSLog(@"%@", textoReconhecido);
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -294,13 +304,6 @@
                     isTalking=YES;
                     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
                                                     textoReconhecido);
-                } else if (dataClass.speechAfterPhotoIsTaken){
-                    if ([AVSpeechSynthesizer class] != nil){
-                        AVSpeechSynthesizer *synthesizer = [AVSpeechSynthesizer new];
-                        AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:textoReconhecido];
-                        utterance.rate = dataClass.speechRateValue;
-                        [synthesizer speakUtterance:utterance];
-                    }
                 }
                 [self.tabBarController setSelectedIndex:1];
                 UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
@@ -317,74 +320,25 @@
     }
 }
 
--(void) recognizeText:(UIImage*)img {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];});
-    img=[self gs_convert_image:img];
-    
-    if (img!=nil) {
-        
-        NSLog(@"saiu uimage");
-        [dataClass.tesseract setImage:img];
-        NSLog(@"começa a reconhecer");
-        NSLog([dataClass.tesseract recognize] ? @"Reconheceu" : @"não reconheceu");
-        NSLog(@"terminou");
-        NSLog(@"%@",[dataClass.tesseract description]);
-        NSString *textoReconhecido = [dataClass.tesseract recognizedText];
-        [dataClass.tesseract clear];
-        
-        NSLog(@"%@", textoReconhecido);
-        NSLog(@"deveria ter mostrado");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }); /*
-             if (UIAccessibilityIsVoiceOverRunning()) {
-             UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
-             textoReconhecido);
-             }
-             UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-             [message show];*/
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"AddToHistory"
-         object:textoReconhecido];
-        [self.tabBarController setSelectedIndex:1];
-    }
-    
-}
-
 -(void) viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     isViewAppearing = YES;
+    [self.motionManager startDeviceMotionUpdates];
+    if (self.motionManager.accelerometerAvailable) {
+        [self.motionManager startDeviceMotionUpdates];
+        [self.motionManager startAccelerometerUpdates];
+    }
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     isViewAppearing = NO;
+    [self.motionManager stopDeviceMotionUpdates];
+    if (self.motionManager.accelerometerAvailable) {
+        [self.motionManager stopDeviceMotionUpdates];
+        [self.motionManager stopAccelerometerUpdates];
+    }
     
-}
-
-- (void) usePicker {
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    [picker setDelegate:self];
-    [picker setAllowsEditing:YES];
-    [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
-    
-    [self presentViewController:picker animated:YES completion:nil];
-}
-
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    // Dismiss the picker
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self dismissViewControllerAnimated:YES completion:nil];
-    });
-    
-    // Get the image from the result
-    [self recognizeText:[info valueForKey:@"UIImagePickerControllerOriginalImage"]];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Implementation of FaceTracker:
@@ -422,148 +376,9 @@
     
 }
 
-#pragma mark - crop paper (pure C++)
-// Helper
-cv::Point getCenter( std::vector<cv::Point> points ) {
-    
-    cv::Point center = cv::Point( 0.0, 0.0 );
-    
-    for( size_t i = 0; i < points.size(); i++ ) {
-        center.x += points[ i ].x;
-        center.y += points[ i ].y;
-    }
-    
-    center.x = center.x / points.size();
-    center.y = center.y / points.size();
-    
-    return center;
-    
-}
-
-// Helper;
-// 0----1
-// |    |
-// |    |
-// 3----2
-std::vector<cv::Point> sortSquarePointsClockwise( std::vector<cv::Point> square ) {
-    
-    cv::Point center = getCenter( square );
-    
-    std::vector<cv::Point> sorted_square;
-    for( size_t i = 0; i < square.size(); i++ ) {
-        if ( (square[i].x - center.x) < 0 && (square[i].y - center.y) < 0 ) {
-            switch( i ) {
-                case 0:
-                    sorted_square = square;
-                    break;
-                case 1:
-                    sorted_square.push_back( square[1] );
-                    sorted_square.push_back( square[2] );
-                    sorted_square.push_back( square[3] );
-                    sorted_square.push_back( square[0] );
-                    break;
-                case 2:
-                    sorted_square.push_back( square[2] );
-                    sorted_square.push_back( square[3] );
-                    sorted_square.push_back( square[0] );
-                    sorted_square.push_back( square[1] );
-                    break;
-                case 3:
-                    sorted_square.push_back( square[3] );
-                    sorted_square.push_back( square[0] );
-                    sorted_square.push_back( square[1] );
-                    sorted_square.push_back( square[2] );
-                    break;
-            }
-            break;
-        }
-    }
-    
-    return sorted_square;
-    
-}
-
-// Helper
-float distanceBetweenPoints( cv::Point p1, cv::Point p2 ) {
-    
-    if( p1.x == p2.x ) {
-        return abs( p2.y - p1.y );
-    }
-    else if( p1.y == p2.y ) {
-        return abs( p2.x - p1.x );
-    }
-    else {
-        float dx = p2.x - p1.x;
-        float dy = p2.y - p1.y;
-        return sqrt( (dx*dx)+(dy*dy) );
-    }
-}
-
-cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
-{
-    
-    // declare used vars
-    int paperWidth  = 210; // in mm, because scale factor is taken into account
-    int paperHeight = 297; // in mm, because scale factor is taken into account
-    cv::Point2f imageVertices[4];
-    float distanceP1P2;
-    float distanceP1P3;
-    BOOL isLandscape = true;
-    int scaleFactor;
-    cv::Mat paperImage;
-    cv::Mat paperImageCorrected;
-    cv::Point2f paperVertices[4];
-    
-    // sort square corners for further operations
-    square = sortSquarePointsClockwise( square );
-    
-    // rearrange to get proper order for getPerspectiveTransform()
-    imageVertices[0] = square[0];
-    imageVertices[1] = square[1];
-    imageVertices[2] = square[3];
-    imageVertices[3] = square[2];
-    NSLog(@"CANTOS SÃO: [0]x: %f y:%f [1]x: %f y:%f [2]x: %f y:%f [3]x: %f y:%f", imageVertices[0].x,imageVertices[0].y, imageVertices[1].x,imageVertices[1].y, imageVertices[2].x, imageVertices[2].y, imageVertices[3].x, imageVertices[3].y);
-    
-    // get distance between corner points for further operations
-    distanceP1P2 = distanceBetweenPoints( imageVertices[0], imageVertices[1] );
-    distanceP1P3 = distanceBetweenPoints( imageVertices[0], imageVertices[2] );
-    
-    // calc paper, paperVertices; take orientation into account
-    if ( distanceP1P2 > distanceP1P3 ) {
-        scaleFactor =  ceil( lroundf(distanceP1P2/paperHeight) ); // we always want to scale the image down to maintain the best quality possible
-        paperImage = cv::Mat( paperWidth*scaleFactor, paperHeight*scaleFactor, CV_8UC3 );
-        paperVertices[0] = cv::Point( 0, 0 );
-        paperVertices[1] = cv::Point( paperHeight*scaleFactor, 0 );
-        paperVertices[2] = cv::Point( 0, paperWidth*scaleFactor );
-        paperVertices[3] = cv::Point( paperHeight*scaleFactor, paperWidth*scaleFactor );
-    }
-    else {
-        isLandscape = false;
-        scaleFactor =  ceil( lroundf(distanceP1P3/paperHeight) ); // we always want to scale the image down to maintain the best quality possible
-        paperImage = cv::Mat( paperHeight*scaleFactor, paperWidth*scaleFactor, CV_8UC3 );
-        paperVertices[0] = cv::Point( 0, 0 );
-        paperVertices[1] = cv::Point( paperWidth*scaleFactor, 0 );
-        paperVertices[2] = cv::Point( 0, paperHeight*scaleFactor );
-        paperVertices[3] = cv::Point( paperWidth*scaleFactor, paperHeight*scaleFactor );
-    }
-    
-    cv::Mat warpMatrix = getPerspectiveTransform( imageVertices, paperVertices );
-    cv::warpPerspective(image, paperImage, warpMatrix, paperImage.size(), cv::INTER_LINEAR, cv::BORDER_CONSTANT );
-    
-    // we want portrait output
-    if ( isLandscape ) {
-        cv::transpose(paperImage, paperImageCorrected);
-        cv::flip(paperImageCorrected, paperImageCorrected, 1);
-        return paperImageCorrected;
-    }
-    
-    return paperImage;
-    
-}
 
 
-
-#pragma mark - 4th implementation
+#pragma mark - Findind the sheet
 
 
 - (void) findAndDrawSheetByContours: (cv::Mat &) mat {
@@ -627,7 +442,15 @@ cv::Mat getPaperAreaFromImage( cv::Mat image, std::vector<cv::Point> square )
     cv::Point center;
     cv::RotatedRect rotatedRectangle;
     if (UIAccessibilityIsVoiceOverRunning()) {
+        CMAccelerometerData * accelerometerData = self.motionManager.accelerometerData;
+        NSLog(@"x: %f y: %f  z: %f",accelerometerData.acceleration.x, accelerometerData.acceleration.y, accelerometerData.acceleration.z);
         if (contoursArea.size() > 0) {
+            if (ABS(accelerometerData.acceleration.x) > 0.1 || ABS(accelerometerData.acceleration.y) > 0.1) {
+                if (!isTalking) {
+                    isTalking=YES;
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Alinhe o aparelho na posição horizontal", nil));
+                }
+            }
             float batata = cv::contourArea(contoursArea[0]);
             lugarAtual = cv::boundingRect(Mat(contoursArea[0]));
             rotatedRectangle = minAreaRect(contoursArea[0]);

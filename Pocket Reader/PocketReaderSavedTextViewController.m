@@ -76,7 +76,7 @@
 - (void) receiveTestNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"AddToHistory"]){
         NSString *received = notification.object;
-        [self.savedText addObject:[NSArray arrayWithObjects:[received substringWithRange:NSMakeRange(0, 10)], [received substringWithRange:NSMakeRange(11, 30)], received, nil]];
+        [self.savedText addObject:[NSArray arrayWithObjects:[received substringWithRange:NSMakeRange(0, 20)], [received substringWithRange:NSMakeRange(20, 60)], received, nil]];
         [self.tableView reloadData];
     }
 }
