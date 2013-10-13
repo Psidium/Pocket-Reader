@@ -66,17 +66,7 @@
                                              selector:@selector(receiveTestNotification:)
                                                  name:@"AddToHistory"
                                                object:nil];
-    NSLog(@"%@",[[NSNotificationCenter defaultCenter] description]);
-    /* [[NSNotificationCenter defaultCenter] addObserverForName:@"AddToHistory" object:nil queue:[NSOperationQueue currentQueue] usingBlock:^(NSNotification *note) {
-     if ([[note name] isEqualToString:@"AddToHistory"]){
-     NSString *received = note.object;
-     NSLog(@"Entrou no metodo da notificação");
-     NSLog(@"Texto reconhecido: %@", received);
-     [self.savedText addObject:[NSArray arrayWithObjects:[received substringWithRange:NSMakeRange(0, 10)], [received substringWithRange:NSMakeRange(11, 30)], received, nil]];
-     [self.tableView reloadData];
-     }
-     }];*/
-    
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     

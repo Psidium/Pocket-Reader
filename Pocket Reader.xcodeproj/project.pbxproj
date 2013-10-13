@@ -52,6 +52,8 @@
 		32678569177C67D80087D677 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32678568177C67D80087D677 /* CoreImage.framework */; };
 		326FB40217E8029D00E21084 /* PocketReaderSavedTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 326FB40117E8029D00E21084 /* PocketReaderSavedTextViewController.m */; };
 		326FB40517E805FA00E21084 /* PocketReaderSavedTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 326FB40417E805FA00E21084 /* PocketReaderSavedTextCell.m */; };
+		32700763180AF11400599B33 /* PocketReaderFirstLaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32700762180AF11400599B33 /* PocketReaderFirstLaunchViewController.m */; };
+		32700766180AFB3100599B33 /* PocketReaderFirstLaunchBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32700765180AFB3100599B33 /* PocketReaderFirstLaunchBackgroundView.m */; };
 		3273F259175BC4DE00BC273D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F258175BC4DE00BC273D /* AVFoundation.framework */; };
 		3273F25B175BC4E600BC273D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3273F25A175BC4E600BC273D /* CoreMotion.framework */; };
 		327519AB17E3F7F9009CABFF /* spanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 327519A817E3F7F9009CABFF /* spanner.png */; };
@@ -134,6 +136,10 @@
 		326FB40117E8029D00E21084 /* PocketReaderSavedTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderSavedTextViewController.m; sourceTree = "<group>"; };
 		326FB40317E805F900E21084 /* PocketReaderSavedTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderSavedTextCell.h; sourceTree = "<group>"; };
 		326FB40417E805FA00E21084 /* PocketReaderSavedTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderSavedTextCell.m; sourceTree = "<group>"; };
+		32700761180AF11400599B33 /* PocketReaderFirstLaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderFirstLaunchViewController.h; sourceTree = "<group>"; };
+		32700762180AF11400599B33 /* PocketReaderFirstLaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderFirstLaunchViewController.m; sourceTree = "<group>"; };
+		32700764180AFB3100599B33 /* PocketReaderFirstLaunchBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderFirstLaunchBackgroundView.h; sourceTree = "<group>"; };
+		32700765180AFB3100599B33 /* PocketReaderFirstLaunchBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderFirstLaunchBackgroundView.m; sourceTree = "<group>"; };
 		3273F258175BC4DE00BC273D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3273F25A175BC4E600BC273D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		327519A817E3F7F9009CABFF /* spanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spanner.png; sourceTree = "<group>"; };
@@ -425,6 +431,10 @@
 				326FB40417E805FA00E21084 /* PocketReaderSavedTextCell.m */,
 				3252766D17FCFDDB008877BB /* PocketReaderShowTextViewController.h */,
 				3252766E17FCFDDB008877BB /* PocketReaderShowTextViewController.m */,
+				32700761180AF11400599B33 /* PocketReaderFirstLaunchViewController.h */,
+				32700762180AF11400599B33 /* PocketReaderFirstLaunchViewController.m */,
+				32700764180AFB3100599B33 /* PocketReaderFirstLaunchBackgroundView.h */,
+				32700765180AFB3100599B33 /* PocketReaderFirstLaunchBackgroundView.m */,
 				2410547D17F0D5880055A40A /* Main.storyboard */,
 				3249B3D8172D7FA7009F4D84 /* Supporting Files */,
 			);
@@ -780,6 +790,7 @@
 				32D1CAD117F47C3100202BC8 /* text_detect.mm in Sources */,
 				32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */,
 				326FB40217E8029D00E21084 /* PocketReaderSavedTextViewController.m in Sources */,
+				32700766180AFB3100599B33 /* PocketReaderFirstLaunchBackgroundView.m in Sources */,
 				3249B3DE172D7FA7009F4D84 /* main.m in Sources */,
 				3249B3E2172D7FA8009F4D84 /* AppDelegate.m in Sources */,
 				325422EB179728D7008A6204 /* MBProgressHUD.m in Sources */,
@@ -789,6 +800,7 @@
 				3252766F17FCFDDB008877BB /* PocketReaderShowTextViewController.m in Sources */,
 				245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */,
 				3249B3EB172D7FA8009F4D84 /* ViewController.mm in Sources */,
+				32700763180AF11400599B33 /* PocketReaderFirstLaunchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

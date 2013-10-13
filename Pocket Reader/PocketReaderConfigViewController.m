@@ -30,7 +30,7 @@
 {
     [super viewDidLoad];
     dataClass = [PocketReaderDataClass getInstance];
-    [self.switchOpenCVOn setOn:YES animated:YES];
+    [self.switchOpenCVOn setOn:dataClass.isOpenCVOn animated:YES];
     if ([dataClass.tesseractLanguage isEqualToString:@"por"]) {
         [self.languageSelectorOne setSelectedSegmentIndex:0];
     } else if ([dataClass.tesseractLanguage isEqualToString:@"eng"]) {
@@ -51,7 +51,20 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void) viewDidAppear:(BOOL)animated {
+    [self.switchOpenCVOn setOn:dataClass.isOpenCVOn animated:YES];
+    if ([dataClass.tesseractLanguage isEqualToString:@"por"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:0];
+    } else if ([dataClass.tesseractLanguage isEqualToString:@"eng"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:1];
+    } else if ([dataClass.tesseractLanguage isEqualToString:@"spa"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:2];
+    } else if ([dataClass.tesseractLanguage isEqualToString:@"deu"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:3];
+    } else if ([dataClass.tesseractLanguage isEqualToString:@"fra"]) {
+        [self.languageSelectorOne setSelectedSegmentIndex:4];
+    }
+}
 
 
 - (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender {

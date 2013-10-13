@@ -17,7 +17,6 @@
 //
 #import "UIImage+OpenCV.h"
 #import "ViewController.h"
-#import "text_detect.h"
 
 @interface ViewController () {
     std::vector<cv::Vec4i> lines;
@@ -46,6 +45,13 @@
     [super viewDidLoad];
     [self.tabBarController setSelectedIndex:1];
     [self.tabBarController setSelectedIndex:0];
+    if (![@"1" isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"Avalue"]]) { // detect first launch
+        [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"Avalue"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        //if is the first launch of the app by the user
+        //Action here
+        
+    }
     self.qualityPreset = AVCaptureSessionPresetPhoto; //maximum quality
     captureGrayscale = NO; //Set color capture
     self.camera = -1; //Set back camera
@@ -88,6 +94,13 @@
     
     // Dispose of any resources that can be recreated.
     
+}
+
+- (BOOL) accessibilityPerformMagicTap {
+    isTalking=YES;
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(dataClass.isOpenCVOn ? @"Guia desligado" : @"Guia ligado", nil));
+    dataClass.isOpenCVOn = !dataClass.isOpenCVOn;
+    return YES;
 }
 
 #pragma mark - Buttons:
@@ -426,7 +439,7 @@
     NSLog(@"tamanho countours %lu",contoursArea.size());
     std::vector<std::vector<cv::Point> > contoursDraw (contoursCleaned.size());
     for (int i=0; i < contoursArea.size(); i++){
-        cv::approxPolyDP(Mat(contoursArea[i]), contoursDraw[i], 40, true);
+        cv::approxPolyDP(cv::Mat(contoursArea[i]), contoursDraw[i], 40, true);
     }
     //NSLog(@"iniciopoligonopontosetal");
     cv::Point topRight, topLeft, bottomRight, bottomLeft;
@@ -452,7 +465,7 @@
                 }
             }
             float batata = cv::contourArea(contoursArea[0]);
-            lugarAtual = cv::boundingRect(Mat(contoursArea[0]));
+            lugarAtual = cv::boundingRect(cv::Mat(contoursArea[0]));
             rotatedRectangle = minAreaRect(contoursArea[0]);
             center = cv::Point(lugarAtual.x + (lugarAtual.width/2), lugarAtual.y + (lugarAtual.height/2) );
             NSLog(@"angulation : %f", rotatedRectangle.angle);
@@ -537,13 +550,13 @@
     } else
         count=0;
     
-    Mat drawing = Mat::zeros( mat.size(), CV_8UC3 );
+    cv::Mat drawing = cv::Mat::zeros( mat.size(), CV_8UC3 );
     if (contoursArea.size() > 0) {
         cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
         cv::rectangle(drawing, lugarAtual, cv::Scalar(255,255,0));
         cv::circle(drawing, center, 10, cv::Scalar(255,0,0));
         cv::circle(drawing, cv::Point(mat.size().width/2,mat.size().height/2), 5, cv::Scalar(255,0,255));
-        Point2f rect_points[4]; rotatedRectangle.points( rect_points );
+        cv::Point2f rect_points[4]; rotatedRectangle.points( rect_points );
         for( int j = 0; j < 4; j++ )
             line( drawing, rect_points[j], rect_points[(j+1)%4], cv::Scalar(255,30,150), 1, 8 );
         cv::putText(drawing, [[NSString stringWithFormat:@"%fº",rotatedRectangle.angle] UTF8String] , rotatedRectangle.center, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255,30,150));
