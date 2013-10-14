@@ -17,6 +17,9 @@
 //
 #import "UIImage+OpenCV.h"
 #import "ViewController.h"
+#import <sys/types.h>
+#import <sys/sysctl.h>
+#import <sys/utsname.h>
 
 @interface ViewController () {
     std::vector<cv::Vec4i> lines;
@@ -45,11 +48,19 @@
     [super viewDidLoad];
     [self.tabBarController setSelectedIndex:1];
     [self.tabBarController setSelectedIndex:0];
+    
+    NSString *model = [self platformString];
+    if ([model isEqualToString:@"iPod Touch (4 Gen)"] || [model isEqualToString:@"iPhone 3GS"] || [model isEqualToString:@"iPad 2"]) {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Unsuported device",nil) message: NSLocalizedString(@"Pocket Reader does not support your device's camera resolution.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+        [message show];
+    }
+    
     if (![@"1" isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"Avalue"]]) { // detect first launch
         [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"Avalue"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //if is the first launch of the app by the user
         //Action here
+        NSLog(@"First launch!");
         
     }
     self.qualityPreset = AVCaptureSessionPresetPhoto; //maximum quality
@@ -553,13 +564,13 @@
     cv::Mat drawing = cv::Mat::zeros( mat.size(), CV_8UC3 );
     if (contoursArea.size() > 0) {
         cv::drawContours(drawing, contoursDraw, -1, cv::Scalar(0,255,0),1);
-        cv::rectangle(drawing, lugarAtual, cv::Scalar(255,255,0));
+        //cv::rectangle(drawing, lugarAtual, cv::Scalar(255,255,0));
         cv::circle(drawing, center, 10, cv::Scalar(255,0,0));
         cv::circle(drawing, cv::Point(mat.size().width/2,mat.size().height/2), 5, cv::Scalar(255,0,255));
         cv::Point2f rect_points[4]; rotatedRectangle.points( rect_points );
         for( int j = 0; j < 4; j++ )
             line( drawing, rect_points[j], rect_points[(j+1)%4], cv::Scalar(255,30,150), 1, 8 );
-        cv::putText(drawing, [[NSString stringWithFormat:@"%fº",rotatedRectangle.angle] UTF8String] , rotatedRectangle.center, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255,30,150));
+        //cv::putText(drawing, [[NSString stringWithFormat:@"%fº",rotatedRectangle.angle] UTF8String] , rotatedRectangle.center, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255,30,150));
     }
     
     //   NSLog(@"tamanho countours %lu",contoursCleaned.size());
@@ -770,6 +781,53 @@
     NSLog(@"Tesseratc language: %@",dataClass.tesseractLanguage);
     
     return YES;
+}
+
+- (NSString *) platformString {
+    // Gets a string with the device model
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *machine = (char *) malloc(size);
+    sysctlbyname("hw.machine", machine, &size, NULL, 0);
+    NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
+    free(machine);
+    
+    if ([platform isEqualToString:@"iPhone1,1"])    return @"iPhone 2G";
+    if ([platform isEqualToString:@"iPhone1,2"])    return @"iPhone 3G";
+    if ([platform isEqualToString:@"iPhone2,1"])    return @"iPhone 3GS";
+    if ([platform isEqualToString:@"iPhone3,1"])    return @"iPhone 4";
+    if ([platform isEqualToString:@"iPhone3,2"])    return @"iPhone 4";
+    if ([platform isEqualToString:@"iPhone3,3"])    return @"iPhone 4 (CDMA)";
+    if ([platform isEqualToString:@"iPhone4,1"])    return @"iPhone 4S";
+    if ([platform isEqualToString:@"iPhone5,1"])    return @"iPhone 5";
+    if ([platform isEqualToString:@"iPhone5,2"])    return @"iPhone 5 (GSM+CDMA)";
+    
+    if ([platform isEqualToString:@"iPod1,1"])      return @"iPod Touch (1 Gen)";
+    if ([platform isEqualToString:@"iPod2,1"])      return @"iPod Touch (2 Gen)";
+    if ([platform isEqualToString:@"iPod3,1"])      return @"iPod Touch (3 Gen)";
+    if ([platform isEqualToString:@"iPod4,1"])      return @"iPod Touch (4 Gen)";
+    if ([platform isEqualToString:@"iPod5,1"])      return @"iPod Touch (5 Gen)";
+    
+    if ([platform isEqualToString:@"iPad1,1"])      return @"iPad";
+    if ([platform isEqualToString:@"iPad1,2"])      return @"iPad 3G";
+    if ([platform isEqualToString:@"iPad2,1"])      return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,2"])      return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,3"])      return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,4"])      return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,5"])      return @"iPad Mini (WiFi)";
+    if ([platform isEqualToString:@"iPad2,6"])      return @"iPad Mini";
+    if ([platform isEqualToString:@"iPad2,7"])      return @"iPad Mini (GSM+CDMA)";
+    if ([platform isEqualToString:@"iPad3,1"])      return @"iPad 3 (WiFi)";
+    if ([platform isEqualToString:@"iPad3,2"])      return @"iPad 3 (GSM+CDMA)";
+    if ([platform isEqualToString:@"iPad3,3"])      return @"iPad 3";
+    if ([platform isEqualToString:@"iPad3,4"])      return @"iPad 4 (WiFi)";
+    if ([platform isEqualToString:@"iPad3,5"])      return @"iPad 4";
+    if ([platform isEqualToString:@"iPad3,6"])      return @"iPad 4 (GSM+CDMA)";
+    
+    if ([platform isEqualToString:@"i386"])         return @"Simulator";
+    if ([platform isEqualToString:@"x86_64"])       return @"Simulator";
+    
+    return platform;
 }
 
 

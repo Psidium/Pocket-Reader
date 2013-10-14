@@ -58,8 +58,8 @@
                           arrayWithObjects:
                           [NSArray arrayWithObjects:
                            NSLocalizedString(@"Title of future text",nil),
-                           NSLocalizedString(@"Subtitle of  future texts",nil),
-                           NSLocalizedString(@"Contents of text",nil),nil],
+                           NSLocalizedString(@"Subtitle of future text",nil),
+                           NSLocalizedString(@"Content of text",nil),nil],
                           nil];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self

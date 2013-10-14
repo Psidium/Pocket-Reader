@@ -278,8 +278,8 @@
                                             <rect key="frame" x="10" y="1" width="300" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Find sheet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9K-4A-57h">
-                                                    <rect key="frame" x="20" y="15" width="81" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find sheet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9K-4A-57h">
+                                                    <rect key="frame" x="10" y="14" width="81" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <bool key="isElement" value="NO"/>
@@ -288,13 +288,16 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="g9K-4A-57h" firstAttribute="centerY" secondItem="kh9-f3-A03" secondAttribute="centerY" id="3qL-nC-4JW"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <accessibility key="accessibilityConfiguration" label="OpenCV">
                                             <accessibilityTraits key="traits" none="YES"/>
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
                                         <constraints>
-                                            <constraint firstItem="g9K-4A-57h" firstAttribute="leading" secondItem="zLH-9s-9Sp" secondAttribute="leading" constant="30" id="XU1-Mx-NQq"/>
+                                            <constraint firstItem="g9K-4A-57h" firstAttribute="leading" secondItem="zLH-9s-9Sp" secondAttribute="leading" constant="20" id="XU1-Mx-NQq"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
