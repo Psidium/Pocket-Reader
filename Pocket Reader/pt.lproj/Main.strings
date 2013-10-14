@@ -50,7 +50,7 @@
 /* Class = "IBUISwitch"; accessibilityHint = "computer vision"; ObjectID = "T8t-FA-RCO"; */
 "T8t-FA-RCO.accessibilityHint" = "Visão Computacional";
 /* Class = "IBUISwitch"; accessibilityLabel = "OpenCV"; ObjectID = "T8t-FA-RCO"; */
-"T8t-FA-RCO.accessibilityLabel" = "OpenCV";
+"T8t-FA-RCO.accessibilityLabel" = "Ajuda no enquadramento";
 /* Class = "IBUILabel"; text = "Guide sheet framming"; ObjectID = "Yo0-Ik-PQN"; */
 "Yo0-Ik-PQN.text" = "Guia de enquadramento";
 /* Class = "IBUITabBarItem"; title = "Settings"; ObjectID = "ZQS-NT-DSO"; */
@@ -72,7 +72,7 @@
 /* Class = "IBUINavigationItem"; title = "Camera"; ObjectID = "f2L-Sg-kW0"; */
 "f2L-Sg-kW0.title" = "Câmera";
 /* Class = "IBUILabel"; text = "OpenCV"; ObjectID = "g9K-4A-57h"; */
-"g9K-4A-57h.text" = "OpenCV";
+"g9K-4A-57h.text" = "Ajuda de enquadramento";
 /* Class = "IBUINavigationItem"; title = "Recent Docs"; ObjectID = "k8z-P1-lnn"; */
 "k8z-P1-lnn.title" = "Documentos Recentes";
 /* Class = "IBUIViewController"; title = "storyboardOne"; ObjectID = "oYx-kR-ddB"; */
@@ -84,4 +84,4 @@
 /* Class = "IBUILabel"; text = "Sheet framming tolerance"; ObjectID = "weU-cV-4lG"; */
 "weU-cV-4lG.text" = "Tolerância de enquadramento";
 /* Class = "IBUITableViewCell"; accessibilityLabel = "OpenCV"; ObjectID = "zLH-9s-9Sp"; */
-"zLH-9s-9Sp.accessibilityLabel" = "OpenCV";
+"zLH-9s-9Sp.accessibilityLabel" = "Ajuda no enquadramento";
