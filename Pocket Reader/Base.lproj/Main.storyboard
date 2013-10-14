@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" useAutolayout="YES" initialViewController="lZj-aM-Wjx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" useAutolayout="YES" initialViewController="lZj-aM-Wjx">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -278,7 +278,7 @@
                                             <rect key="frame" x="10" y="1" width="300" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find sheet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9K-4A-57h">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Find sheet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9K-4A-57h">
                                                     <rect key="frame" x="20" y="15" width="81" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
@@ -287,14 +287,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T8t-FA-RCO">
-                                                    <rect key="frame" x="203" y="12" width="79" height="27"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <accessibility key="accessibilityConfiguration" hint="computer vision" label="OpenCV"/>
-                                                    <connections>
-                                                        <action selector="didChangeIsOpenCVOnValue:" destination="vPL-gl-hKy" eventType="valueChanged" id="hL8-eb-djL"/>
-                                                    </connections>
-                                                </switch>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <accessibility key="accessibilityConfiguration" label="OpenCV">
@@ -302,10 +294,7 @@
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
                                         <constraints>
-                                            <constraint firstItem="g9K-4A-57h" firstAttribute="centerY" secondItem="T8t-FA-RCO" secondAttribute="centerY" id="EKb-Ov-1Xc"/>
                                             <constraint firstItem="g9K-4A-57h" firstAttribute="leading" secondItem="zLH-9s-9Sp" secondAttribute="leading" constant="30" id="XU1-Mx-NQq"/>
-                                            <constraint firstAttribute="trailing" secondItem="T8t-FA-RCO" secondAttribute="trailing" constant="30" id="mUj-Zs-ez1"/>
-                                            <constraint firstItem="T8t-FA-RCO" firstAttribute="centerY" secondItem="zLH-9s-9Sp" secondAttribute="centerY" constant="-0.5" id="rSt-r0-9CV"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -319,8 +308,8 @@
                     <tabBarItem key="tabBarItem" title="Settings" image="gear.png" id="eGp-G0-onh"/>
                     <navigationItem key="navigationItem" title="Settings" id="e47-QX-hN9"/>
                     <connections>
+                        <outlet property="findSheetTableCell" destination="zLH-9s-9Sp" id="CKB-t1-viL"/>
                         <outlet property="languageSelectorOne" destination="bug-bX-oq2" id="rec-hJ-St9"/>
-                        <outlet property="switchOpenCVOn" destination="T8t-FA-RCO" id="rJG-vm-ntK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ph4-lo-bkn" userLabel="First Responder" sceneMemberID="firstResponder"/>

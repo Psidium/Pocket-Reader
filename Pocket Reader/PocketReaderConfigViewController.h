@@ -15,12 +15,12 @@
 }
 
 @property (nonatomic) PocketReaderDataClass * dataClass;
-@property (strong, nonatomic) IBOutlet UISwitch *switchOpenCVOn;
-
+@property (strong, nonatomic) UISwitch *switchOpenCVOn;
+@property (strong, nonatomic) IBOutlet UITableViewCell *findSheetTableCell;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *languageSelectorOne;
 
 
-- (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender;
+- (void)didChangeIsOpenCVOnValue:(id)sender;
 - (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender;
 
 @end

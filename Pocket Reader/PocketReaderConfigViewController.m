@@ -42,6 +42,10 @@
     } else if ([dataClass.tesseractLanguage isEqualToString:@"fra"]) {
         [self.languageSelectorOne setSelectedSegmentIndex:4];
     }
+    
+    self.switchOpenCVOn = [[UISwitch alloc] init];
+    [self.switchOpenCVOn addTarget:self action:@selector(didChangeIsOpenCVOnValue:) forControlEvents:UIControlEventValueChanged];
+    self.findSheetTableCell.accessoryView = self.switchOpenCVOn;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -67,7 +71,7 @@
 }
 
 
-- (IBAction)didChangeIsOpenCVOnValue:(UISwitch *)sender {
+- (void)didChangeIsOpenCVOnValue:(id)sender {
     dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
 }
 
