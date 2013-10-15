@@ -6,8 +6,8 @@
 "1iH-Xp-iLz.segmentTitles[0]" = "Normal";
 /* Class = "IBUISegmentedControl"; 1iH-Xp-iLz.segmentTitles[1] = "Inverted"; ObjectID = "1iH-Xp-iLz"; */
 "1iH-Xp-iLz.segmentTitles[1]" = "Invertido";
-/* Class = "IBUITableViewSection"; footerTitle = "Any change made to these settings may apply in the sheet recognizer."; ObjectID = "2IP-1J-7ra"; */
-"2IP-1J-7ra.footerTitle" = "Qualquer mudança feita nessas configurações será aplicada no enquadramento.";
+/* Class = "IBUITableViewSection"; footerTitle = "Pocket Reader was created by Gabriel Borges Fernandes and Vinícius Antonio Weiler in 2013 as result of a scientific research during the end-of-course paper for the electronics course at Fundação Escola Técnica Liberato Salzano Vieira da Cunha, in Rio Grande do Sul state, Brazil."; ObjectID = "2IP-1J-7ra"; */
+"2IP-1J-7ra.footerTitle" = "Pocket Reader foi criado por Gabriel Borges Fernandes e Vinícius Antonio Weiler em 2013 como resultado de uma pesquisa científica durante o trabalho de conclusão de curso para o Curso Técnico de Eletrônica da Fundação Escola Técnica Liberato Salzano Vieira da Cunha, no estado do Rio Grande do Sul, Brasil.";
 /* Class = "IBUITableViewSection"; headerTitle = "Image processing"; ObjectID = "2IP-1J-7ra"; */
 "2IP-1J-7ra.headerTitle" = "Processamento de imagem";
 "g9K-4A-57h.text" = "Ajuda no enquadramento";

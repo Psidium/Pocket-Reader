@@ -504,6 +504,20 @@
             }
             
             
+            NSLog(@"(center.y - mat.size().height/2)  = %d", (center.y - mat.size().height/2));
+            if((center.y - mat.size().height/2) > 5){
+                if (!isTalking){
+                    isTalking=YES;
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para trás", nil));
+                }
+            } else if((mat.size().height/2 - center.y) > 5){
+                if (!isTalking){
+                    isTalking=YES;
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para frente", nil));
+                }
+            }
+            
+            
             if((center.x - mat.size().width/2) > 5){
                 if (!isTalking){
                     isTalking=YES;
@@ -518,18 +532,7 @@
             
             
             
-            NSLog(@"(center.y - mat.size().height/2)  = %d", (center.y - mat.size().height/2));
-            if((center.y - mat.size().height/2) > 5){
-                if (!isTalking){
-                    isTalking=YES;
-                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para trás", nil));
-                }
-            } else if((mat.size().height/2 - center.y) > 5){
-                if (!isTalking){
-                    isTalking=YES;
-                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Mova um pouco para frente", nil));
-                }
-            }
+
             
             
             if (!isTalking){
