@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" useAutolayout="YES" initialViewController="lZj-aM-Wjx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="lZj-aM-Wjx">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -19,7 +19,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LNQ-2T-s6W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1723" y="-1284"/>
+            <point key="canvasLocation" x="2183" y="-1370"/>
         </scene>
         <!--View Controller - storyboardOne-->
         <scene sceneID="VaK-il-826">
@@ -30,11 +30,11 @@
                         <viewControllerLayoutGuide type="bottom" id="azX-Yb-bC8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7ol-w5-KT6">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tmP-Yg-R3V" userLabel="View - camera">
-                                <rect key="frame" x="0.0" y="-5" width="320" height="460"/>
+                                <rect key="frame" x="0.0" y="59" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AhG-or-GAJ">
@@ -82,7 +82,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Nb-RB-AVa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2257" y="-1284"/>
+            <point key="canvasLocation" x="2717" y="-1370"/>
         </scene>
         <!--Pocket Reader First Launch View Controller - firstLaunch-->
         <scene sceneID="8ee-hx-Lv8">
@@ -93,14 +93,52 @@
                         <viewControllerLayoutGuide type="bottom" id="Tco-cV-Um5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NQm-b5-rRB">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Peu-HK-bnn" customClass="PocketReaderFirstLaunchBackgroundView">
+                                <rect key="frame" x="-6" y="-14" width="326" height="582"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tutorial" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l70-jw-uq5">
+                                        <rect key="frame" x="135" y="280" width="56" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ge-FY-mBd">
+                                        <rect key="frame" x="271" y="532" width="35" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Next">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8X-gf-G5w">
+                                        <rect key="frame" x="20" y="532" width="65" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Previous">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Pocket Reader (just logo) (2).png" translatesAutoresizingMaskIntoConstraints="NO" id="lwi-UM-J8Z">
+                                <rect key="frame" x="70" y="20" width="180" height="202"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="180" id="BBc-ac-uBX"/>
+                                    <constraint firstAttribute="height" constant="202" id="t1n-jO-0kY"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MeF-7n-ucE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2947" y="-1284"/>
+            <point key="canvasLocation" x="3407" y="-1370"/>
         </scene>
         <!--Navigation Controller - Settings-->
         <scene sceneID="cZY-18-lC0">
@@ -116,33 +154,33 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7e-Cy-yF1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1723" y="-584"/>
+            <point key="canvasLocation" x="2183" y="-670"/>
         </scene>
         <!--Pocket Reader Saved Text View Controller - Recent Docs-->
         <scene sceneID="fvb-Xn-1WL">
             <objects>
                 <tableViewController id="MFn-Rm-C5B" customClass="PocketReaderSavedTextViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="vUO-fY-hDf">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="savedTextCell" editingAccessoryType="disclosureIndicator" textLabel="U15-md-1dv" detailTextLabel="vZR-RO-Gea" rowHeight="62" style="IBUITableViewCellStyleSubtitle" id="aBL-kI-k5i" customClass="PocketReaderSavedTextCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="62"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aBL-kI-k5i" id="w8q-Xm-Y0c">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="61"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U15-md-1dv">
-                                            <rect key="frame" x="10" y="12" width="34" height="22"/>
+                                            <rect key="frame" x="15" y="12" width="34" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vZR-RO-Gea">
-                                            <rect key="frame" x="10" y="34" width="43" height="15"/>
+                                            <rect key="frame" x="15" y="34" width="43" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -163,7 +201,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9MD-YK-vsu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2257" y="73"/>
+            <point key="canvasLocation" x="2717" y="-13"/>
         </scene>
         <!--Pocket Reader Show Text View Controller - Title-->
         <scene sceneID="M5k-EV-agb">
@@ -174,11 +212,11 @@
                         <viewControllerLayoutGuide type="bottom" id="rzu-Wf-AGb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pcH-1a-zRz">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iuf-6q-XOF">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -196,7 +234,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f2k-oq-LOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2947" y="73"/>
+            <point key="canvasLocation" x="3407" y="-13"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tMi-If-VHV">
@@ -213,14 +251,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kkf-Vo-pA3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1723" y="73"/>
+            <point key="canvasLocation" x="2183" y="-13"/>
         </scene>
         <!--Pocket Reader Config View Controller - Settings-->
         <scene sceneID="Vcd-c8-D9n">
             <objects>
                 <tableViewController id="vPL-gl-hKy" customClass="PocketReaderConfigViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="AMF-RC-RCS">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="scrollIndicatorInsets" minX="320" minY="0.0" maxX="460" maxY="0.0"/>
@@ -228,21 +266,21 @@
                             <tableViewSection headerTitle="Language" footerTitle="Select the language to be used in the conversion from image to text." id="NLb-HZ-jLI">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="105" id="1uF-Hs-lDE">
-                                        <rect key="frame" x="0.0" y="46" width="320" height="107"/>
+                                        <rect key="frame" x="0.0" y="119" width="320" height="105"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1uF-Hs-lDE" id="dEL-0g-q6w">
-                                            <rect key="frame" x="10" y="1" width="300" height="104"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Language selector" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KbK-gT-K7a">
-                                                    <rect key="frame" x="20" y="20" width="142" height="21"/>
+                                                    <rect key="frame" x="30" y="21" width="142" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bug-bX-oq2">
-                                                    <rect key="frame" x="10" y="49" width="279" height="44"/>
+                                                    <rect key="frame" x="20" y="50" width="279" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="279" id="aDN-lz-dY5"/>
@@ -273,14 +311,14 @@
                                 <string key="footerTitle">Pocket Reader was created by Gabriel Borges Fernandes and Vinícius Antonio Weiler in 2013 as result of a scientific research during the end-of-course paper for the electronics course at Fundação Escola Técnica Liberato Salzano Vieira da Cunha, in Rio Grande do Sul state, Brazil.</string>
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="51" id="zLH-9s-9Sp">
-                                        <rect key="frame" x="0.0" y="247" width="320" height="53"/>
+                                        <rect key="frame" x="0.0" y="316" width="320" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zLH-9s-9Sp" id="kh9-f3-A03">
-                                            <rect key="frame" x="10" y="1" width="300" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find sheet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9K-4A-57h">
-                                                    <rect key="frame" x="10" y="14" width="81" height="21"/>
+                                                    <rect key="frame" x="20" y="14" width="81" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <bool key="isElement" value="NO"/>
@@ -318,7 +356,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ph4-lo-bkn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2257" y="-584"/>
+            <point key="canvasLocation" x="2717" y="-670"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5fk-A3-btk">
@@ -340,10 +378,11 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FS9-ZD-Waw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="970" y="-585"/>
+            <point key="canvasLocation" x="1430" y="-671"/>
         </scene>
     </scenes>
     <resources>
+        <image name="Pocket Reader (just logo) (2).png" width="683" height="763"/>
         <image name="gear.png" width="24" height="24"/>
         <image name="photo.png" width="24" height="24"/>
     </resources>

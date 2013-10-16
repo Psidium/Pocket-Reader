@@ -46,6 +46,7 @@
 		329B967E17762D6500846FA9 /* Tesseract.mm in Sources */ = {isa = PBXBuildFile; fileRef = 329B967D17762D6500846FA9 /* Tesseract.mm */; };
 		329B971517762DBA00846FA9 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971317762DBA00846FA9 /* liblept.a */; };
 		329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B971417762DBA00846FA9 /* libtesseract_all.a */; };
+		32BC4D79180E01F100A7954F /* Pocket Reader (just logo) (2).png in Resources */ = {isa = PBXBuildFile; fileRef = 32BC4D78180E01F100A7954F /* Pocket Reader (just logo) (2).png */; };
 		32C2825F17A5982900926FC6 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 32C2825E17A5982900926FC6 /* tessdata */; };
 		32D1CAD117F47C3100202BC8 /* text_detect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 32D1CACF17F47C3100202BC8 /* text_detect.mm */; };
 		32DFDF4217D3F43400D76809 /* PocketReaderConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */; };
@@ -257,6 +258,7 @@
 		329B971117762DBA00846FA9 /* werdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = werdit.h; sourceTree = "<group>"; };
 		329B971317762DBA00846FA9 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblept.a; sourceTree = "<group>"; };
 		329B971417762DBA00846FA9 /* libtesseract_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtesseract_all.a; sourceTree = "<group>"; };
+		32BC4D78180E01F100A7954F /* Pocket Reader (just logo) (2).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pocket Reader (just logo) (2).png"; sourceTree = "<group>"; };
 		32C2825E17A5982900926FC6 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		32D1CACF17F47C3100202BC8 /* text_detect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = text_detect.mm; sourceTree = "<group>"; };
 		32D1CAD017F47C3100202BC8 /* text_detect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text_detect.h; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 		327519A617E3F7DF009CABFF /* images */ = {
 			isa = PBXGroup;
 			children = (
+				32BC4D78180E01F100A7954F /* Pocket Reader (just logo) (2).png */,
 				327519A717E3F7E4009CABFF /* tab bar images */,
 			);
 			name = images;
@@ -700,6 +703,7 @@
 				320E267F17F1277000BC8BF5 /* Default-568h@2x.png in Resources */,
 				2413667217E209A7004225C2 /* Icon@2x.png in Resources */,
 				327519B217E3F80C009CABFF /* photo@2x.png in Resources */,
+				32BC4D79180E01F100A7954F /* Pocket Reader (just logo) (2).png in Resources */,
 				32F126B717F7AFB1001DD76B /* Default_7-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

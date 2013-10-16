@@ -50,7 +50,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tabBarController setSelectedIndex:0];
+    
     
     self.savedText = [NSMutableArray readFromPlistFile:@"SavedText.plist"];
     if (self.savedText == nil) {
@@ -62,6 +62,7 @@
                            NSLocalizedString(@"Content of text",nil),nil],
                           nil];
     }
+    NSLog(@"Iniciou a segunda view");
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveTestNotification:)
                                                  name:@"AddToHistory"
@@ -77,6 +78,7 @@
 - (void) receiveTestNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"AddToHistory"]){
         NSString *received = notification.object;
+        NSLog(@"Texto reconhecido: %@", received);
         [self.savedText addObject:[NSArray arrayWithObjects:[received substringWithRange:NSMakeRange(0, 20)], [received substringWithRange:NSMakeRange(20, 60)], received, nil]];
         [self.tableView reloadData];
     }

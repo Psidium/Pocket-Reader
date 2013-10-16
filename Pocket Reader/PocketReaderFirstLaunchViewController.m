@@ -27,7 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view = [PocketReaderFirstLaunchBackgroundView new];
+    //self.view = [PocketReaderFirstLaunchBackgroundView new];
  
     // Do any additional setup after loading the view.
 }

@@ -82,8 +82,8 @@
         UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"VoiceOver inactive",nil) message: NSLocalizedString(@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
         [message show];
     }
-    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timeOut:) userInfo:nil repeats:YES];
-    [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale]; //set camera and it view
+    [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(timeOut:) userInfo:nil repeats:YES];
+    [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale]; //set camera and it's view
     [captureSession startRunning]; //start the camera capturing
     self.motionManager = [[CMMotionManager alloc] init];
     if (self.motionManager.accelerometerAvailable) {
@@ -143,6 +143,7 @@
 
 - (IBAction)apertouDois:(id)sender
 {
+    //[self performSegueWithIdentifier:@"firstLaunchSegue" sender:self];
     [dataClass.tesseract clear]; //clean the tesseract
     dataClass.tesseract=nil;
     Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
@@ -261,25 +262,22 @@
 {
     //MARK: Most Important Method
     
-    if(dataClass.isOpenCVOn && isViewAppearing && didOneSecondHasPassed) {
+    if (isTalking) {
+        if (++self.count == 60) {
+            isTalking=NO;
+            self.count=0;
+        }
+        
+    } else
+        count=0;
+    
+    if(dataClass.isOpenCVOn && isViewAppearing && didOneSecondHasPassed && !isTalking) {
         
         
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         CGRect videoRect = CGRectMake(0.0f, 0.0f, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
         AVCaptureVideoOrientation videoOrientation = AVCaptureVideoOrientationPortrait;
-        /*
-         
-         CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
-         
-         CIContext *temporaryContext = [CIContext contextWithOptions: nil];
-         CGImageRef videoImage = [temporaryContext
-         createCGImage:ciImage
-         fromRect:videoRect];
-         
-         
-         UIImage *imageBebug = [UIImage imageWithCGImage:videoImage];
-         
-         CGImageRelease(videoImage);*/
+        
         
         UIImage *imageBebug = [self imageFromSampleBuffer:sampleBuffer];
         
@@ -309,27 +307,24 @@
             img=[self gs_convert_image:img];
             if (img!=nil) {
                 [dataClass.tesseract setImage:img];
-                img =nil;
-                
                 [dataClass.tesseract recognize];
                 NSString *textoReconhecido = [dataClass.tesseract recognizedText];
-                
                 [dataClass.tesseract clear]; //clean the tesseract
                 dataClass.tesseract=nil;
                 
                 Tesseract *tesseractHolder = [[Tesseract alloc] initWithDataPath:@"tessdata" language:dataClass.tesseractLanguage];
                 dataClass.tesseract=tesseractHolder;
                 
-                NSLog(@"%@", textoReconhecido);
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                 });
+                [self.tabBarController setSelectedIndex:1];
                 if (UIAccessibilityIsVoiceOverRunning()) {
                     isTalking=YES;
                     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
                                                     textoReconhecido);
                 }
-                [self.tabBarController setSelectedIndex:1];
                 UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Texto reconhecido:",nil) message:textoReconhecido delegate:nil cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
                 [message show];
                 [[NSNotificationCenter defaultCenter]
@@ -406,23 +401,16 @@
 
 
 - (void) findAndDrawSheetByContours: (cv::Mat &) mat {
-    double imageSize = mat.rows * mat.cols;  //quando era literal n tinha ess alinha
+    double imageSize = mat.rows * mat.cols;
     cv::cvtColor(mat, mat, CV_BGR2GRAY);
-    //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
     cv::GaussianBlur(mat, mat, cv::Size(3,3), 0);
-    //UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:mat], nil, nil, nil);
     cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Point(9,9));
-    //  UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:kernel], nil, nil, nil);
     cv::Mat dilated;
     cv::dilate(mat, dilated, kernel);
     kernel.release();
-    //    UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:dilated], nil, nil, nil);
-    
     cv::Mat edges;
     cv::Canny(dilated, edges, 84, 3);
     dilated.release();
-    //   UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:edges], nil, nil, nil);
-    
     lines.clear();
     cv::HoughLinesP(edges, lines, 1, CV_PI/180, 25);
     std::vector<cv::Vec4i>::iterator it = lines.begin();
@@ -430,7 +418,6 @@
         cv::Vec4i l = *it;
         cv::line(edges, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255,0,0), 2, 8);
     }
-    //   UIImageWriteToSavedPhotosAlbum([UIImage imageWithCVMat:edges], nil, nil, nil);
     std::vector< std::vector<cv::Point> > contours;
     cv::findContours(edges, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_TC89_KCOS);
     edges.release();
@@ -468,13 +455,35 @@
     if (UIAccessibilityIsVoiceOverRunning()) {
         CMAccelerometerData * accelerometerData = self.motionManager.accelerometerData;
         NSLog(@"x: %f y: %f  z: %f",accelerometerData.acceleration.x, accelerometerData.acceleration.y, accelerometerData.acceleration.z);
-        if (contoursArea.size() > 0) {
-            if (ABS(accelerometerData.acceleration.x) > 0.1 || ABS(accelerometerData.acceleration.y) > 0.1) {
-                if (!isTalking) {
-                    isTalking=YES;
-                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Alinhe o aparelho na posição horizontal", nil));
-                }
+        if (accelerometerData.acceleration.y > 0.1)
+        {
+            if (!isTalking) {
+                isTalking=YES;
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Topo do aparelho mais para cima", nil));
             }
+        }
+        if (accelerometerData.acceleration.y < -0.1)
+        {
+            if (!isTalking) {
+                isTalking=YES;
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Parte de baixo do aparelho mais para cima", nil));
+            }
+        }
+        if (accelerometerData.acceleration.x > 0.1)
+        {
+            if (!isTalking) {
+                isTalking=YES;
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Direita do aparelho mais para cima", nil));
+            }
+        }
+        else if (accelerometerData.acceleration.x < -0.1)
+        {
+            if (!isTalking) {
+                isTalking=YES;
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Esquerda do aparelho mais para cima", nil));
+            }
+        }
+        if (contoursArea.size() > 0) {
             float batata = cv::contourArea(contoursArea[0]);
             lugarAtual = cv::boundingRect(cv::Mat(contoursArea[0]));
             rotatedRectangle = minAreaRect(contoursArea[0]);
@@ -530,11 +539,6 @@
                 }
             }
             
-            
-            
-
-            
-            
             if (!isTalking){
                 isTalking=YES;
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Aproxime o aparelho da folha com cuidado", nil));
@@ -555,14 +559,7 @@
     }
     
     
-    if (isTalking) {
-        if (++self.count == 60) {
-            isTalking=NO;
-            self.count=0;
-        }
-        
-    } else
-        count=0;
+    
     
     cv::Mat drawing = cv::Mat::zeros( mat.size(), CV_8UC3 );
     if (contoursArea.size() > 0) {
@@ -684,9 +681,6 @@
         [self.imageView setImage:[UIImage imageWithCGImage:myColorMaskedImage]];
         CGImageRelease(myColorMaskedImage);
     });
-    
-    return ;
-    
 }
 
 #pragma mark - Camera initialization:
