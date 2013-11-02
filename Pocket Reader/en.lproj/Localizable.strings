@@ -29,3 +29,7 @@
 "Guia ligado" = "Framing guide on";
 "Pocket Reader does not support your device's camera resolution." = "Pocket Reader does not support your device's camera resolution.";
 "Unsuported device" = "Unsuported device";
+"Topo do aparelho mais para cima" = "Tilt the top of the device up";
+"Parte de baixo do aparelho mais para cima" = "Tilt the bottom of the device up";
+"Direita do aparelho mais para cima" = "Tilt the right of the device up";
+"Esquerda do aparelho mais para cima" = "Tilt the left of the device up";

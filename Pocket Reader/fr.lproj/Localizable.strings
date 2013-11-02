@@ -1,0 +1,36 @@
+/*
+ Localizable.strings
+ Pocket Reader
+ 
+ Created by Vinicius Weiler on 10/2/13.
+ Copyright (c) 2013 Gabriel Borges Fernandes. All rights reserved.
+ */
+"VoiceOver inactive" = "VoiceOver inactif";
+"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on." = "Attention: VoiceOver est actuellement désactivé. Pocket Reader est destiné à être utilisé avec la fonctionnalité VoiceOver activé.";
+"first" = "fra";
+"Texto reconhecido:" = "Texte reconnu:";
+"OK" = "OK";
+"Mova um pouco para a direita" = "Bougez un peu vers la droite";
+"Mova um pouco para a esquerda" = "Bougez un peu vers la gauche";
+"Mova um pouco para trás" = "Bougez un peu en arrière";
+"Mova um pouco para frente" = "Bougez un peu en avant";
+"Aproxime o aparelho da folha com cuidado" = "Approchez l'appareil de la feuille avec précaution";
+"Foto capturada com sucesso, iniciando conversão do texto impresso em voz" = "Photo prise avec succès, debut de la conversion du texte imprimé en voix";
+"Nenhuma folha detectada" = "Aucune feuille détectée";
+"Higher threshold is better" = "Plus grand threshold est meilleur";
+"Lower threshold is better" = "Plus petit threshold est meilleur";
+
+"Alinhe o aparelho na posição horizontal" = "Aligner l'appareil horizontalement";
+"Gire o aparelho no sentido anti-horário" = "Rotate the device anti-clockwise";
+"Gire o aparelho no sentido horário" = "Faites pivoter l'appareil dans le sens antihoraire";
+"Title of future text" = "Titre du texte avenir";
+"Subtitle of future text" = "Sous-titre du futur texte";
+"Content of text" = "Contenu de texte";
+"Guia desligado" = "Guide hors ligne";
+"Guia ligado" = "Guide liée";
+"Pocket Reader does not support your device's camera resolution." = "Pocket Reader ne prend pas en charge la résolution de la caméra de votre appareil.";
+"Unsuported device" = "Dispositif de prise en charge.";
+"Topo do aparelho mais para cima" = "Inclinez le haut de l'appareil vers le haut.";
+"Parte de baixo do aparelho mais para cima" = "Inclinez le bas de l'appareil vers le haut";
+"Direita do aparelho mais para cima" = "Inclinez le droit de l'appareil vers le haut";
+"Esquerda do aparelho mais para cima" = "Inclinez la gauche de l'appareil vers le haut";

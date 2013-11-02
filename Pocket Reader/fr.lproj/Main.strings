@@ -1,0 +1,87 @@
+/* Class = "IBUITabBarItem"; title = "Camera"; ObjectID = "023-Q3-h7O"; */
+"023-Q3-h7O.title" = "Camera";
+/* Class = "IBUITableViewSection"; headerTitle = "Framing guide"; ObjectID = "0xy-GK-yhY"; */
+"0xy-GK-yhY.headerTitle" = "Guide de cadrage";
+/* Class = "IBUISegmentedControl"; 1iH-Xp-iLz.segmentTitles[0] = "Normal"; ObjectID = "1iH-Xp-iLz"; */
+"1iH-Xp-iLz.segmentTitles[0]" = "Normal";
+/* Class = "IBUISegmentedControl"; 1iH-Xp-iLz.segmentTitles[1] = "Inverted"; ObjectID = "1iH-Xp-iLz"; */
+"1iH-Xp-iLz.segmentTitles[1]" = "Inversé";
+/* Class = "IBUITableViewSection"; footerTitle = "Pocket Reader was created by Gabriel Borges Fernandes and Vinícius Antonio Weiler in 2013 as result of a scientific research during the end-of-course paper for the electronics course at Fundação Escola Técnica Liberato Salzano Vieira da Cunha, in Rio Grande do Sul state, Brazil."; ObjectID = "2IP-1J-7ra"; */
+"2IP-1J-7ra.footerTitle" = "Reader Pocket a été créé par Gabriel Borges Fernandes et Vinícius Antonio Weiler en 2013 à la suite d'une recherche scientifique durant le document de fin de cours pour le cours électronique à Fundação Escola Técnica Liberato Salzano Vieira da Cunha, dans le Rio Grande do Sul, Brésil.";
+/* Class = "IBUITableViewSection"; headerTitle = "Image processing"; ObjectID = "2IP-1J-7ra"; */
+"2IP-1J-7ra.headerTitle" = "Traitement de l'image";
+"g9K-4A-57h.text" = "Encadrement aide";
+/* Class = "IBUILabel"; text = "Speech rate"; ObjectID = "5sb-Nz-Ld7"; */
+"5sb-Nz-Ld7.text" = "Vitesse de discours";
+/* Class = "IBUILabel"; text = "Threshold:"; ObjectID = "6Lf-yB-5OX"; */
+"6Lf-yB-5OX.text" = "Threshold:";
+/* Class = "IBUITableViewSection"; footerTitle = "debug"; ObjectID = "DcK-Jq-C0m"; */
+"DcK-Jq-C0m.footerTitle" = "Examiner";
+/* Class = "IBUITableViewSection"; headerTitle = "Debug"; ObjectID = "DcK-Jq-C0m"; */
+"DcK-Jq-C0m.headerTitle" = "Examiner";
+/* Class = "IBUISegmentedControl"; Glh-jz-uMb.segmentTitles[0] = "cO"; ObjectID = "Glh-jz-uMb"; */
+"Glh-jz-uMb.segmentTitles[0]" = "Co";
+/* Class = "IBUISegmentedControl"; Glh-jz-uMb.segmentTitles[1] = "HT"; ObjectID = "Glh-jz-uMb"; */
+"Glh-jz-uMb.segmentTitles[1]" = "HT";
+/* Class = "IBUISegmentedControl"; Glh-jz-uMb.segmentTitles[2] = "C++"; ObjectID = "Glh-jz-uMb"; */
+"Glh-jz-uMb.segmentTitles[2]" = "C + +";
+/* Class = "IBUISegmentedControl"; Glh-jz-uMb.segmentTitles[3] = "4"; ObjectID = "Glh-jz-uMb"; */
+"Glh-jz-uMb.segmentTitles[3]" = "4";
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "IMO-i2-gWj"; */
+"IMO-i2-gWj.text" = "Etiquette";
+/* Class = "IBUIBarButtonItem"; title = "Photo"; ObjectID = "Iav-yR-YjZ"; */
+"Iav-yR-YjZ.title" = "Photo";
+/* Class = "IBUILabel"; text = "Language selector"; ObjectID = "KbK-gT-K7a"; */
+"KbK-gT-K7a.text" = "Choix de la langue";
+/* Class = "IBUITableViewCell"; accessibilityLabel = "thgreshold"; ObjectID = "LKo-wC-EZK"; */
+"LKo-wC-EZK.accessibilityLabel" = "threshold";
+/* Class = "IBUITableViewSection"; footerTitle = "Select the language to be used in the convertion from image to text."; ObjectID = "NLb-HZ-jLI"; */
+"NLb-HZ-jLI.footerTitle" = "Choisissez la langue à utiliser lors de la conversion de l'image en texte.";
+/* Class = "IBUITableViewSection"; headerTitle = "Language"; ObjectID = "NLb-HZ-jLI"; */
+"NLb-HZ-jLI.headerTitle" = "Langue";
+/* Class = "IBUIBarButtonItem"; title = "Flash"; ObjectID = "PKk-HD-7GP"; */
+"PKk-HD-7GP.title" = "Flash";
+/* Class = "IBUITableViewSection"; footerTitle = "Only to non-VoiceOver and iOS 7 users."; ObjectID = "QEI-Zs-fm3"; */
+"QEI-Zs-fm3.footerTitle" = "Uniquement pour VoiceOver inactif e/ou usager de iOS 7.";
+/* Class = "IBUITableViewSection"; headerTitle = "Speech"; ObjectID = "QEI-Zs-fm3"; */
+"QEI-Zs-fm3.headerTitle" = "Texte";
+/* Class = "IBUITabBarItem"; title = "Camera"; ObjectID = "QLM-Ew-3KO"; */
+"QLM-Ew-3KO.title" = "Camera";
+/* Class = "IBUISwitch"; accessibilityHint = "computer vision"; ObjectID = "T8t-FA-RCO"; */
+"T8t-FA-RCO.accessibilityHint" = "Vision d'ordinateur";
+/* Class = "IBUISwitch"; accessibilityLabel = "OpenCV"; ObjectID = "T8t-FA-RCO"; */
+"T8t-FA-RCO.accessibilityLabel" = "OpenCV";
+/* Class = "IBUILabel"; text = "Guide sheet framming"; ObjectID = "Yo0-Ik-PQN"; */
+"Yo0-Ik-PQN.text" = "Guide de cadrage";
+/* Class = "IBUITabBarItem"; title = "Settings"; ObjectID = "ZQS-NT-DSO"; */
+"ZQS-NT-DSO.title" = "Ajustement";
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[0] = "Por"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[0]" = "Por";
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[1] = "Eng"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[1]" = "Ing";
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[2] = "Spa"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[2]" = "Esp";
+/* Class = "IBUISegmentedControl"; bug-bX-oq2.segmentTitles[3] = "Ger"; ObjectID = "bug-bX-oq2"; */
+"bug-bX-oq2.segmentTitles[3]" = "Ale";
+/* Class = "IBUILabel"; text = "Speech after photo is taken"; ObjectID = "e3B-wl-96t"; */
+"e3B-wl-96t.text" = "Dire le texte à voix haute";
+/* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "e47-QX-hN9"; */
+"e47-QX-hN9.title" = "Ajustements";
+/* Class = "IBUITabBarItem"; title = "Settings"; ObjectID = "eGp-G0-onh"; */
+"eGp-G0-onh.title" = "Ajustements";
+/* Class = "IBUINavigationItem"; title = "Camera"; ObjectID = "f2L-Sg-kW0"; */
+"f2L-Sg-kW0.title" = "Camera";
+/* Class = "IBUILabel"; text = "OpenCV"; ObjectID = "g9K-4A-57h"; */
+"g9K-4A-57h.text" = "Guide de cadrage";
+/* Class = "IBUINavigationItem"; title = "Recent Docs"; ObjectID = "k8z-P1-lnn"; */
+"k8z-P1-lnn.title" = "Documents récents";
+/* Class = "IBUIViewController"; title = "storyboardOne"; ObjectID = "oYx-kR-ddB"; */
+"oYx-kR-ddB.title" = "storyboardOne";
+/* Class = "IBUILabel"; text = "Sélection de méthodes:"; ObjectID = "rk3-p4-vWk"; */
+"rk3-p4-vWk.text" = "Sélection de méthodes:";
+/* Class = "IBUILabel"; text = "Binarize"; ObjectID = "tgb-Ty-fXB"; */
+"tgb-Ty-fXB.text" = "Binarize";
+/* Class = "IBUILabel"; text = "Sheet framming tolerance"; ObjectID = "weU-cV-4lG"; */
+"weU-cV-4lG.text" = "Tolerance de cadrage";
+/* Class = "IBUITableViewCell"; accessibilityLabel = "OpenCV"; ObjectID = "zLH-9s-9Sp"; */
+"zLH-9s-9Sp.accessibilityLabel" = "OpenCV";

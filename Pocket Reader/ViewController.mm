@@ -67,7 +67,7 @@
     captureGrayscale = NO; //Set color capture
     self.camera = -1; //Set back camera
     recognize = NO; //clean Recognize text flag
-    [self timerFireMethod:nil]; // prints a red rectangle on the screen for DEBUG
+    [self timerFireMethod:nil];
     [self setTorch:NO]; //turn flash off
     dataClass = [PocketReaderDataClass getInstance];
     dataClass.isOpenCVOn = YES;
@@ -98,13 +98,8 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    dataClass.isOpenCVOn = NO; //disable OpenCV processing and let ARC clean the memory
-    [self performSelector:@selector(timerFireMethod:) withObject:nil afterDelay:2.0]; //after 2 seconds turn openCV on again
-    
-    
-    
-    // Dispose of any resources that can be recreated.
-    
+    dataClass.isOpenCVOn = NO;
+    [self performSelector:@selector(timerFireMethod:) withObject:nil afterDelay:2.0];
 }
 
 - (BOOL) accessibilityPerformMagicTap {

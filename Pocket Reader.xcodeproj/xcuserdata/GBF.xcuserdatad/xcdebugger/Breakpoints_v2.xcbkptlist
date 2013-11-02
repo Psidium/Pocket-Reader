@@ -2,4 +2,248 @@
 <Bucket
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pocket Reader/ViewController.mm"
+            timestampString = "403759090.900767"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "621"
+            endingLineNumber = "621"
+            landmarkName = "-findAndDrawSheet:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pocket Reader/ViewController.mm"
+            timestampString = "403759104.019134"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "618"
+            endingLineNumber = "618"
+            landmarkName = "-findAndDrawSheet:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759185.517728"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "618"
+                  endingLineNumber = "618"
+                  offsetFromSymbolStart = "7878">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__45-[ViewController findAndDrawSheetByContours:]_block_invoke"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759188.365156"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "618"
+                  endingLineNumber = "618"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759188.364684"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "618"
+                  endingLineNumber = "618"
+                  offsetFromSymbolStart = "7932">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pocket Reader/ViewController.mm"
+            timestampString = "403759104.868136"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "615"
+            endingLineNumber = "615"
+            landmarkName = "-findAndDrawSheet:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759185.518536"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "615"
+                  endingLineNumber = "615"
+                  offsetFromSymbolStart = "7838">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759185.51892"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "615"
+                  endingLineNumber = "615"
+                  offsetFromSymbolStart = "7854">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759188.373503"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "615"
+                  endingLineNumber = "615"
+                  offsetFromSymbolStart = "7892">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759188.373934"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "615"
+                  endingLineNumber = "615"
+                  offsetFromSymbolStart = "7908">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pocket Reader/ViewController.mm"
+            timestampString = "403759106.683785"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "616"
+            endingLineNumber = "616"
+            landmarkName = "-findAndDrawSheet:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759185.519321"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "616"
+                  endingLineNumber = "616"
+                  offsetFromSymbolStart = "7868">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759188.374435"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "616"
+                  endingLineNumber = "616"
+                  offsetFromSymbolStart = "7922">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pocket Reader/ViewController.mm"
+            timestampString = "403759248.750136"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "617"
+            endingLineNumber = "617"
+            landmarkName = "-findAndDrawSheet:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ViewController findAndDrawSheetByContours:]"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759248.75158"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "618"
+                  endingLineNumber = "618"
+                  offsetFromSymbolStart = "7932">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__45-[ViewController findAndDrawSheetByContours:]_block_invoke"
+                  moduleName = "Pocket Reader"
+                  urlString = "file://localhost/Users/GBF/Documents/Xcode/Xcode%205/Pocket%20Reader/Pocket%20Reader/ViewController.mm"
+                  timestampString = "403759248.751884"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "618"
+                  endingLineNumber = "618"
+                  offsetFromSymbolStart = "0">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

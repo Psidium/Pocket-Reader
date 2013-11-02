@@ -266,6 +266,8 @@
 		32DFDF4017D3F43400D76809 /* PocketReaderConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderConfigViewController.m; sourceTree = "<group>"; };
 		32DFDF4417D4009F00D76809 /* PocketReaderDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketReaderDataClass.h; sourceTree = "<group>"; };
 		32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketReaderDataClass.m; sourceTree = "<group>"; };
+		32ED6998181FEBDF00117E93 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		32ED6999181FEBDF00117E93 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		32F126B517F7AFB1001DD76B /* Default_7-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default_7-568h@2x.png"; sourceTree = "<group>"; };
 		32F126B617F7AFB1001DD76B /* Default_7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default_7@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -671,6 +673,7 @@
 				pt,
 				es,
 				de,
+				fr,
 			);
 			mainGroup = 3249B3C5172D7FA7009F4D84;
 			productRefGroup = 3249B3CF172D7FA7009F4D84 /* Products */;
@@ -743,6 +746,7 @@
 				2427869217FBD7B600EB32C0 /* de */,
 				2427869317FBD7C500EB32C0 /* en */,
 				2427869417FBD7CF00EB32C0 /* es */,
+				32ED6998181FEBDF00117E93 /* fr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -754,6 +758,7 @@
 				2427869817FBEB1200EB32C0 /* en */,
 				241A405E17FBF22500F939DC /* es */,
 				241A406217FBF5C300F939DC /* de */,
+				32ED6999181FEBDF00117E93 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

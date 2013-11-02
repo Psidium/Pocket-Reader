@@ -35,6 +35,7 @@ namespace tesseract {
     if (self) {
         _dataPath = dataPath;
         _language = language;
+        NSLog(@"dataPath no inicio: %@", dataPath);
         _variables = [[NSMutableDictionary alloc] init];
         
         [self copyDataToDocumentsDirectory];
@@ -56,22 +57,32 @@ namespace tesseract {
 - (void)copyDataToDocumentsDirectory {
     
     // Useful paths
-    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    for (NSString* it in documentPaths)
+    NSLog(@"documentsPaths %d : %@",[documentPaths indexOfObject:it], it);
     NSString *documentPath = ([documentPaths count] > 0) ? [documentPaths objectAtIndex:0] : nil;
+    NSLog(@"documentsPaths 2 : %@", documentPaths);
     NSString *dataPath = [documentPath stringByAppendingPathComponent:_dataPath];
-    
+    NSLog(@"dataPath 1 : %@", dataPath);
     // Copy data in Doc Directory
-    if (![fileManager fileExistsAtPath:dataPath]) {
+    NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+    NSLog(@"bundlePath: %@", bundlePath);
+    NSString *tessdataPath = [bundlePath stringByAppendingPathComponent:_dataPath];
+    NSLog(@"tessdataPath: %@", tessdataPath);
+    /*if (![fileManager fileExistsAtPath:dataPath]) {
         NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+        NSLog(@"bundlePath: %@", bundlePath);
         NSString *tessdataPath = [bundlePath stringByAppendingPathComponent:_dataPath];
+        NSLog(@"tessdataPath: %@", tessdataPath);
         if (tessdataPath) {
             [fileManager createDirectoryAtPath:documentPath withIntermediateDirectories:YES attributes:nil error:NULL];
             [fileManager copyItemAtPath:tessdataPath toPath:dataPath error:nil];
         }
-    }
+    }*/
+    NSLog([bundlePath stringByAppendingString:@"/"]);
     
-    setenv("TESSDATA_PREFIX", [[documentPath stringByAppendingString:@"/"] UTF8String], 1);
+    setenv("TESSDATA_PREFIX", [[bundlePath stringByAppendingString:@"/"] UTF8String], 1);
 }
 
 - (void)setVariableValue:(NSString *)value forKey:(NSString *)key {
