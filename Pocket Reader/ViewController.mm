@@ -598,7 +598,7 @@
     CGDataProviderRelease(provider);
     
     drawing.release();
-    const float blackMask[6] = { 0,0,0, 0,0,0 };
+    const CGFloat blackMask[6] = { 0,0,0, 0,0,0 };
     CGImageRef myColorMaskedImage = CGImageCreateWithMaskingColors(imageRef, blackMask);
     CGImageRelease(imageRef);
     
@@ -669,7 +669,7 @@
     CGColorSpaceRelease(colorSpace);
     CGDataProviderRelease(provider);
     image.release();
-    const float whiteMask[6] = { 255,255,255, 255,255,255 };
+    const CGFloat whiteMask[6] = { 255,255,255, 255,255,255 };
     CGImageRef myColorMaskedImage = CGImageCreateWithMaskingColors(imageRef, whiteMask);
     CGImageRelease(imageRef);
     dispatch_async(dispatch_get_main_queue(), ^{

@@ -13,7 +13,6 @@
 		2413667E17E209A7004225C2 /* Icon_ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2413666817E209A7004225C2 /* Icon_ios7@2x.png */; };
 		2427869717FBE2B500EB32C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2427869517FBE2B500EB32C0 /* Localizable.strings */; };
 		245F11AA17C5279600114E66 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 245F11A917C5279600114E66 /* UIImage+OpenCV.mm */; };
-		3207A76D17945CC900360D43 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3207A76C17945CC900360D43 /* opencv2.framework */; };
 		320E267D17F1277000BC8BF5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 320E267A17F1277000BC8BF5 /* Default.png */; };
 		320E267E17F1277000BC8BF5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 320E267B17F1277000BC8BF5 /* Default@2x.png */; };
 		320E267F17F1277000BC8BF5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 320E267C17F1277000BC8BF5 /* Default-568h@2x.png */; };
@@ -53,6 +52,7 @@
 		32DFDF4617D4009F00D76809 /* PocketReaderDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DFDF4517D4009F00D76809 /* PocketReaderDataClass.m */; };
 		32F126B717F7AFB1001DD76B /* Default_7-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F126B517F7AFB1001DD76B /* Default_7-568h@2x.png */; };
 		32F126B817F7AFB1001DD76B /* Default_7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F126B617F7AFB1001DD76B /* Default_7@2x.png */; };
+		32FCB18B193E58CB0016AA6A /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FCB18A193E58CB0016AA6A /* libc++.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,7 +70,6 @@
 		2427869817FBEB1200EB32C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		245F11A817C5279600114E66 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
 		245F11A917C5279600114E66 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
-		3207A76C17945CC900360D43 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		320E267A17F1277000BC8BF5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		320E267B17F1277000BC8BF5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		320E267C17F1277000BC8BF5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -270,6 +269,7 @@
 		32ED6999181FEBDF00117E93 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		32F126B517F7AFB1001DD76B /* Default_7-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default_7-568h@2x.png"; sourceTree = "<group>"; };
 		32F126B617F7AFB1001DD76B /* Default_7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default_7@2x.png"; sourceTree = "<group>"; };
+		32FCB18A193E58CB0016AA6A /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,9 +277,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32FCB18B193E58CB0016AA6A /* libc++.dylib in Frameworks */,
 				3256EAD917FA77B70007E157 /* AudioToolbox.framework in Frameworks */,
 				3256EAD717FA76420007E157 /* CoreAudio.framework in Frameworks */,
-				3207A76D17945CC900360D43 /* opencv2.framework in Frameworks */,
 				32678569177C67D80087D677 /* CoreImage.framework in Frameworks */,
 				3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */,
 				329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */,
@@ -343,12 +343,12 @@
 		3249B3D0172D7FA7009F4D84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				32FCB18A193E58CB0016AA6A /* libc++.dylib */,
 				3256EAD817FA77B70007E157 /* AudioToolbox.framework */,
 				3256EAD617FA76420007E157 /* CoreAudio.framework */,
 				329B967F17762D8300846FA9 /* tesseract */,
 				3273F25A175BC4E600BC273D /* CoreMotion.framework */,
 				3273F258175BC4DE00BC273D /* AVFoundation.framework */,
-				3207A76C17945CC900360D43 /* opencv2.framework */,
 				32678568177C67D80087D677 /* CoreImage.framework */,
 				3254F4471765098C00573DF3 /* Accelerate.framework */,
 				3260A6B017709B580042ED68 /* CoreMedia.framework */,
@@ -825,12 +825,14 @@
 		3249B3F2172D7FA8009F4D84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pocket Reader/Pocket Reader-Prefix.pch";
@@ -852,12 +854,14 @@
 		3249B3F3172D7FA8009F4D84 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pocket Reader/Pocket Reader-Prefix.pch";
