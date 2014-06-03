@@ -53,6 +53,7 @@
 		32F126B717F7AFB1001DD76B /* Default_7-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F126B517F7AFB1001DD76B /* Default_7-568h@2x.png */; };
 		32F126B817F7AFB1001DD76B /* Default_7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F126B617F7AFB1001DD76B /* Default_7@2x.png */; };
 		32FCB18B193E58CB0016AA6A /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FCB18A193E58CB0016AA6A /* libc++.dylib */; };
+		32FCB18F193E76360016AA6A /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FCB18E193E76360016AA6A /* opencv2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -270,6 +271,7 @@
 		32F126B517F7AFB1001DD76B /* Default_7-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default_7-568h@2x.png"; sourceTree = "<group>"; };
 		32F126B617F7AFB1001DD76B /* Default_7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default_7@2x.png"; sourceTree = "<group>"; };
 		32FCB18A193E58CB0016AA6A /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		32FCB18E193E76360016AA6A /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +282,7 @@
 				32FCB18B193E58CB0016AA6A /* libc++.dylib in Frameworks */,
 				3256EAD917FA77B70007E157 /* AudioToolbox.framework in Frameworks */,
 				3256EAD717FA76420007E157 /* CoreAudio.framework in Frameworks */,
+				32FCB18F193E76360016AA6A /* opencv2.framework in Frameworks */,
 				32678569177C67D80087D677 /* CoreImage.framework in Frameworks */,
 				3260A6B117709B580042ED68 /* CoreMedia.framework in Frameworks */,
 				329B971617762DBA00846FA9 /* libtesseract_all.a in Frameworks */,
@@ -343,6 +346,7 @@
 		3249B3D0172D7FA7009F4D84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				32FCB18E193E76360016AA6A /* opencv2.framework */,
 				32FCB18A193E58CB0016AA6A /* libc++.dylib */,
 				3256EAD817FA77B70007E157 /* AudioToolbox.framework */,
 				3256EAD617FA76420007E157 /* CoreAudio.framework */,
