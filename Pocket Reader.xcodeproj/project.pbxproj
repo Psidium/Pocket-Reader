@@ -662,7 +662,7 @@
 				ORGANIZATIONNAME = "Gabriel Borges Fernandes";
 				TargetAttributes = {
 					3249B3CD172D7FA7009F4D84 = {
-						DevelopmentTeam = DTBUY252ZC;
+						DevelopmentTeam = 8384FUCWW9;
 					};
 				};
 			};
