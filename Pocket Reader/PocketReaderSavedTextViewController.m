@@ -50,10 +50,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
+    NSLog(@"Iniciou a segunda view");
+    // Display an Edit button in the navigation bar for this view controller.
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void) awakeFromNib {
+    //Reads from archive all the data
     self.savedText = [NSMutableArray readFromPlistFile:@"SavedText.plist"];
+    //If there aren't anything saved
     if (self.savedText == nil) {
+        //Starts with a preset text
         self.savedText = [NSMutableArray
                           arrayWithObjects:
                           [NSArray arrayWithObjects:
@@ -62,18 +69,11 @@
                            NSLocalizedString(@"Content of text",nil),nil],
                           nil];
     }
-    
-    NSLog(@"Iniciou a segunda view");
+    //Add a listener for the NSNotificationCenter
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveTestNotification:)
                                                  name:@"AddToHistory"
                                                object:nil];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void) receiveTestNotification:(NSNotification *) notification {

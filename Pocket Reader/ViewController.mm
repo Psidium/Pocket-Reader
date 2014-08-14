@@ -46,12 +46,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tabBarController setSelectedIndex:1];
-        [self.tabBarController setSelectedIndex:0];
-    });
+  
     NSString *model = [self platformString];
     if ([model isEqualToString:@"iPod Touch (4 Gen)"] || [model isEqualToString:@"iPhone 3GS"] || [model isEqualToString:@"iPad 2"]) {
         UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Unsuported device",nil) message: NSLocalizedString(@"Pocket Reader does not support your device's camera resolution.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
@@ -62,7 +57,6 @@
         [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"Avalue"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //if is the first launch of the app by the user
-        //Action here
         NSLog(@"First launch!");
         
     }
@@ -94,6 +88,7 @@
         self.motionManager.deviceMotionUpdateInterval = 0.1;
         [self.motionManager startDeviceMotionUpdates];
         [self.motionManager startAccelerometerUpdates];
+        NSLog(@"Device motion started;");
     }
 
 }
