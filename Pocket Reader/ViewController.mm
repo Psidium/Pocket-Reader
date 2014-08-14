@@ -23,6 +23,8 @@
 
 @interface ViewController () {
     std::vector<cv::Vec4i> lines;
+    UIAlertView *_firstLaunchAlertView;
+    UIAlertView *_message;
 }
 @end
 
@@ -53,13 +55,13 @@
         [message show];
     }
     
-    if (![@"1" isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"Avalue"]]) { // detect first launch
-        [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"Avalue"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        //if is the first launch of the app by the user
-        NSLog(@"First launch!");
-        
-    }
+//    if (![@"1" isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"Avalue"]]) { // detect first launch
+//        [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"Avalue"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//        //if is the first launch of the app by the user
+//        NSLog(@"First launch!");
+//        
+//    }
     self.qualityPreset = AVCaptureSessionPresetPhoto; //maximum quality
     captureGrayscale = NO; //Set color capture
     self.camera = -1; //Set back camera
@@ -76,8 +78,8 @@
                                                  name:UIAccessibilityAnnouncementDidFinishNotification
                                                object:nil];
     if (!UIAccessibilityIsVoiceOverRunning()) {
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"VoiceOver inactive",nil) message: NSLocalizedString(@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-        [message show];
+        _message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"VoiceOver inactive",nil) message: NSLocalizedString(@"Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+        [_message show];
     }
     [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(timeOut:) userInfo:nil repeats:YES];
     [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale]; //set camera and it's view
@@ -90,7 +92,30 @@
         [self.motionManager startAccelerometerUpdates];
         NSLog(@"Device motion started;");
     }
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+        _firstLaunchAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Instruções", nil) message:NSLocalizedString(@"Para localizar o texto da melhor maneira possível, por favor, posicione o dispositivo no centro da folha, em orientação retrato. Afaste o aparelho da folha com cuidado, tentando manter o smartphone centralizado na folha. Siga então as dicas de enquadramento que a foto será capturada e convertida automaticamente. Pressione Ok para continuar.", nil) delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        dataClass.isOpenCVOn = NO; // Independente se o VoiceOver estiver ligado ou não, liga a guia por voz apenas depois de o usuário ter confirmado que leu as instruções de firstLaunch, evitando irritantes interrupções de NO SHEET DETECTED durante a leitura dessas instruções.
+        if (UIAccessibilityIsVoiceOverRunning()) { // Usa pra verificar se não vai colocar um alerta sobre o do alerta de "VoiceOver desligado". O alerta de "Unsupported Device" pode ficar por último no stack de alertView para que o usuário consiga ver que o seu dispositivo não é suportado, primeiramente ligando o VoiceOver.
+            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(firstLaunchTimerFireMethod:) userInfo:nil repeats:NO]; // Usando essa gambiarra porque se mandava a  o show do _firstLaunchAlertView aqui, o VoiceOver começava com o ~cursor~ no botão de cancelar e não lia o alerta.
+        }
+    }
+}
 
+- (void)firstLaunchTimerFireMethod:(NSTimer *)timer {
+    [_firstLaunchAlertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if ([alertView isEqual:_firstLaunchAlertView]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+        [[NSUserDefaults standardUserDefaults] synchronize]; // Não é recomendado chamar esse método ao longo do programa, visto que ele é chamado automaticamente de tempos em tempos. Mas, nesse caso, o usuário não vai querer as intruções duas vezes e pode aconetecer de o app ser encerrado antes do standardUserDefaults ser sincronizado.
+        dataClass.isOpenCVOn = YES; // Liga a guia por voz apenas depois de o usuário ter confirmado que leu as instruções de firstLaunch, evitando irritantes interrupções de NO SHEET DETECTED.
+    }
+    if ([alertView isEqual:_message]) {
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(firstLaunchTimerFireMethod:) userInfo:nil repeats:NO]; // Mostra o alerta de first launch se 1. for o fisrt launch 2. o usuário tiver dado dismiss no alerta de VoiceOver desativado (E possivelmente ter ligado o VoiceOver (ou não, mas não interessa...)). Usando essa gambiarra (timer) porque se mandava a  o show do _firstLaunchAlertView aqui, o VoiceOver começava com o ~cursor~ no botão de cancelar e não lia o alerta.
+        }
+    }
 }
 
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6205" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="lZj-aM-Wjx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="lZj-aM-Wjx">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6198"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Camera-->
+        <!--Navigation Controller - Camera-->
         <scene sceneID="Hpt-yz-A7B">
             <objects>
                 <navigationController definesPresentationContext="YES" id="3RG-Uy-oWA" sceneMemberID="viewController">
@@ -21,7 +21,7 @@
             </objects>
             <point key="canvasLocation" x="2183" y="-1370"/>
         </scene>
-        <!--storyboardOne-->
+        <!--View Controller - storyboardOne-->
         <scene sceneID="VaK-il-826">
             <objects>
                 <viewController storyboardIdentifier="storyboardOne" title="storyboardOne" id="oYx-kR-ddB" customClass="ViewController" sceneMemberID="viewController">
@@ -82,7 +82,7 @@
             </objects>
             <point key="canvasLocation" x="2717" y="-1370"/>
         </scene>
-        <!--firstLaunch-->
+        <!--Pocket Reader First Launch View Controller - firstLaunch-->
         <scene sceneID="8ee-hx-Lv8">
             <objects>
                 <viewController storyboardIdentifier="firstLaunch" title="firstLaunch" useStoryboardIdentifierAsRestorationIdentifier="YES" id="i82-wV-dFu" customClass="PocketReaderFirstLaunchViewController" sceneMemberID="viewController">
@@ -118,7 +118,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Pocket Reader (just logo) (2).png" translatesAutoresizingMaskIntoConstraints="NO" id="lwi-UM-J8Z">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Pocket Reader (just logo) (2).png" translatesAutoresizingMaskIntoConstraints="NO" id="lwi-UM-J8Z">
                                 <rect key="frame" x="70" y="20" width="180" height="202"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="180" id="BBc-ac-uBX"/>
@@ -133,7 +133,7 @@
             </objects>
             <point key="canvasLocation" x="3407" y="-1370"/>
         </scene>
-        <!--Settings-->
+        <!--Navigation Controller - Settings-->
         <scene sceneID="cZY-18-lC0">
             <objects>
                 <navigationController definesPresentationContext="YES" id="hg9-vu-ZbR" sceneMemberID="viewController">
@@ -149,7 +149,7 @@
             </objects>
             <point key="canvasLocation" x="2183" y="-670"/>
         </scene>
-        <!--Recent Docs-->
+        <!--Pocket Reader Saved Text View Controller - Recent Docs-->
         <scene sceneID="fvb-Xn-1WL">
             <objects>
                 <tableViewController id="MFn-Rm-C5B" customClass="PocketReaderSavedTextViewController" sceneMemberID="viewController">
@@ -196,7 +196,7 @@
             </objects>
             <point key="canvasLocation" x="2717" y="-13"/>
         </scene>
-        <!--Title-->
+        <!--Pocket Reader Show Text View Controller - Title-->
         <scene sceneID="M5k-EV-agb">
             <objects>
                 <viewController id="z9W-5L-Oz5" customClass="PocketReaderShowTextViewController" sceneMemberID="viewController">
@@ -245,7 +245,7 @@
             </objects>
             <point key="canvasLocation" x="2183" y="-13"/>
         </scene>
-        <!--Settings-->
+        <!--Pocket Reader Config View Controller - Settings-->
         <scene sceneID="Vcd-c8-D9n">
             <objects>
                 <tableViewController id="vPL-gl-hKy" customClass="PocketReaderConfigViewController" sceneMemberID="viewController">
@@ -403,9 +403,6 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4">
-            <size key="portraitSize" width="320" height="568"/>
-            <size key="landscapeSize" width="568" height="320"/>
-        </simulatedScreenMetrics>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>

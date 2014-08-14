@@ -7,6 +7,8 @@
  */
 "VoiceOver inactive" = "VoiceOver inactif";
 "Warning: VoiceOver is currently off. Pocket Reader is meant to be used with VoiceOver feature turned on." = "Attention: VoiceOver est actuellement désactivé. Pocket Reader est destiné à être utilisé avec la fonctionnalité VoiceOver activé.";
+"Instruções" = "instructions";
+"Para localizar o texto da melhor maneira possível, por favor, posicione o dispositivo no centro da folha, em orientação retrato. Afaste o aparelho da folha com cuidado, tentando manter o smartphone centralizado na folha. Siga então as dicas de enquadramento que a foto será capturada e convertida automaticamente. Pressione Ok para continuar." = "Afin de trouver le texte, s'il vous plaît, mettre l'appareil sur la feuille, en plein milieu, avec la feuille en orientation portrait. Eloignez l'appareil de la feuille, puis, en essayant de garder centralisée conformément à la feuille. Lorsque l'application détecte la feuille, s'il vous plaît suivez les instructions. Appuyez sur OK pour continuer.";
 "first" = "fra";
 "Texto reconhecido:" = "Texte reconnu:";
 "OK" = "OK";
