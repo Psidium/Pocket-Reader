@@ -21,6 +21,8 @@
 
 
 - (void)didChangeIsOpenCVOnValue:(id)sender;
+//prototype of tolerance changed on configuration
+- (IBAction)didToleranceChanged:(UISlider*)sender;
 - (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender;
 
 @end

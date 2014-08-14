@@ -62,6 +62,7 @@
                            NSLocalizedString(@"Content of text",nil),nil],
                           nil];
     }
+    
     NSLog(@"Iniciou a segunda view");
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveTestNotification:)
@@ -194,8 +195,9 @@
     // Pass the selected object to the new view controller.
     NSLog(@"%@ , %@", [segue identifier], [[segue destinationViewController] class]);
     PocketReaderShowTextViewController *showViewController = [segue destinationViewController];
-    NSLog(@"prapara para segue");
+    NSLog(@"prepara");
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+    NSLog(@"que agora é hora");
     [showViewController setTitleOfNavigationBar:[[self.savedText objectAtIndex:path.item] objectAtIndex:0]];
     [showViewController setStringOnTextView:[[self.savedText objectAtIndex:path.item] objectAtIndex:2]];
     NSLog(@"do segue das invejosas");

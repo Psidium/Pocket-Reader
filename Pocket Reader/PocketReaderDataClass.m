@@ -10,19 +10,15 @@
 
 @implementation PocketReaderDataClass
 
-@synthesize isOpenCVOn;
-@synthesize tesseractLanguage;
-@synthesize tesseractLanguageSelector;
-@synthesize speechRateValue;
-@synthesize guideFrameOn;
-@synthesize tesseract;
 
 static PocketReaderDataClass *instance = nil;
 
 +(PocketReaderDataClass *) getInstance {
     @synchronized(self) {
-        if (instance == nil )
+        if (instance == nil ) {
             instance = [PocketReaderDataClass new];
+            instance.tolerance = 1;
+        }
     }
     return instance;
 }

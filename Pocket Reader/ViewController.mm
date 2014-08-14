@@ -19,7 +19,7 @@
 #import "ViewController.h"
 #import <sys/types.h>
 #import <sys/sysctl.h>
-#import <sys/utsname.h>
+#import <sys/utsname.h>				
 
 @interface ViewController () {
     std::vector<cv::Vec4i> lines;
@@ -46,9 +46,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tabBarController setSelectedIndex:1];
-    [self.tabBarController setSelectedIndex:0];
     
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tabBarController setSelectedIndex:1];
+        [self.tabBarController setSelectedIndex:0];
+    });
     NSString *model = [self platformString];
     if ([model isEqualToString:@"iPod Touch (4 Gen)"] || [model isEqualToString:@"iPhone 3GS"] || [model isEqualToString:@"iPad 2"]) {
         UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Unsuported device",nil) message: NSLocalizedString(@"Pocket Reader does not support your device's camera resolution.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
@@ -92,6 +95,7 @@
         [self.motionManager startDeviceMotionUpdates];
         [self.motionManager startAccelerometerUpdates];
     }
+
 }
 
 
@@ -538,9 +542,9 @@
                 isTalking=YES;
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Aproxime o aparelho da folha com cuidado", nil));
             }
-            NSLog(@"tamhho %f", batata);
+            NSLog(@"tamhho %f > %f ? ", batata, ((imageSize / 1.21) * dataClass.tolerance));
             
-            if (batata > (imageSize / 1.21) ){ // era 112000
+            if (batata > ((imageSize / 1.21) * dataClass.tolerance)  ){ // era 112000
                 recognize=YES;
                 isTalking=YES;
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Foto capturada com sucesso, iniciando conversão do texto impresso em voz", nil));

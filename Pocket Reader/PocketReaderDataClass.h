@@ -9,26 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "Tesseract.h"
 
-@interface PocketReaderDataClass : NSObject {
-    BOOL isOpenCVOn;
-    int openCVMethodSelector;
-    NSString* tesseractLanguage;
-    int tesseractLanguageSelector;
-    BOOL speechfterPhotoIsTaken;
-    float speechRateValue;
-    BOOL guideFrameOn;
-    Tesseract *tesseract;
-}
-
-
-
-@property (nonatomic) NSString* tesseractLanguage;
-@property (nonatomic) BOOL guideFrameOn;
-@property (nonatomic) BOOL isOpenCVOn;
-@property (nonatomic) BOOL speechAfterPhotoIsTaken;
-@property (nonatomic) float speechRateValue;
-@property (nonatomic) int tesseractLanguageSelector;
-@property (strong, nonatomic) Tesseract* tesseract;
+@interface PocketReaderDataClass : NSObject
+ 
+@property (strong, atomic) NSString  * tesseractLanguage;
+@property (atomic        ) BOOL      guideFrameOn;
+@property (atomic        ) BOOL      isOpenCVOn;
+@property (atomic        ) BOOL      speechAfterPhotoIsTaken;
+@property (atomic        ) float     speechRateValue;
+@property (atomic        ) int       tesseractLanguageSelector;
+@property (atomic        ) float     tolerance;
+@property (strong, atomic) Tesseract * tesseract;
 
 +(PocketReaderDataClass*) getInstance;
+
 @end

@@ -34,22 +34,22 @@
     
 }
 
-@property (strong, nonatomic) IBOutlet UIView *recordPreview;
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) IBOutlet   UIView                     *recordPreview;
+@property (strong, nonatomic) IBOutlet   UIImageView                *imageView;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureLayer;
-@property (strong, nonatomic) AVCaptureDevice *captureDevice;
-@property (strong, nonatomic) AVCaptureVideoDataOutput *videoOutput;
-@property (strong, nonatomic) AVCaptureSession *captureSession;
-@property (strong, nonatomic) AVCaptureStillImageOutput *stillImage;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *um;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *dois;
-@property (nonatomic) int camera;
-@property (nonatomic) int count;
-@property (nonatomic) BOOL didOneSecondHasPassed;
-@property (weak, nonatomic) NSString * const qualityPreset;
-@property (nonatomic) BOOL captureGrayscale;
-@property (nonatomic) PocketReaderDataClass * dataClass;
-@property (strong, nonatomic) CMMotionManager *motionManager;
+@property (strong, nonatomic) AVCaptureDevice            *captureDevice;
+@property (strong, nonatomic) AVCaptureVideoDataOutput   *videoOutput;
+@property (strong, nonatomic) AVCaptureSession           *captureSession;
+@property (strong, nonatomic) AVCaptureStillImageOutput  *stillImage;
+@property (strong, nonatomic) IBOutlet   UIBarButtonItem            *um;
+@property (strong, nonatomic) IBOutlet   UIBarButtonItem            *dois;
+@property (nonatomic        ) int                        camera;
+@property (nonatomic        ) int                        count;
+@property (nonatomic        ) BOOL                       didOneSecondHasPassed;
+@property (weak, nonatomic  ) NSString * const                      qualityPreset;
+@property (nonatomic        ) BOOL                       captureGrayscale;
+@property (nonatomic        ) PocketReaderDataClass      * dataClass;
+@property (strong, nonatomic) CMMotionManager            *motionManager;
 
 - (IBAction) apertouUm:(id)sender;
 - (IBAction) apertouDois:(id)sender;

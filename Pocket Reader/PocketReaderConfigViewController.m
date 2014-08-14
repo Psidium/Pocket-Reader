@@ -30,7 +30,7 @@
 {
     [super viewDidLoad];
     dataClass = [PocketReaderDataClass getInstance];
-    [self.switchOpenCVOn setOn:dataClass.isOpenCVOn animated:YES];
+    [self.switchOpenCVOn setOn:dataClass.isOpenCVOn animated:NO];
     if ([dataClass.tesseractLanguage isEqualToString:@"por"]) {
         [self.languageSelectorOne setSelectedSegmentIndex:0];
     } else if ([dataClass.tesseractLanguage isEqualToString:@"eng"]) {
@@ -75,9 +75,14 @@
     dataClass.isOpenCVOn = self.switchOpenCVOn.isOn;
 }
 
+- (IBAction)didToleranceChanged:(UISlider*)sender {
+    dataClass.tolerance = (-1) * sender.value;
+    NSLog(@"Tolerancia %f", dataClass.tolerance);
+}
+
 
 - (IBAction)didChangeSegmentLanguage:(UISegmentedControl *)sender {
-    dataClass.tesseractLanguageSelector = sender.selectedSegmentIndex;
+    dataClass.tesseractLanguageSelector = (int) sender.selectedSegmentIndex;
     if (sender.selectedSegmentIndex == 0) {
         dataClass.tesseractLanguage = @"por";
     }if (sender.selectedSegmentIndex == 1) {
