@@ -42,9 +42,6 @@
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <bool key="isElement" value="YES"/>
-                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="AhG-or-GAJ" secondAttribute="bottom" id="MTs-gX-tE7"/>
                                     <constraint firstAttribute="trailing" secondItem="AhG-or-GAJ" secondAttribute="trailing" id="PAh-MU-h2U"/>
@@ -213,7 +210,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iuf-6q-XOF">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iuf-6q-XOF">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -222,12 +219,6 @@
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="iuf-6q-XOF" firstAttribute="leading" secondItem="pcH-1a-zRz" secondAttribute="leading" id="Sry-Ms-EI1"/>
-                            <constraint firstAttribute="trailing" secondItem="iuf-6q-XOF" secondAttribute="trailing" id="XRz-2F-OoP"/>
-                            <constraint firstItem="rzu-Wf-AGb" firstAttribute="top" secondItem="iuf-6q-XOF" secondAttribute="bottom" id="dHg-bw-VMI"/>
-                            <constraint firstItem="iuf-6q-XOF" firstAttribute="top" secondItem="pcH-1a-zRz" secondAttribute="top" id="y7m-A5-dSv"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="FVp-KV-BuK"/>
                     <connections>
@@ -308,7 +299,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Tolerance" footerTitle="Higher value makes automatic sheet detection easier by sacrificing conversion quality." id="Uqq-Bb-EMh">
+                            <tableViewSection headerTitle="Tolerance" footerTitle="Higher value makes easier sheet detection. Can sacrifice quality of conversion." id="Uqq-Bb-EMh">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="51" id="d6l-cV-vpi">
                                         <rect key="frame" x="0.0" y="316" width="320" height="51"/>
@@ -319,9 +310,7 @@
                                             <subviews>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-1" minValue="-1" maxValue="-0.5" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4WV-BV-KkM">
                                                     <rect key="frame" x="6" y="10" width="308" height="31"/>
-                                                    <accessibility key="accessibilityConfiguration" label="">
-                                                        <bool key="isElement" value="YES"/>
-                                                    </accessibility>
+                                                    <accessibility key="accessibilityConfiguration" label="Tolerance"/>
                                                     <connections>
                                                         <action selector="didToleranceChanged:" destination="vPL-gl-hKy" eventType="valueChanged" id="88t-VI-e78"/>
                                                     </connections>

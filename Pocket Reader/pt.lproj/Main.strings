@@ -39,6 +39,9 @@
 "NLb-HZ-jLI.footerTitle" = "Seleccione o idioma a ser usado na conversão de imagem em texto.";
 /* Class = "IBUITableViewSection"; headerTitle = "Language"; ObjectID = "NLb-HZ-jLI"; */
 "NLb-HZ-jLI.headerTitle" = "Idioma";
+"Uqq-Bb-EMh.headerTitle"= "Tolerância";
+
+"Uqq-Bb-EMh.footerTitle" = "Um valor mais alto torna a detecção da folha mais fácil sacrificando a qualidade da conversão.";
 /* Class = "IBUIBarButtonItem"; title = "Flash"; ObjectID = "PKk-HD-7GP"; */
 "PKk-HD-7GP.title" = "Flash";
 /* Class = "IBUITableViewSection"; footerTitle = "Only to non-VoiceOver and iOS 7 users."; ObjectID = "QEI-Zs-fm3"; */

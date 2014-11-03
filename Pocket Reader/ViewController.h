@@ -29,6 +29,7 @@
     BOOL isViewAppearing;
     BOOL isTalking;
     BOOL didOneSecondHasPassed;
+    BOOL firstAppear;
     PocketReaderDataClass * dataClass;    
     int n_erode_dilate; // Precisa ajustar pro iPhone
     
@@ -46,6 +47,7 @@
 @property (nonatomic        ) int                        camera;
 @property (nonatomic        ) int                        count;
 @property (nonatomic        ) BOOL                       didOneSecondHasPassed;
+@property (nonatomic        ) BOOL                       firstAppear;
 @property (weak, nonatomic  ) NSString * const                      qualityPreset;
 @property (nonatomic        ) BOOL                       captureGrayscale;
 @property (nonatomic        ) PocketReaderDataClass      * dataClass;

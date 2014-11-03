@@ -43,25 +43,18 @@
 @synthesize count;
 @synthesize motionManager;
 @synthesize didOneSecondHasPassed;
+@synthesize firstAppear;
 
 #pragma mark - Default:
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-  
+    self.firstAppear = YES;
     NSString *model = [self platformString];
     if ([model isEqualToString:@"iPod Touch (4 Gen)"] || [model isEqualToString:@"iPhone 3GS"] || [model isEqualToString:@"iPad 2"]) {
         UIAlertView *message = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Unsuported device",nil) message: NSLocalizedString(@"Pocket Reader does not support your device's camera resolution.", nil) delegate:self cancelButtonTitle: NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
         [message show];
     }
-    
-//    if (![@"1" isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"Avalue"]]) { // detect first launch
-//        [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"Avalue"];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//        //if is the first launch of the app by the user
-//        NSLog(@"First launch!");
-//        
-//    }
     self.qualityPreset = AVCaptureSessionPresetPhoto; //maximum quality
     captureGrayscale = NO; //Set color capture
     self.camera = -1; //Set back camera
@@ -82,8 +75,6 @@
         [_message show];
     }
     [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(timeOut:) userInfo:nil repeats:YES];
-    [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale]; //set camera and it's view
-    [captureSession startRunning]; //start the camera capturing
     self.motionManager = [[CMMotionManager alloc] init];
     if (self.motionManager.accelerometerAvailable) {
         self.motionManager.accelerometerUpdateInterval = 0.1;
@@ -92,18 +83,12 @@
         [self.motionManager startAccelerometerUpdates];
         NSLog(@"Device motion started;");
     }
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
-        //ADICIONAR: Existem dois botões nesta tela, chamados Flash e Foto, ao pressionar Flash, o flash do iPhone ou iPod é ligado. Ao pressionar o botão Foto, a foto será forçadamente tirada.
-        _firstLaunchAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Instruções", nil) message:NSLocalizedString(@"Para localizar o texto da melhor maneira possível, por favor, posicione o dispositivo no centro da folha, em orientação retrato. Afaste o aparelho da folha com cuidado, tentando manter o smartphone centralizado na folha. Siga então as dicas de enquadramento que a foto será capturada e convertida automaticamente. Pressione Ok para continuar.", nil) delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        dataClass.isOpenCVOn = NO; // Independente se o VoiceOver estiver ligado ou não, liga a guia por voz apenas depois de o usuário ter confirmado que leu as instruções de firstLaunch, evitando irritantes interrupções de NO SHEET DETECTED durante a leitura dessas instruções.
-        // Usa pra verificar se não vai colocar um alerta sobre o do alerta de "VoiceOver desligado". O alerta de "Unsupported Device" pode ficar por último no stack de alertView para que o usuário consiga ver que o seu dispositivo não é suportado, primeiramente ligando o VoiceOver.
-        if (UIAccessibilityIsVoiceOverRunning()) {
-            // Delay execution of my block for 2 seconds.
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                [_firstLaunchAlertView show];
-            });
-            //Usando essa gambiarra porque se mandava ao show do _firstLaunchAlertView aqui, o VoiceOver começava com o ~cursor~ no botão de cancelar e não lia o alerta.
-        }
+
+    
+    //DEBUG ONLY (because the simulator doesn't have a camera
+    if (TARGET_IPHONE_SIMULATOR) {
+    //    self.recordPreview.backgroundColor = [UIColor greenColor];
+      //  self.imageView.backgroundColor = [UIColor purpleColor];
     }
 }
 
@@ -122,6 +107,24 @@
                 [_firstLaunchAlertView show];
             });
             // Mostra o alerta de first launch se 1. for o fisrt launch 2. o usuário tiver dado dismiss no alerta de VoiceOver desativado (E possivelmente ter ligado o VoiceOver (ou não, mas não interessa...)). Usando essa gambiarra (timer) porque se mandava a  o show do _firstLaunchAlertView aqui, o VoiceOver começava com o ~cursor~ no botão de cancelar e não lia o alerta.
+        }
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.firstAppear) {
+        [self createCaptureSessionForCamera:camera qualityPreset:qualityPreset grayscale:captureGrayscale]; //set camera and it's view
+        [captureSession startRunning]; //start the camera capturing
+        self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.firstAppear = NO;
+        
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+            //ADICIONAR: Existem dois botões nesta tela, chamados Flash e Foto, ao pressionar Flash, o flash do iPhone ou iPod é ligado. Ao pressionar o botão Foto, a foto será forçadamente tirada.
+            _firstLaunchAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Instruções", nil) message:NSLocalizedString(@"Para localizar o texto da melhor maneira possível, por favor, posicione o dispositivo no centro da folha, em orientação retrato. Afaste o aparelho da folha com cuidado, tentando manter o smartphone centralizado na folha. Siga então as dicas de enquadramento que a foto será capturada e convertida automaticamente. Pressione Ok para continuar.", nil) delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            dataClass.isOpenCVOn = NO; // Independente se o VoiceOver estiver ligado ou não, liga a guia por voz apenas depois de o usuário ter confirmado que leu as instruções de firstLaunch, evitando irritantes interrupções de NO SHEET DETECTED durante a leitura dessas instruções.
+            // Usa pra verificar se não vai colocar um alerta sobre o do alerta de "VoiceOver desligado". O alerta de "Unsupported Device" pode ficar por último no stack de alertView para que o usuário consiga ver que o seu dispositivo não é suportado, primeiramente ligando o VoiceOver.
+            [_firstLaunchAlertView show];
         }
     }
 }
@@ -297,8 +300,7 @@
         
     } else
         count=0;
-    
-    if(dataClass.isOpenCVOn && isViewAppearing && didOneSecondHasPassed && !isTalking) {
+    if(dataClass.isOpenCVOn && isViewAppearing && didOneSecondHasPassed && !isTalking && (self.recordPreview.accessibilityElementIsFocused || !UIAccessibilityIsVoiceOverRunning()) ) {
         
         
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
@@ -367,6 +369,7 @@
 }
 
 -(void) viewWillAppear:(BOOL)animated {
+    
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     isViewAppearing = YES;
     [self.motionManager startDeviceMotionUpdates];
@@ -374,6 +377,7 @@
         [self.motionManager startDeviceMotionUpdates];
         [self.motionManager startAccelerometerUpdates];
     }
+    [super viewWillAppear:animated];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
@@ -384,7 +388,7 @@
         [self.motionManager stopDeviceMotionUpdates];
         [self.motionManager stopAccelerometerUpdates];
     }
-    
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - Implementation of FaceTracker:
@@ -633,11 +637,11 @@
     const CGFloat blackMask[6] = { 0,0,0, 0,0,0 };
     CGImageRef myColorMaskedImage = CGImageCreateWithMaskingColors(imageRef, blackMask);
     CGImageRelease(imageRef);
-    
+    UIImage* greenboundsImage = [UIImage imageWithCGImage:myColorMaskedImage];
+    CGImageRelease(myColorMaskedImage);
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.imageView setHidden:NO];
-        [self.imageView setImage:[UIImage imageWithCGImage:myColorMaskedImage]];
-        CGImageRelease(myColorMaskedImage);
+        [self.imageView setImage:greenboundsImage];
     });
 }
 

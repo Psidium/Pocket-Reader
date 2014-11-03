@@ -60,6 +60,10 @@
 /* Class = "IBUITableViewSection"; headerTitle = "Language"; ObjectID = "NLb-HZ-jLI"; */
 "NLb-HZ-jLI.headerTitle" = "Language";
 
+"Uqq-Bb-EMh.headerTitle"= "Tolerance";
+
+"Uqq-Bb-EMh.footerTitle" = "Higher value makes automatic sheet detection easier by sacrificing conversion quality.";
+
 /* Class = "IBUIBarButtonItem"; title = "Flash"; ObjectID = "PKk-HD-7GP"; */
 "PKk-HD-7GP.title" = "Flash";
 

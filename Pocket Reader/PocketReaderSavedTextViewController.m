@@ -89,10 +89,12 @@
 -(void) viewDidDisappear:(BOOL)animated {
     BOOL deuCerto = [self.savedText writeToPlistFile:@"SavedText.plist"];
     NSLog(deuCerto ? @"Escreveu no arquivo" : @"nao escreveu no arquivo");
+    [super viewDidDisappear:animated];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
     [self.tableView reloadData];
+    [super viewDidAppear:animated];
 }
 
 

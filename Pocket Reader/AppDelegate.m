@@ -20,9 +20,6 @@
         NSLog(@"iOS 7");
         _window.tintColor = [UIColor redColor];
     }
-    
-    
-
     return YES;
 }
 

@@ -68,6 +68,7 @@
     } else if ([dataClass.tesseractLanguage isEqualToString:@"fra"]) {
         [self.languageSelectorOne setSelectedSegmentIndex:4];
     }
+    [super viewDidAppear:animated];
 }
 
 
